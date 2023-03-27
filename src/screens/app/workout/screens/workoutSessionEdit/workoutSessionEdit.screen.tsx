@@ -12,90 +12,123 @@ import {workoutSessionSliceActions} from 'src/store/workoutSession/workoutSessio
 import {ExerciseSetModel} from 'src/models/schema/exerciseSet.model';
 import {useNavigation} from '@react-navigation/native';
 import {ExerciseWithSetCard} from 'src/shared/ExercisesComponents/exerciseWithSetCard/exerciseWithSetCard.component';
-import {
-    MyKeyboardAwareScrollView
-} from 'src/shared/baseComponents/myKeyboardAwareScrollView/myKeyboardAwareScrollView.component';
+import {MyKeyboardAwareScrollView} from 'src/shared/baseComponents/myKeyboardAwareScrollView/myKeyboardAwareScrollView.component';
 import {usePreventBackHook} from 'src/hooks/usePreventBack.hook';
 import {workoutSelectors} from 'src/store/workout/workout.selectors';
 import {isEqual} from 'lodash';
 
-export interface WorkoutSessionDetailsScreenProps {
-}
+export interface WorkoutSessionDetailsScreenProps {}
 
-export const WorkoutSessionEditScreen: FC<WorkoutSessionDetailsScreenProps> = (props) => {
-    const style = useThemeStyle(homeStyle)
-    const dispatch = useAppDispatch()
-    const navigation = useNavigation<any>()
-    const [isLoading, setIsLoading] = React.useState(false)
+export const WorkoutSessionEditScreen: FC<
+    WorkoutSessionDetailsScreenProps
+> = props => {
+    const style = useThemeStyle(homeStyle);
+    const dispatch = useAppDispatch();
+    const navigation = useNavigation<any>();
+    const [isLoading, setIsLoading] = React.useState(false);
 
-    const {notes, workoutSession} = useAppSelector(workoutSessionSelectors.getStore)
-    const workoutSessionDetails = useAppSelector(workoutSelectors.getWorkoutSessionDetail)
-    const templateWorkout = workoutSession?.referenceWorkout
+    const {notes, workoutSession} = useAppSelector(
+        workoutSessionSelectors.getStore,
+    );
+    const workoutSessionDetails = useAppSelector(
+        workoutSelectors.getWorkoutSessionDetail,
+    );
+    const templateWorkout = workoutSession?.referenceWorkout;
 
     const isDirty = () => {
         // check deep equality of sessionExercises
-        return !isEqual(workoutSessionDetails, workoutSession) || workoutSession?.notes !== notes
-    }
+        return (
+            !isEqual(workoutSessionDetails, workoutSession) ||
+            workoutSession?.notes !== notes
+        );
+    };
 
     usePreventBackHook({
         isDirty: isDirty(),
         isActive: !isLoading,
-        dependencies: [templateWorkout, isLoading, workoutSession, workoutSessionDetails, notes],
+        dependencies: [
+            templateWorkout,
+            isLoading,
+            workoutSession,
+            workoutSessionDetails,
+            notes,
+        ],
         dialogProps: {
-            actionFirst: (eventAction) => ({
+            actionFirst: eventAction => ({
                 label: 'Discard',
                 style: 'destructive',
                 onPress: () => {
-                    dispatch(workoutSessionSliceActions.clearSession())
-                    eventAction()
-                }
+                    dispatch(workoutSessionSliceActions.clearSession());
+                    eventAction();
+                },
             }),
-        }
-    })
+        },
+    });
 
-    const handleSaveNotes = (notes: string) => {
-        dispatch(workoutSessionSliceActions.setNotes(notes))
-    }
+    const handleSaveNotes = (notesToSave: string) => {
+        dispatch(workoutSessionSliceActions.setNotes(notesToSave));
+    };
 
-    const handleSaveExerciseSet = (exerciseId: string, exerciseSets: ExerciseSetModel[]) => {
-        console.log('exerciseId: ', exerciseId)
-        console.log('exerciseSets: ', exerciseSets)
-        dispatch(workoutSessionSliceActions.saveExerciseSet({sessionExerciseId: exerciseId, exerciseSets}))
-    }
+    const handleSaveExerciseSet = (
+        exerciseId: string,
+        exerciseSets: ExerciseSetModel[],
+    ) => {
+        console.log('exerciseId: ', exerciseId);
+        console.log('exerciseSets: ', exerciseSets);
+        dispatch(
+            workoutSessionSliceActions.saveExerciseSet({
+                sessionExerciseId: exerciseId,
+                exerciseSets,
+            }),
+        );
+    };
 
     const handleEditSession = async () => {
-        setIsLoading(true)
-        await dispatch(workoutSessionActions.editSession())
-        navigation.goBack()
-        dispatch(workoutSessionSliceActions.clearSession())
-        setIsLoading(false)
-    }
+        setIsLoading(true);
+        await dispatch(workoutSessionActions.editSession());
+        navigation.goBack();
+        dispatch(workoutSessionSliceActions.clearSession());
+        setIsLoading(false);
+    };
 
     return (
         <MySafeAreaView edges={['bottom']}>
             <MyKeyboardAwareScrollView title={templateWorkout?.name}>
                 <View style={{marginTop: 10}}>
-                    <MyInput value={notes}
-                             numberOfLines={4}
-                             multiline={true}
-                             onChangeText={handleSaveNotes}
-                             placeholder={'Add your notes'}/>
+                    <MyInput
+                        value={notes}
+                        numberOfLines={4}
+                        multiline={true}
+                        onChangeText={handleSaveNotes}
+                        placeholder={'Add your notes'}
+                    />
                 </View>
 
-                {
-                    workoutSession && workoutSession.sessionExercises.map((exerciseWithSet, index) => {
-                        return <ExerciseWithSetCard key={exerciseWithSet.id}
-                                                    exerciseWithSet={exerciseWithSet}
-                                                    onChange={(exercises) => handleSaveExerciseSet(exerciseWithSet.id, exercises)}
-                        />
-                    })
-                }
-                <MyButton isLoading={isLoading} disabled={!templateWorkout} withHaptics={'success'}
-                          onPress={handleEditSession}>Save
-                    session</MyButton>
-
+                {workoutSession &&
+                    workoutSession.sessionExercises.map(
+                        (exerciseWithSet, index) => {
+                            return (
+                                <ExerciseWithSetCard
+                                    key={exerciseWithSet.id}
+                                    exerciseWithSet={exerciseWithSet}
+                                    onChange={exercises =>
+                                        handleSaveExerciseSet(
+                                            exerciseWithSet.id,
+                                            exercises,
+                                        )
+                                    }
+                                />
+                            );
+                        },
+                    )}
+                <MyButton
+                    isLoading={isLoading}
+                    disabled={!templateWorkout}
+                    withHaptics={'success'}
+                    onPress={handleEditSession}>
+                    Save session
+                </MyButton>
             </MyKeyboardAwareScrollView>
         </MySafeAreaView>
-
     );
 };

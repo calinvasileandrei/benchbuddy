@@ -6,7 +6,7 @@ export interface WorkoutSessionModel {
     referenceWorkout: ReferenceWorkoutModel;
     sessionExercises: ExerciseWorkoutModel[];
     notes?: string;
-    duration: string
+    duration: string;
     createdAt: string;
     userId: string;
 }

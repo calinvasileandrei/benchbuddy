@@ -1,28 +1,27 @@
 import React from 'react';
 import {FlatList, RefreshControl, View} from 'react-native';
-import {FireListProps} from 'src/shared/advancedComponents/fireList/types';
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {fireListStyle} from 'src/shared/advancedComponents/fireList/fireList.style';
 import {MyText} from 'src/shared/baseComponents/myText/myText.component';
-import {MyLoading} from 'src/shared/baseComponents/myLoading/myLoading.component';
+import {RealmListProps} from 'src/shared/advancedComponents/realmList/types';
 
-export const FireList = <T extends {id: any}>(props: FireListProps<T>) => {
-    const {fireHookParams, renderItem, emptyList} = props;
+export const RealmList = <T extends any>(props: RealmListProps<T>) => {
+    const {realmHookParams, renderItem, emptyList} = props;
     const style = useThemeStyle(fireListStyle);
 
     const [refreshing, setRefreshing] = React.useState(false);
 
     const handleRefresh = async () => {
         setRefreshing(true);
-        await fireHookParams.fetchData();
+        // await realmHookParams.fetchData();
         setRefreshing(false);
     };
 
-    if (fireHookParams.isLoading && !refreshing) {
+    /*    if (realmHookParams.isLoading && !refreshing) {
         return <MyLoading />;
-    }
+    }*/
 
-    if (fireHookParams.data.length === 0 && emptyList) {
+    if (realmHookParams.data.length === 0 && emptyList) {
         return (
             <View style={style.noData}>
                 {emptyList.image && (
@@ -42,9 +41,9 @@ export const FireList = <T extends {id: any}>(props: FireListProps<T>) => {
 
     return (
         <FlatList
-            data={fireHookParams.data}
+            data={realmHookParams.data}
             renderItem={item => renderItem(item.item)}
-            keyExtractor={fireHookParams.keyExtractor}
+            keyExtractor={realmHookParams.keyExtractor}
             onRefresh={handleRefresh}
             refreshing={refreshing}
             indicatorStyle={'default'}

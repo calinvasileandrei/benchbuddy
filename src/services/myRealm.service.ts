@@ -1,3 +1,7 @@
+// @ts-ignore
+
+const placeholder = 'placeholder';
+
 /*
 import {Logger} from 'src/utils/logger';
 import {UserSchema} from 'src/models/user.model';

@@ -1,5 +1,5 @@
-import {User} from 'firebase/auth';
 import {WorkoutModel} from 'src/models/schema/workout.model';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export interface UserModel {
     uid: string;
@@ -12,11 +12,12 @@ export interface UserModel {
     creationTime: string;
     providerId: string;
     workouts: WorkoutModel[];
-    workoutsSessions: string[]
+    workoutsSessions: string[];
 }
 
-
-export const getUserModelFromFirebaseUser = (user: User): UserModel => {
+export const getUserModelFromFirebaseUser = (
+    user: UserAuthModel,
+): UserModel => {
     const userModel: UserModel = {
         uid: user.uid,
         email: user?.email || '',
@@ -28,7 +29,8 @@ export const getUserModelFromFirebaseUser = (user: User): UserModel => {
         creationTime: user.metadata.creationTime || '',
         providerId: user.providerId,
         workouts: [],
-        workoutsSessions: []
-    }
+        workoutsSessions: [],
+    };
     return userModel;
-}
+};
+export type UserAuthModel = FirebaseAuthTypes.User;

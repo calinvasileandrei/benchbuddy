@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {View} from 'react-native'
+import {View} from 'react-native';
 import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component';
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {workoutDetailStyle} from 'src/screens/app/workout/screens/workoutDetail/workoutDetail.style';
@@ -16,108 +16,142 @@ import {ExerciseWithSetCard} from 'src/shared/ExercisesComponents/exerciseWithSe
 import {workoutCreationEditSelectors} from 'src/store/workoutCreationEdit/workoutCreationEdit.selectors';
 import {workoutCreationEditSliceActions} from 'src/store/workoutCreationEdit/workoutCreationEdit.slice';
 import {workoutCreationEditActions} from 'src/store/workoutCreationEdit/workoutCreationEdit.actions';
-import {
-    MyKeyboardAwareScrollView
-} from 'src/shared/baseComponents/myKeyboardAwareScrollView/myKeyboardAwareScrollView.component';
+import {MyKeyboardAwareScrollView} from 'src/shared/baseComponents/myKeyboardAwareScrollView/myKeyboardAwareScrollView.component';
 import {usePreventBackHook} from 'src/hooks/usePreventBack.hook';
 import {isEqual} from 'lodash';
 
-export interface WorkoutEditScreenProps {
-}
+export interface WorkoutEditScreenProps {}
 
-export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = (props) => {
-    const style = useThemeStyle(workoutDetailStyle)
-    const navigation = useNavigation<any>()
-    const dispatch = useAppDispatch()
-    const workoutDetail = useAppSelector(workoutSelectors.getDetailWorkout)
-    const workout = useAppSelector(workoutCreationEditSelectors.getWorkout)
-    const [isLoading, setIsLoading] = React.useState(false)
-
+export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
+    const style = useThemeStyle(workoutDetailStyle);
+    const navigation = useNavigation<any>();
+    const dispatch = useAppDispatch();
+    const workoutDetail = useAppSelector(workoutSelectors.getDetailWorkout);
+    const workout = useAppSelector(workoutCreationEditSelectors.getWorkout);
+    const [isLoading, setIsLoading] = React.useState(false);
 
     const isDirty = () => {
         // check deep equality of sessionExercises
-        return !isEqual(workoutDetail, workout)
-    }
+        return !isEqual(workoutDetail, workout);
+    };
 
     usePreventBackHook({
         isDirty: isDirty(),
         isActive: !isLoading,
         dependencies: [workout, isLoading, workoutDetail, workout],
         dialogProps: {
-            actionFirst: (eventAction) => ({
+            actionFirst: eventAction => ({
                 label: 'Discard',
                 style: 'destructive',
                 onPress: () => {
-                    eventAction()
-                    dispatch(workoutCreationEditSliceActions.deleteWorkout())
-                }
+                    eventAction();
+                    dispatch(workoutCreationEditSliceActions.deleteWorkout());
+                },
             }),
-        }
-    })
+        },
+    });
 
     useEffect(() => {
         // preload workout data from detail
         if (workoutDetail) {
-            dispatch(workoutCreationEditSliceActions.saveWorkout(workoutDetail))
+            dispatch(
+                workoutCreationEditSliceActions.saveWorkout(workoutDetail),
+            );
         }
-    }, [])
+    }, []);
 
     const searchExercise = () => {
         const setExercises = (exercise: ExerciseModel) => {
-            let id = workout?.exercises ? workout.exercises.length.toString() : '0'
+            let id = workout?.exercises
+                ? workout.exercises.length.toString()
+                : '0';
             const newExercise = {
                 id,
                 exercise,
                 exerciseSets: [],
-                description: ''
-            }
-            dispatch(workoutCreationEditSliceActions.editWorkout({exercises: [...workout?.exercises || [], newExercise]}))
-        }
+                description: '',
+            };
+            dispatch(
+                workoutCreationEditSliceActions.editWorkout({
+                    exercises: [...(workout?.exercises || []), newExercise],
+                }),
+            );
+        };
         navigation.navigate(AppRoutes.WORKOUTS_STACK, {
             screen: AppRoutes.EXERCISES_SELECTION_SCREEN,
-            params: {setExercises}
-        })
-    }
+            params: {setExercises},
+        });
+    };
 
-    const handleEdit = (workout: Partial<WorkoutModel>) => {
-        dispatch(workoutCreationEditSliceActions.editWorkout(workout))
-    }
+    const handleEdit = (workoutEdit: Partial<WorkoutModel>) => {
+        dispatch(workoutCreationEditSliceActions.editWorkout(workoutEdit));
+    };
 
     const handleEditWorkout = async () => {
-        setIsLoading(true)
-        await dispatch(workoutCreationEditActions.editWorkout())
-        navigation.goBack()
-        dispatch(workoutCreationEditSliceActions.deleteWorkout())
-        setIsLoading(false)
-    }
+        setIsLoading(true);
+        await dispatch(workoutCreationEditActions.editWorkout());
+        navigation.goBack();
+        dispatch(workoutCreationEditSliceActions.deleteWorkout());
+        setIsLoading(false);
+    };
 
     return (
         <MySafeAreaView edges={['bottom']}>
             <MyKeyboardAwareScrollView>
                 <MyCard>
-                    <MyInput value={workout?.name} onChangeText={(name) => handleEdit({name})}
-                             placeholder={'Name'}/>
-                    <MyInput value={workout?.description} onChangeText={(description) => handleEdit({description})}
-                             placeholder={'Description'}/>
-                    <MyInput value={workout?.notes} onChangeText={(notes) => handleEdit({notes})}
-                             placeholder={'Notes'}/>
+                    <MyInput
+                        value={workout?.name}
+                        onChangeText={name => handleEdit({name})}
+                        placeholder={'Name'}
+                    />
+                    <MyInput
+                        value={workout?.description}
+                        onChangeText={description => handleEdit({description})}
+                        placeholder={'Description'}
+                    />
+                    <MyInput
+                        value={workout?.notes}
+                        onChangeText={notes => handleEdit({notes})}
+                        placeholder={'Notes'}
+                    />
                 </MyCard>
-                {
-                    workout && workout.exercises.map((exerciseWorkout) => {
-                        return <ExerciseWithSetCard key={exerciseWorkout.id}
-                                                    exerciseWithSet={exerciseWorkout}
-                                                    onChange={(exercises) => dispatch(workoutCreationEditSliceActions.saveExerciseSet({
-                                                        sessionExerciseId: exerciseWorkout.id,
-                                                        exerciseSets: exercises
-                                                    }))}
-                                                    deleteExercise={() => dispatch(workoutCreationEditSliceActions.deleteExercise(exerciseWorkout.id))}
-                        />
-                    })
-                }
-                <MyButton type={'reverse'} onPress={searchExercise}>Add exercise</MyButton>
+                {workout &&
+                    workout.exercises.map(exerciseWorkout => {
+                        return (
+                            <ExerciseWithSetCard
+                                key={exerciseWorkout.id}
+                                exerciseWithSet={exerciseWorkout}
+                                onChange={exercises =>
+                                    dispatch(
+                                        workoutCreationEditSliceActions.saveExerciseSet(
+                                            {
+                                                sessionExerciseId:
+                                                    exerciseWorkout.id,
+                                                exerciseSets: exercises,
+                                            },
+                                        ),
+                                    )
+                                }
+                                deleteExercise={() =>
+                                    dispatch(
+                                        workoutCreationEditSliceActions.deleteExercise(
+                                            exerciseWorkout.id,
+                                        ),
+                                    )
+                                }
+                            />
+                        );
+                    })}
+                <MyButton type={'reverse'} onPress={searchExercise}>
+                    Add exercise
+                </MyButton>
                 <View style={{marginVertical: 10}}>
-                    <MyButton isLoading={isLoading} type={'outline'} onPress={() => handleEditWorkout()}>Confirm
-                        edits</MyButton>
+                    <MyButton
+                        isLoading={isLoading}
+                        type={'outline'}
+                        onPress={() => handleEditWorkout()}>
+                        Confirm edits
+                    </MyButton>
                 </View>
             </MyKeyboardAwareScrollView>
         </MySafeAreaView>

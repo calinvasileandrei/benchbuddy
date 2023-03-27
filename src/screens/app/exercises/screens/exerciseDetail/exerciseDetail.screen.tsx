@@ -16,46 +16,51 @@ import {ExerciseModel} from 'src/models/schema/exercise.model';
 import {exerciseService} from 'src/services/app/exercise.service';
 import {MyLoading} from 'src/shared/baseComponents/myLoading/myLoading.component';
 
-export interface ExerciseDetailScreenProps {
-}
+export interface ExerciseDetailScreenProps {}
 
-export const ExerciseDetailScreen: FC<ExerciseDetailScreenProps> = (props) => {
-    const style = useThemeStyle(exerciseDetailStyle)
-    const route = useRoute<ExerciseRouteProp<AppRoutes.EXERCISE_DETAIL_SCREEN>>();
-    const [exercise, setExercise] = React.useState<ExerciseModel | undefined>(undefined)
+export const ExerciseDetailScreen: FC<ExerciseDetailScreenProps> = props => {
+    const style = useThemeStyle(exerciseDetailStyle);
+    const route =
+        useRoute<ExerciseRouteProp<AppRoutes.EXERCISE_DETAIL_SCREEN>>();
+    const [exercise, setExercise] = React.useState<ExerciseModel | undefined>(
+        undefined,
+    );
     const [muscles, setMuscles] = React.useState<MuscleModel[]>([]);
     const {exerciseHit} = route.params;
 
     useEffect(() => {
         const fetchExercise = async () => {
-            const exercise = await exerciseService.getExerciseById(exerciseHit.id)
-            setExercise(exercise)
-            setMuscles([...exercise?.primaryMuscles, ...exercise?.secondaryMuscles])
-        }
-        fetchExercise()
-    }, [])
+            const exerciseToLoad = await exerciseService.getExerciseById(
+                exerciseHit.id,
+            );
+            setExercise(exerciseToLoad);
+            setMuscles([
+                ...(exerciseToLoad?.primaryMuscles || []),
+                ...(exerciseToLoad?.secondaryMuscles || []),
+            ]);
+        };
+        fetchExercise();
+    }, []);
 
     const renderChip = (item: MuscleModel) => {
-        const title = stringUtils.capitalizeFirstLetter(item.name)
+        const title = stringUtils.capitalizeFirstLetter(item.name);
         if (title === '') {
-            return null
+            return null;
         }
-        return (
-            <MyChip key={item.name} title={title}/>
-        )
-    }
+        return <MyChip key={item.name} title={title} />;
+    };
 
     if (!exercise) {
-        return (
-            <MyLoading/>
-        )
+        return <MyLoading />;
     }
 
     return (
         <MySafeAreaView edges={['bottom']}>
             <MyScrollView title={exercise?.name}>
-                <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}
-                            contentContainerStyle={{alignItems: 'center'}}>
+                <ScrollView
+                    showsHorizontalScrollIndicator={false}
+                    horizontal={true}
+                    contentContainerStyle={{alignItems: 'center'}}>
                     {muscles?.map(renderChip)}
                 </ScrollView>
                 <MyCard title={'Description'}>

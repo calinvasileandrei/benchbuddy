@@ -11,20 +11,20 @@ import {typesenseInfiniteListReducer} from 'src/store/typesenseInfiniteList/type
 import {myLoadingReducer} from 'src/store/myLoading/myLoading.slice';
 
 export const store = configureStore({
-  reducer: {
-    user: userReducer,
-    workout: workoutReducer,
-    workoutCreationEdit: workoutCreationEditReducer,
-    workoutSession: workoutSessionReducer,
-    workoutSessionInfiniteList: workoutSessionInfiniteListReducer,
-    myDialog: myDialogReducer,
-    typesenseInfiniteList: typesenseInfiniteListReducer,
-    myLoading: myLoadingReducer,
-  },
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+    reducer: {
+        user: userReducer,
+        workout: workoutReducer,
+        workoutCreationEdit: workoutCreationEditReducer,
+        workoutSession: workoutSessionReducer,
+        workoutSessionInfiniteList: workoutSessionInfiniteListReducer,
+        myDialog: myDialogReducer,
+        typesenseInfiniteList: typesenseInfiniteListReducer,
+        myLoading: myLoadingReducer,
+    },
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

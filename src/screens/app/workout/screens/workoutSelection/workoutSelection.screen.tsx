@@ -15,45 +15,54 @@ import {AppRoutes} from 'src/navigation/routes';
 import ImageNoData from 'assets/no_data.svg';
 import {handleHaptic} from 'src/utils/haptics.utils';
 
-export interface WorkoutSelectionScreenProps {
-}
+export interface WorkoutSelectionScreenProps {}
 
-const logger = new Logger('WorkoutScreen')
-export const WorkoutSelectionScreen: FC<WorkoutSelectionScreenProps> = (props) => {
-    const style = useThemeStyle(workoutStyle)
+const logger = new Logger('WorkoutScreen');
+export const WorkoutSelectionScreen: FC<
+    WorkoutSelectionScreenProps
+> = props => {
+    const style = useThemeStyle(workoutStyle);
 
     const navigation = useNavigation<any>();
-    const route = useRoute<WorkoutRouteProp<AppRoutes.WORKOUT_SELECTION_SCREEN>>()
+    const route =
+        useRoute<WorkoutRouteProp<AppRoutes.WORKOUT_SELECTION_SCREEN>>();
 
-    const fireListHookParams = useFirestoreList<WorkoutModel>({
+    const fireListHookParams = useFirestoreList<any>({
         fetchAction: workoutActions.getWorkouts,
         selectorMethod: workoutSelectors.getWorkouts,
-        keyExtractorKey: 'id'
-    })
-
+        keyExtractorKey: '_id',
+    });
 
     const handleSelectWorkout = (workout: WorkoutModel) => {
-        route.params.setWorkout(workout)
-        handleHaptic('success')
-        navigation.goBack()
-    }
+        route.params.setWorkout(workout);
+        handleHaptic('success');
+        navigation.goBack();
+    };
 
     const renderWorkout = (workout: WorkoutModel) => {
         return (
-            <WorkoutCard key={workout.id} workout={workout} onPress={handleSelectWorkout}/>
-        )
-    }
-
+            <WorkoutCard
+                key={workout._id.toHexString()}
+                workout={workout}
+                onPress={handleSelectWorkout}
+            />
+        );
+    };
 
     return (
         <MySafeAreaView edges={['bottom']}>
-            <FireList fireHookParams={fireListHookParams} renderItem={renderWorkout} emptyList={{
-                image:ImageNoData,
-                imageStyle:{
-                    width: 120,
-                    height: 120
-                },
-                message:"I can't find any workout"}}/>
+            <FireList
+                fireHookParams={fireListHookParams}
+                renderItem={renderWorkout}
+                emptyList={{
+                    image: ImageNoData,
+                    imageStyle: {
+                        width: 120,
+                        height: 120,
+                    },
+                    message: "I can't find any workout",
+                }}
+            />
         </MySafeAreaView>
     );
 };

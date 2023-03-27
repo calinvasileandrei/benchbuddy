@@ -17,6 +17,8 @@ import {DARK_THEME} from 'src/theme/dark.theme';
 import {IsLoadingProvider} from 'src/shared/providers/isLoadingProvider/isLoading.provider';
 import {MenuProvider} from 'react-native-popup-menu';
 import {MyDialogProvider} from 'src/shared/providers/myDialogProvider/myDialog.provider';
+import {RealmProvider} from 'src/services/realm.config';
+import 'react-native-get-random-values'; // Polyfill for Mongo ObjectId
 
 // for disabling warning when passing function to navigation params, but be careful is you use DeepLinking or persisting state
 LogBox.ignoreLogs([
@@ -28,19 +30,21 @@ function App(): JSX.Element {
 
     return (
         <Provider store={store}>
-            <SafeAreaProvider style={{backgroundColor: '#0B2830'}}>
-                <ThemeProvider initial={theme}>
-                    <IsLoadingProvider>
-                        <NavigationContainer>
-                            <MenuProvider>
-                                <MyDialogProvider>
-                                    <RootNavigator />
-                                </MyDialogProvider>
-                            </MenuProvider>
-                        </NavigationContainer>
-                    </IsLoadingProvider>
-                </ThemeProvider>
-            </SafeAreaProvider>
+            <RealmProvider>
+                <SafeAreaProvider style={{backgroundColor: '#0B2830'}}>
+                    <ThemeProvider initial={theme}>
+                        <IsLoadingProvider>
+                            <NavigationContainer>
+                                <MenuProvider>
+                                    <MyDialogProvider>
+                                        <RootNavigator />
+                                    </MyDialogProvider>
+                                </MenuProvider>
+                            </NavigationContainer>
+                        </IsLoadingProvider>
+                    </ThemeProvider>
+                </SafeAreaProvider>
+            </RealmProvider>
         </Provider>
     );
 }
