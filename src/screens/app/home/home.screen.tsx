@@ -15,36 +15,38 @@ import {QuickStart} from 'src/screens/app/home/components/quickStart/quickStart.
 export interface HomeScreenProps {}
 
 export const HomeScreen: FC<HomeScreenProps> = props => {
-  const style = useThemeStyle(homeStyle);
-  const {theme} = useTheme();
+    const style = useThemeStyle(homeStyle);
+    const {theme} = useTheme();
 
-  const [filterByDate, setFilterByDate] = React.useState<FilterObject>({
-    field: WorkoutSessionCollectionFields.CREATED_AT,
-    value: [],
-  });
+    const [filterByDate, setFilterByDate] = React.useState<FilterObject>({
+        field: WorkoutSessionCollectionFields.CREATED_AT,
+        value: [],
+    });
 
-  const handleSelectDate = (date: Date | undefined) => {
-    const newFilter: FilterObject = {
-      field: WorkoutSessionCollectionFields.CREATED_AT,
-      value: date ? [dateUtils.dateToUnixTimestamp(date.toDateString())] : [],
+    const handleSelectDate = (date: Date | undefined) => {
+        const newFilter: FilterObject = {
+            field: WorkoutSessionCollectionFields.CREATED_AT,
+            value: date
+                ? [dateUtils.dateToUnixTimestamp(date.toDateString())]
+                : [],
+        };
+        setFilterByDate(newFilter);
     };
-    setFilterByDate(newFilter);
-  };
 
-  const handleFilterSelect = (filter: DateChipItem) => {
-    setFilterByDate(filter.value);
-  };
+    const handleFilterSelect = (filter: DateChipItem) => {
+        setFilterByDate(filter.value);
+    };
 
-  return (
-    <MySafeAreaView edges={['bottom', 'top']}>
-      <View style={style.calendarHeader}>
-        <MyCalendarStripComponent
-          onDateSelect={handleSelectDate}
-          onFilterSelect={handleFilterSelect}
-        />
-      </View>
-      <QuickStart />
-      <WorkoutSessionInfiniteFlatList filterBy={[filterByDate]} />
-    </MySafeAreaView>
-  );
+    return (
+        <MySafeAreaView edges={['bottom', 'top']}>
+            <View style={style.calendarHeader}>
+                <MyCalendarStripComponent
+                    onDateSelect={handleSelectDate}
+                    onFilterSelect={handleFilterSelect}
+                />
+            </View>
+            <QuickStart />
+            <WorkoutSessionInfiniteFlatList filterBy={[filterByDate]} />
+        </MySafeAreaView>
+    );
 };

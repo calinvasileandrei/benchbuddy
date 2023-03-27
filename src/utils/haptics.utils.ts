@@ -1,39 +1,41 @@
+import HapticFeedback from 'react-native-haptic-feedback';
+
 export type HapticType =
-  | boolean
-  | 'success'
-  | 'warning'
-  | 'error'
-  | 'selection'
-  | 'impactLight'
-  | 'impactMedium'
-  | 'impactHeavy';
+    | boolean
+    | 'success'
+    | 'warning'
+    | 'error'
+    | 'selection'
+    | 'impactLight'
+    | 'impactMedium'
+    | 'impactHeavy';
 
 export const handleHaptic = (type?: HapticType) => {
-  if (type) {
-    switch (type) {
-      case 'success':
-        // Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        break;
-      case 'warning':
-        // Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-        break;
-      case 'error':
-        // Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        break;
-      case 'selection':
-        // Haptics.selectionAsync();
-        break;
-      case 'impactLight':
-        // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        break;
-      case 'impactMedium':
-        // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        break;
-      case 'impactHeavy':
-        // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        break;
-      default:
-        break;
+    if (type) {
+        switch (type) {
+            case 'success':
+                HapticFeedback.trigger('notificationSuccess');
+                break;
+            case 'warning':
+                HapticFeedback.trigger('notificationWarning');
+                break;
+            case 'error':
+                HapticFeedback.trigger('notificationError');
+                break;
+            case 'selection':
+                HapticFeedback.trigger('selection');
+                break;
+            case 'impactLight':
+                HapticFeedback.trigger('impactLight');
+                break;
+            case 'impactMedium':
+                HapticFeedback.trigger('impactMedium');
+                break;
+            case 'impactHeavy':
+                HapticFeedback.trigger('impactHeavy');
+                break;
+            default:
+                break;
+        }
     }
-  }
 };

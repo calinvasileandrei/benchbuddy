@@ -13,36 +13,37 @@ import {workoutActions} from 'src/store/workout/workout.actions';
 import {workoutSelectors} from 'src/store/workout/workout.selectors';
 import ImageNoData from 'assets/no_data.svg';
 
-export interface WorkoutScreenProps {
-}
+export interface WorkoutScreenProps {}
 
-const logger = new Logger('WorkoutScreen')
-export const WorkoutScreen: FC<WorkoutScreenProps> = (props) => {
-    const style = useThemeStyle(workoutStyle)
+const logger = new Logger('WorkoutScreen');
+export const WorkoutScreen: FC<WorkoutScreenProps> = props => {
+    const style = useThemeStyle(workoutStyle);
     const fireListHookParams = useFirestoreList<WorkoutModel>({
         fetchAction: workoutActions.getWorkouts,
         selectorMethod: workoutSelectors.getWorkouts,
-        keyExtractorKey: 'id'
-    })
+        keyExtractorKey: 'id',
+    });
 
     const renderWorkout = (workout: WorkoutModel) => {
-        return (
-            <WorkoutCard key={workout.id} workout={workout}/>
-        )
-    }
-
+        return <WorkoutCard key={workout.id} workout={workout} />;
+    };
 
     return (
         <MySafeAreaView edges={['bottom', 'top']}>
-            <MyHeader title={'Workout'}/>
-            <WorkoutQuickLook/>
-            <FireList fireHookParams={fireListHookParams} renderItem={renderWorkout} emptyList={{
-                image:ImageNoData,
-                imageStyle:{
-                    width: 120,
-                    height: 120
-                },
-                message:"I can't find any workout"}}/>
+            <MyHeader title={'Workout'} />
+            <WorkoutQuickLook />
+            <FireList
+                fireHookParams={fireListHookParams}
+                renderItem={renderWorkout}
+                emptyList={{
+                    image: ImageNoData,
+                    imageStyle: {
+                        width: 120,
+                        height: 120,
+                    },
+                    message: "I can't find any workout",
+                }}
+            />
         </MySafeAreaView>
     );
 };
