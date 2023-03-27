@@ -1,0 +1,8 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true, /* Skip type checking all .d.ts files. */
+    "baseUrl": "./",
+    "lib": ["es5","es6", "dom"],   /* Specify library files to be included in the compilation. */
+  }
+}
