@@ -6,34 +6,34 @@ import {myFirestoreService} from 'src/services/firestoreService/myFirestore.serv
 
 const logger = new Logger('WorkoutSessionsService');
 const saveWorkoutSession = async (workoutSession: WorkoutSessionModel) => {
-  return await myFirestoreService.setDoc({
-    collection: Collections.WORKOUT_SESSION,
-    docId: workoutSession.id,
-    data: workoutSession,
-    methodName: 'saveWorkoutSession',
-  });
+    return await myFirestoreService.setDoc({
+        collection: Collections.WORKOUT_SESSION,
+        docId: workoutSession.id,
+        data: workoutSession,
+        methodName: 'saveWorkoutSession',
+    });
 };
 
 const getWorkoutSessionById = async (
-  workoutSessionId: string,
+    workoutSessionId: string,
 ): Promise<WorkoutSessionModel | undefined> => {
-  return await myFirestoreService.getDoc<WorkoutSessionModel>({
-    collection: Collections.WORKOUT_SESSION,
-    docId: workoutSessionId,
-    methodName: 'getWorkoutSessionById',
-  });
+    return await myFirestoreService.getDoc<WorkoutSessionModel>({
+        collection: Collections.WORKOUT_SESSION,
+        docId: workoutSessionId,
+        methodName: 'getWorkoutSessionById',
+    });
 };
 
 const deleteWorkoutSession = async (workoutSessionId: string) => {
-  return await myFirestoreService.deleteDoc({
-    collection: Collections.WORKOUT_SESSION,
-    docId: workoutSessionId,
-    methodName: 'deleteWorkoutSession',
-  });
+    return await myFirestoreService.deleteDoc({
+        collection: Collections.WORKOUT_SESSION,
+        docId: workoutSessionId,
+        methodName: 'deleteWorkoutSession',
+    });
 };
 
 export const workoutSessionsService = {
-  saveWorkoutSession,
-  deleteWorkoutSession,
-  getWorkoutSessionById,
+    saveWorkoutSession,
+    deleteWorkoutSession,
+    getWorkoutSessionById,
 };

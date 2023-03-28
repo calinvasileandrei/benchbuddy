@@ -14,11 +14,15 @@ export interface MyInputProps {
     disabled?: InputProps['disabled'];
 }
 
-export const MyInput: FC<MyInputProps> = (props) => {
+export const MyInput: FC<MyInputProps> = props => {
     const styles = useThemeStyle(myInputStyle);
-    const {style,...rest} = props;
+    const {style, ...rest} = props;
 
     return (
-        <Input style={[styles.input,style]} placeholderTextColor={styles.placeholder.color} {...rest}></Input>
+        <Input
+            style={[styles.input, style]}
+            placeholderTextColor={styles.placeholder.color}
+            {...rest}
+        />
     );
 };

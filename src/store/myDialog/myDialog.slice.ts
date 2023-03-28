@@ -1,5 +1,5 @@
-import type {PayloadAction} from '@reduxjs/toolkit'
-import {createSlice} from '@reduxjs/toolkit'
+import type {PayloadAction} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import {MyDialogShowProps} from 'src/store/myDialog/types';
 
 export interface MyDialogState {
@@ -9,7 +9,7 @@ export interface MyDialogState {
 
 const initialState: MyDialogState = {
     visible: false,
-}
+};
 
 export const myDialogSlice = createSlice({
     name: 'myDialog',
@@ -22,12 +22,11 @@ export const myDialogSlice = createSlice({
         dismiss: (state, action: PayloadAction<void>) => {
             state.visible = false;
             state.dialogProps = undefined;
-        }
+        },
     },
-    extraReducers: (builder) => {
-    }
-})
+    extraReducers: builder => {},
+});
 
 // Action creators are generated for each case reducer function
-export const myDialogSliceActions = myDialogSlice.actions
-export const myDialogReducer = myDialogSlice.reducer
+export const myDialogSliceActions = myDialogSlice.actions;
+export const myDialogReducer = myDialogSlice.reducer;

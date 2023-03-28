@@ -4,7 +4,7 @@ import {
     FONT_FAMILY_THEME,
     FONT_SIZE_THEME,
     ICON_SIZE_THEME,
-    SPACING_THEME
+    SPACING_THEME,
 } from 'src/theme/defaults.theme';
 
 const LIGHT_COLOR_THEME: ColorTheme = {
@@ -29,5 +29,5 @@ export const LIGHT_THEME: Theme = {
     fontSize: FONT_SIZE_THEME,
     fontWeight: FONT_FAMILY_THEME,
     iconSize: ICON_SIZE_THEME,
-    borderRadius: BORDER_RADIUS_THEME
+    borderRadius: BORDER_RADIUS_THEME,
 };

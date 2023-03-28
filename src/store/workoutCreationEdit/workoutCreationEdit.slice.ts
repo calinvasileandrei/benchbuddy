@@ -18,6 +18,7 @@ const workoutDefault: WorkoutModel = {
     notes: '',
     exercises: [],
     createdAt: new Date().toDateString(),
+    ownerId: '',
 };
 
 const initialState: WorkoutCreationEditState = {};

@@ -1,5 +1,11 @@
 import React, {FC} from 'react';
-import {ActivityIndicator, GestureResponderEvent, Text, TouchableOpacity, TouchableOpacityProps} from 'react-native'
+import {
+    ActivityIndicator,
+    GestureResponderEvent,
+    Text,
+    TouchableOpacity,
+    TouchableOpacityProps,
+} from 'react-native';
 import {myButtonStyle} from 'src/shared/baseComponents/myButton/myButton.style';
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {handleHaptic, HapticType} from 'src/utils/haptics.utils';
@@ -10,7 +16,7 @@ export interface MyButtonProps extends TouchableOpacityProps {
     isLoading?: boolean;
 }
 
-export const MyButton: FC<MyButtonProps> = (props) => {
+export const MyButton: FC<MyButtonProps> = props => {
     const Styles = useThemeStyle(myButtonStyle);
     const {style, onPress, ...rest} = props;
 
@@ -25,10 +31,10 @@ export const MyButton: FC<MyButtonProps> = (props) => {
             default:
                 return Styles.primaryButton;
         }
-    }
+    };
 
     const getButtonTextStyle = () => {
-        if (props.disabled){
+        if (props.disabled) {
             return Styles.disabledButtonText;
         }
 
@@ -42,20 +48,28 @@ export const MyButton: FC<MyButtonProps> = (props) => {
             default:
                 return Styles.primaryButtonText;
         }
-    }
+    };
 
     const handleOnPress = (e: GestureResponderEvent) => {
         onPress && onPress(e);
-        handleHaptic(props.withHaptics)
-    }
+        handleHaptic(props.withHaptics);
+    };
 
     return (
-        <TouchableOpacity style={[Styles.button, getButtonStyle(), style]} onPress={(e) => handleOnPress(e)} {...rest}>
-            {props.isLoading ?
-                <ActivityIndicator size="small" color={getButtonTextStyle().color} />
-                :
-            <Text style={[Styles.buttonText, getButtonTextStyle()]}>{props.children}</Text>
-            }
+        <TouchableOpacity
+            style={[Styles.button, getButtonStyle(), style]}
+            onPress={e => handleOnPress(e)}
+            {...rest}>
+            {props.isLoading ? (
+                <ActivityIndicator
+                    size="small"
+                    color={getButtonTextStyle().color}
+                />
+            ) : (
+                <Text style={[Styles.buttonText, getButtonTextStyle()]}>
+                    {props.children}
+                </Text>
+            )}
         </TouchableOpacity>
     );
 };

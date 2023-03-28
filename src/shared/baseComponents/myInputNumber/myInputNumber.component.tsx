@@ -10,32 +10,32 @@ export interface MyInputProps {
     style?: InputProps['style'];
     containerStyle?: InputProps['style'];
     textAlign?: InputProps['textAlign'];
-    disabled?:boolean
+    disabled?: boolean;
 }
 
-export const MyInputNumber: FC<MyInputProps> = (props) => {
+export const MyInputNumber: FC<MyInputProps> = props => {
     const styles = useThemeStyle(myInputNumberStyle);
 
-    const handleChangeText = (text:string) =>{
-        const numberText = Number(text.replace(/[^0-9]/g, ''))
-        props.onChangeNumber(numberText)
-    }
+    const handleChangeText = (text: string) => {
+        const numberText = Number(text.replace(/[^0-9]/g, ''));
+        props.onChangeNumber(numberText);
+    };
 
-    const getPlaceholder = () =>{
-        if (props.placeholder){
-            return props.placeholder?.toFixed()
+    const getPlaceholder = () => {
+        if (props.placeholder) {
+            return props.placeholder?.toFixed();
         }
-        if (!props.value){
-            return '0'
+        if (!props.value) {
+            return '0';
         }
-        return undefined
-    }
+        return undefined;
+    };
 
     return (
         <Input
-            style={[styles.input,props.style]}
+            style={[styles.input, props.style]}
             disabled={props.disabled}
-            containerStyle={[styles.containerStyle,props.containerStyle]}
+            containerStyle={[styles.containerStyle, props.containerStyle]}
             inputContainerStyle={styles.inputContainer}
             value={props.value?.toFixed()}
             placeholderTextColor={styles.placeholder.color}

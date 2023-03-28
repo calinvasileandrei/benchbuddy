@@ -24,6 +24,7 @@ const realmConfig: Realm.Configuration = {
         CategorySchema,
         MuscleSchema,
     ],
+    deleteRealmIfMigrationNeeded: true,
 };
 
 // Create a realm context

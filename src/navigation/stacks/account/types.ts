@@ -5,12 +5,16 @@ import {AppScreenProps} from 'src/navigation/root/app/types';
 import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
 
 export type AccountStackParamList = {
-    [AppRoutes.ACCOUNT_SCREEN]: undefined,
-    [AppRoutes.PROFILE_SCREEN]: undefined,
-}
+    [AppRoutes.ACCOUNT_SCREEN]: undefined;
+    [AppRoutes.PROFILE_SCREEN]: undefined;
+};
 
-export type AccountRouteProp<T extends keyof AccountStackParamList> = RouteProp<AccountStackParamList, T>
-export type AccountNavigationProp<T extends keyof AccountStackParamList> = StackNavigationProp<AccountStackParamList, T>
+export type AccountRouteProp<T extends keyof AccountStackParamList> = RouteProp<
+    AccountStackParamList,
+    T
+>;
+export type AccountNavigationProp<T extends keyof AccountStackParamList> =
+    StackNavigationProp<AccountStackParamList, T>;
 
 export type AccountStackNavigationProps<T extends keyof AccountStackParamList> =
     CompositeScreenProps<

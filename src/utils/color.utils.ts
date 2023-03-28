@@ -49,10 +49,11 @@ function componentToHex(c: number): string {
 function rgbToHex(rgbColor: number[]): string {
     const [red, green, blue] = rgbColor;
 
-    return '#' + componentToHex(red) + componentToHex(green) + componentToHex(blue);
+    return (
+        '#' + componentToHex(red) + componentToHex(green) + componentToHex(blue)
+    );
 }
-
 
 export const colorUtils = {
     generateShades,
-}
+};

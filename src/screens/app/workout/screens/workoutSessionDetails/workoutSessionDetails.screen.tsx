@@ -18,81 +18,107 @@ import {MyPieChart} from 'src/shared/charts/myPieChart/myPieChart.component';
 import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component';
 import {MyText} from 'src/shared/baseComponents/myText/myText.component';
 import {dateUtils} from 'src/utils/date.utils';
-import {
-    workoutSessionDetailsStyle
-} from 'src/screens/app/workout/screens/workoutSessionDetails/workoutSessionDetails.style';
+import {workoutSessionDetailsStyle} from 'src/screens/app/workout/screens/workoutSessionDetails/workoutSessionDetails.style';
 
-export interface WorkoutSessionDetailsScreenProps {
-}
+export interface WorkoutSessionDetailsScreenProps {}
 
-export const WorkoutSessionDetailsScreen: FC<WorkoutSessionDetailsScreenProps> = (props) => {
-    const style = useThemeStyle(workoutSessionDetailsStyle)
-    const dispatch = useAppDispatch()
-    const route = useRoute<WorkoutRouteProp<AppRoutes.WORKOUT_SESSION_DETAILS>>()
-    const workoutSession = useAppSelector(workoutSelectors.getWorkoutSessionDetail)
-    const [isLoading, setIsLoading] = React.useState(false)
+export const WorkoutSessionDetailsScreen: FC<
+    WorkoutSessionDetailsScreenProps
+> = props => {
+    const style = useThemeStyle(workoutSessionDetailsStyle);
+    const dispatch = useAppDispatch();
+    const route =
+        useRoute<WorkoutRouteProp<AppRoutes.WORKOUT_SESSION_DETAILS>>();
+    const workoutSession = useAppSelector(
+        workoutSelectors.getWorkoutSessionDetail,
+    );
+    const [isLoading, setIsLoading] = React.useState(false);
 
     useEffect(() => {
         const fetchDetail = async () => {
-            setIsLoading(true)
-            const workoutSessionDetail = await workoutSessionsService.getWorkoutSessionById(route.params?.workoutSessionId)
-            dispatch(workoutSliceActions.setWorkoutProps({workoutSessionDetail}))
-            setIsLoading(false)
-        }
-        fetchDetail()
-    }, [])
+            setIsLoading(true);
+            const workoutSessionDetail =
+                await workoutSessionsService.getWorkoutSessionById(
+                    route.params?.workoutSessionId,
+                );
+            dispatch(
+                workoutSliceActions.setWorkoutProps({workoutSessionDetail}),
+            );
+            setIsLoading(false);
+        };
+        fetchDetail();
+    }, []);
 
     if (isLoading) {
-        return (
-            <MyLoading/>
-        )
+        return <MyLoading />;
     }
 
     if (!workoutSession) {
-        return null
+        return null;
     }
 
     return (
         <MySafeAreaView edges={['bottom']}>
             <MyScrollView title={'Your Session'}>
-
                 <MyCard>
-                    <MyText
-                        type={'bodyText'}>{`${workoutSession.referenceWorkout.hasBeenEdit ? 'Edited ' : ''}Reference workout: ${workoutSession.referenceWorkout.name}`}</MyText>
+                    <MyText type={'bodyText'}>{`${
+                        workoutSession.referenceWorkout.hasBeenEdit
+                            ? 'Edited '
+                            : ''
+                    }Reference workout: ${
+                        workoutSession.referenceWorkout.name
+                    }`}</MyText>
                 </MyCard>
                 {workoutSession.notes && (
                     <MyCard title={'Notes:'}>
-                        <MyText type={'bodyText'}>{`${workoutSession.notes}`}</MyText>
+                        <MyText
+                            type={
+                                'bodyText'
+                            }>{`${workoutSession.notes}`}</MyText>
                     </MyCard>
                 )}
-                <WorkoutSessionCard workoutSession={workoutSession}/>
+                <WorkoutSessionCard workoutSession={workoutSession} />
                 <MyCard>
-                    <MyText type={'bodyText'}>{dateUtils.getPrettyDateAndTime(workoutSession.createdAt)}</MyText>
+                    <MyText type={'bodyText'}>
+                        {dateUtils.getPrettyDateAndTime(
+                            workoutSession.createdAt,
+                        )}
+                    </MyText>
                 </MyCard>
-                <MyHeader title={'Analysis'} style={style.analysisTitle}/>
+                <MyHeader title={'Analysis'} style={style.analysisTitle} />
                 <MyScrollView horizontal={true}>
-                    {workoutSession.sessionExercises.map((sessionExercise, index) => {
-                        return (
-                            <MyLineChart
-                                data={workoutToChartUtils.exerciseToLineChart(sessionExercise)}
-                                title={sessionExercise.exercise.name}
-                                yAxisSuffix={'kg'}
-                                width={350}
-                                key={index}
-                            />
-                        )
-                    })}
+                    {workoutSession.sessionExercises.map(
+                        (sessionExercise, index) => {
+                            return (
+                                <MyLineChart
+                                    data={workoutToChartUtils.exerciseToLineChart(
+                                        sessionExercise,
+                                    )}
+                                    title={sessionExercise.exercise.name}
+                                    yAxisSuffix={'kg'}
+                                    width={350}
+                                    key={index}
+                                />
+                            );
+                        },
+                    )}
                 </MyScrollView>
                 <MyScrollView horizontal={true}>
-                    {workoutToChartUtils.getPieMuscleOverviewData({workoutSession}).map((item) => {
-                        return (
-                            <MyPieChart key={item.name} width={350} title={item.name} data={item.data}
-                                        accessor={'count'}/>
-                        )
-                    })}
+                    {workoutToChartUtils
+                        .getPieMuscleOverviewData({workoutSession})
+                        .map(item => {
+                            return (
+                                <MyPieChart
+                                    key={item.name}
+                                    width={350}
+                                    title={item.name}
+                                    data={item.data}
+                                    accessor={'count'}
+                                />
+                            );
+                        })}
                 </MyScrollView>
             </MyScrollView>
         </MySafeAreaView>
-
     );
 };

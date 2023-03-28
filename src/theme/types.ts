@@ -48,7 +48,7 @@ export interface IconSizeTheme {
 }
 
 export type reactNativeFontsWeights =
-    'normal'
+    | 'normal'
     | 'bold'
     | '100'
     | '200'
@@ -77,14 +77,13 @@ export interface Theme {
 }
 
 export type TypeOfText =
-    'header1Text' |
-    'header2Text' |
-    'header3Text' |
-    'header4Text' |
-    'header5Text' |
-    'header6Text' |
-    'bodyText' |
-    'bodyBoldText' |
-    'labelText' |
-    'captionText'
-
+    | 'header1Text'
+    | 'header2Text'
+    | 'header3Text'
+    | 'header4Text'
+    | 'header5Text'
+    | 'header6Text'
+    | 'bodyText'
+    | 'bodyBoldText'
+    | 'labelText'
+    | 'captionText';

@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {View} from 'react-native'
+import {View} from 'react-native';
 import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component';
 import {ExerciseSetRow} from 'src/shared/ExercisesComponents/exercieseSetRow/ exerciseSetRow.component';
 import {MyIcon} from 'src/shared/baseComponents/myIcon/myIcon.component';
@@ -18,119 +18,128 @@ export interface ExerciseWithSetCardProps {
     withFastSet?: boolean;
 }
 
-export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = (props) => {
+export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = props => {
     const {exerciseWithSet, templateExerciseSets} = props;
-    const style = useThemeStyle(exerciseWithSetCardStyle)
+    const style = useThemeStyle(exerciseWithSetCardStyle);
 
-
-    const [init, setInit] = useState<boolean>(false)
-    const [sets, setSets] = useState<ExerciseSetModel[]>([])
+    const [init, setInit] = useState<boolean>(false);
+    const [sets, setSets] = useState<ExerciseSetModel[]>([]);
     const newSet = (setNumber: number): ExerciseSetModel => ({
         reps: 0,
         weight: 0,
         setNumber,
         isWarmup: false,
-        rest: 0
-    })
+        rest: 0,
+    });
 
     useEffect(() => {
         if (!init) {
             if (exerciseWithSet?.exerciseSets) {
                 if (exerciseWithSet.exerciseSets.length === 0) {
-                    setSets([newSet(0)])
+                    setSets([newSet(0)]);
                 } else {
-                    setSets(exerciseWithSet.exerciseSets)
+                    setSets(exerciseWithSet.exerciseSets);
                 }
             } else if (templateExerciseSets?.exerciseSets) {
-                setSets(templateExerciseSets.exerciseSets.map((s) => ({
-                    ...s,
-                    rest: 0,
-                    weight: 0,
-                    reps: 0,
-                })))
+                setSets(
+                    templateExerciseSets.exerciseSets.map(s => ({
+                        ...s,
+                        rest: 0,
+                        weight: 0,
+                        reps: 0,
+                    })),
+                );
             }
-            setInit(true)
+            setInit(true);
         }
-        props.onChange(sets)
-    }, [sets])
+        props.onChange(sets);
+    }, [sets]);
 
     const getCardMenu = () => {
-        if (!props.deleteExercise) return null
+        if (!props.deleteExercise) {
+            return null;
+        }
         return (
-            <MenuMoreButton options={[
-                {
-                    title: 'Delete',
-                    iconName: 'trash-outline',
-                    onPress: () => props.deleteExercise && props.deleteExercise()
-                },
-            ]}/>
-        )
-    }
+            <MenuMoreButton
+                options={[
+                    {
+                        title: 'Delete',
+                        iconName: 'trash-outline',
+                        onPress: () =>
+                            props.deleteExercise && props.deleteExercise(),
+                    },
+                ]}
+            />
+        );
+    };
 
     const handleChangesOnSets = (newSets: ExerciseSetModel[]) => {
         const newSetsWithSetNumber = [...newSets].map((s, i) => ({
             ...s,
-            setNumber: i
-        }))
-        setSets(newSetsWithSetNumber)
-    }
+            setNumber: i,
+        }));
+        setSets(newSetsWithSetNumber);
+    };
 
     const setExerciseSet = (set: ExerciseSetModel, index: number) => {
         const newObjects = [...sets];
         newObjects[index] = set;
-        handleChangesOnSets(newObjects)
-    }
+        handleChangesOnSets(newObjects);
+    };
 
     const handleRemoveSet = (index: number) => {
         if (index === 0 || !sets[index] || sets.length === 1) {
-            return
+            return;
         }
         const newObjects = [...sets];
         newObjects.splice(index, 1);
-        handleChangesOnSets(newObjects)
-    }
+        handleChangesOnSets(newObjects);
+    };
 
     const handleAddSet = () => {
-        const setId = sets.length ? sets.length : 0
-        const set = newSet(setId)
-        handleChangesOnSets([...sets, set])
-    }
+        const setId = sets.length ? sets.length : 0;
+        const set = newSet(setId);
+        handleChangesOnSets([...sets, set]);
+    };
 
     const getPlaceHolderSet = (i: number) => {
         if (templateExerciseSets) {
-            return templateExerciseSets.exerciseSets[i]
+            return templateExerciseSets.exerciseSets[i];
         }
-    }
+    };
 
     const getName = () => {
         if (exerciseWithSet) {
-            return exerciseWithSet.exercise.name
+            return exerciseWithSet.exercise.name;
         }
         if (templateExerciseSets) {
-            return templateExerciseSets.exercise.name
+            return templateExerciseSets.exercise.name;
         }
-        return 'Exercise'
-    }
+        return 'Exercise';
+    };
 
     return (
         <MyCard title={`${getName()}`} rightElement={getCardMenu()}>
             <View style={style.container}>
                 <View style={style.exerciseSetCreatorContainer}>
-                    {
-                        sets.map((set, i) => (
-                            <ExerciseSetRow key={i}
-                                            placeHolderSet={getPlaceHolderSet(i)}
-                                            exerciseSet={set}
-                                            setExerciseSet={setExerciseSet}
-                                            removeExerciseSet={handleRemoveSet}
-                                            setNumber={i}
-                                            withFastSet={props.withFastSet}
-                            />
-                        ))
-                    }
+                    {sets.map((set, i) => (
+                        <ExerciseSetRow
+                            key={i}
+                            placeHolderSet={getPlaceHolderSet(i)}
+                            exerciseSet={set}
+                            setExerciseSet={setExerciseSet}
+                            removeExerciseSet={handleRemoveSet}
+                            setNumber={i}
+                            withFastSet={props.withFastSet}
+                        />
+                    ))}
                 </View>
                 <View style={style.footer}>
-                    <MyIcon size={30} onPress={handleAddSet} iconName="add-circle"/>
+                    <MyIcon
+                        size={30}
+                        onPress={handleAddSet}
+                        iconName="add-circle"
+                    />
                     <MyText type={'labelText'}>Add next set</MyText>
                 </View>
             </View>

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component';
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
@@ -11,38 +11,39 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const logger = new Logger('LoginScreen');
 
-export interface LoginScreenProps {}
+const LoginScreen = () => {
+    const style = useThemeStyle(loginStyle);
 
-const LoginScreen: FC<LoginScreenProps> = props => {
-  LoginScreen;
-  const style = useThemeStyle(loginStyle);
+    GoogleSignin.configure({
+        webClientId:
+            '589928693522-qds08l9s2t9r6pn9918ef0k6f9h0giei.apps.googleusercontent.com',
+        offlineAccess: false,
+    });
 
-  GoogleSignin.configure({
-    webClientId:
-      '589928693522-qds08l9s2t9r6pn9918ef0k6f9h0giei.apps.googleusercontent.com',
-    offlineAccess: false,
-  });
-
-  async function onGoogleButtonPress() {
-    // Check if your device supports Google Play
-    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-    // Get the users ID token
-    const {idToken} = await GoogleSignin.signIn();
-    if (idToken) {
-      AuthService.handleLoginWithGoogle(idToken);
+    async function onGoogleButtonPress() {
+        // Check if your device supports Google Play
+        await GoogleSignin.hasPlayServices({
+            showPlayServicesUpdateDialog: true,
+        });
+        // Get the users ID token
+        const {idToken} = await GoogleSignin.signIn();
+        if (idToken) {
+            AuthService.handleLoginWithGoogle(idToken);
+        }
     }
-  }
 
-  return (
-    <MySafeAreaView edges={['bottom', 'top']}>
-      <View style={style.container}>
-        <Text style={style.logoText}> Gym Tren </Text>
-        <MyButton type={'primary'} onPress={() => onGoogleButtonPress()}>
-          Join GymTren
-        </MyButton>
-      </View>
-    </MySafeAreaView>
-  );
+    return (
+        <MySafeAreaView edges={['bottom', 'top']}>
+            <View style={style.container}>
+                <Text style={style.logoText}> Gym Tren </Text>
+                <MyButton
+                    type={'primary'}
+                    onPress={() => onGoogleButtonPress()}>
+                    Join GymTren
+                </MyButton>
+            </View>
+        </MySafeAreaView>
+    );
 };
 
 export default LoginScreen;

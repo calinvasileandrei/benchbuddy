@@ -11,17 +11,17 @@ const RootStack = createStackNavigator<RootStackParamList>();
 interface RootNavigatorProps {}
 
 export const RootNavigator: FC<RootNavigatorProps> = props => {
-  const {user} = useAuth();
-  return (
-    <RootStack.Navigator screenOptions={{headerShown: false}}>
-      {user ? (
-        <RootStack.Screen name={RootRoutes.APP} component={AppStack} />
-      ) : (
-        <RootStack.Screen
-          name={RootRoutes.AUTHENTICATION}
-          component={AuthenticationStack}
-        />
-      )}
-    </RootStack.Navigator>
-  );
+    const {user} = useAuth();
+    return (
+        <RootStack.Navigator screenOptions={{headerShown: false}}>
+            {user ? (
+                <RootStack.Screen name={RootRoutes.APP} component={AppStack} />
+            ) : (
+                <RootStack.Screen
+                    name={RootRoutes.AUTHENTICATION}
+                    component={AuthenticationStack}
+                />
+            )}
+        </RootStack.Navigator>
+    );
 };

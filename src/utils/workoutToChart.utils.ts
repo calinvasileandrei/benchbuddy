@@ -4,25 +4,35 @@ import {WorkoutSessionModel} from 'src/models/schema/workoutSession.model';
 import {WorkoutModel} from 'src/models/schema/workout.model';
 
 const exerciseToLineChart = (workout: ExerciseWorkoutModel): LineChartData => {
-    const getLabels =()=>{
-        return workout.exerciseSets.map((exercise)=>`set ${exercise.setNumber+1}`)
-    }
+    const getLabels = () => {
+        return workout.exerciseSets.map(
+            exercise => `set ${exercise.setNumber + 1}`,
+        );
+    };
 
     return {
         datasets: [
             {
-                data: workout.exerciseSets.map((exercise)=>exercise.weight),
-            }
+                data: workout.exerciseSets.map(exercise => exercise.weight),
+            },
         ],
         labels: getLabels(),
-    }
-}
+    };
+};
 
-const getPieMuscleOverviewData = ({workoutSession,workoutModel }:{workoutSession?:WorkoutSessionModel,workoutModel?:WorkoutModel}): { name: string, data: { name: string, count: number }[]}[] => {
+const getPieMuscleOverviewData = ({
+    workoutSession,
+    workoutModel,
+}: {
+    workoutSession?: WorkoutSessionModel;
+    workoutModel?: WorkoutModel;
+}): {name: string; data: {name: string; count: number}[]}[] => {
     const primaryMuscles = new Map<string, number>();
     const secondaryMuscles = new Map<string, number>();
 
-    const toCycle = workoutModel ? workoutModel.exercises : workoutSession?.sessionExercises || [];
+    const toCycle = workoutModel
+        ? workoutModel.exercises
+        : workoutSession?.sessionExercises || [];
 
     toCycle.forEach(sessionExercise => {
         sessionExercise.exercise.secondaryMuscles.forEach(secondaryMuscle => {
@@ -37,23 +47,24 @@ const getPieMuscleOverviewData = ({workoutSession,workoutModel }:{workoutSession
         });
     });
 
-    const getArray = (map: Map<string, number>): { name: string, count: number }[] => {
-        return [...map.entries()].map((item) => {
+    const getArray = (
+        map: Map<string, number>,
+    ): {name: string; count: number}[] => {
+        return [...map.entries()].map(item => {
             return {
                 name: item[0],
                 count: item[1],
-            }
-        })
-    }
+            };
+        });
+    };
 
     return [
         {name: 'Primary Muscles overview', data: getArray(primaryMuscles)},
-        {name: 'Secondary Muscles overview', data: getArray(secondaryMuscles)}
-    ]
-}
+        {name: 'Secondary Muscles overview', data: getArray(secondaryMuscles)},
+    ];
+};
 
-export const workoutToChartUtils= {
+export const workoutToChartUtils = {
     exerciseToLineChart,
-    getPieMuscleOverviewData
-
-}
+    getPieMuscleOverviewData,
+};

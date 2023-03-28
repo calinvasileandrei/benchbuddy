@@ -1,6 +1,6 @@
 import {CollectionCreateSchema} from 'typesense/lib/Typesense/Collections';
 
-export const exercisesSchema:CollectionCreateSchema = {
+export const exercisesSchema: CollectionCreateSchema = {
     name: 'exercises',
     fields: [
         {
@@ -22,12 +22,12 @@ export const exercisesSchema:CollectionCreateSchema = {
         {
             name: 'primaryMuscles',
             type: 'string[]',
-            facet: false
+            facet: false,
         },
         {
             name: 'secondaryMuscles',
             type: 'string[]',
-            facet: false
-        }
+            facet: false,
+        },
     ],
 };

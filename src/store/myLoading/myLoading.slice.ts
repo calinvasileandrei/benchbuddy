@@ -3,26 +3,26 @@ import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from 'src/store/store';
 
 export interface MyLoadingState {
-  isLoading: boolean;
+    isLoading: boolean;
 }
 
 const initialState: MyLoadingState = {
-  isLoading: false,
+    isLoading: false,
 };
 
 export const myLoadingSlice = createSlice({
-  name: 'myLoading',
-  initialState,
-  reducers: {
-    show: (state, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
+    name: 'myLoading',
+    initialState,
+    reducers: {
+        show: (state, action: PayloadAction<boolean>) => {
+            state.isLoading = action.payload;
+        },
     },
-  },
-  extraReducers: builder => {},
+    extraReducers: builder => {},
 });
 
 export const myLoadingProviderStatus = (state: RootState) =>
-  state.myLoading.isLoading;
+    state.myLoading.isLoading;
 
 // Action creators are generated for each case reducer function
 export const myLoadingActions = myLoadingSlice.actions;

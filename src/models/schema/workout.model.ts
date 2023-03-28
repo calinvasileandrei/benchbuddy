@@ -11,6 +11,7 @@ export interface WorkoutModel {
     exercises: ExerciseWorkoutModel[];
     createdAt: string;
     notes?: string;
+    ownerId: string;
 }
 
 export interface ReferenceWorkoutModel extends WorkoutModel {
@@ -23,6 +24,7 @@ export class WorkoutSchema extends Realm.Object<WorkoutModel> {
     description?: string;
     createdAt!: string;
     notes?: string;
+    ownerId!: string;
     exercises!: Realm.List<ExerciseWorkoutSchema>;
     static schema = {
         name: 'Workout',
@@ -32,6 +34,7 @@ export class WorkoutSchema extends Realm.Object<WorkoutModel> {
             description: 'string?',
             createdAt: 'string',
             notes: 'string?',
+            ownerId: 'string',
             exercises: 'ExerciseWorkout[]',
         },
         primaryKey: '_id',

@@ -9,33 +9,33 @@ const logger = new Logger('ExerciseService');
 type ExerciseKeys = keyof ExerciseModel;
 
 const saveExercises = async (exercises: ExerciseModel[]) => {
-  try {
-    const promises = exercises.map(exercise => {
-      firestore()
-        .collection(Collections.EXERCISES)
-        .doc(exercise?.id)
-        .set({
-          ...exercise,
+    try {
+        const promises = exercises.map(exercise => {
+            firestore()
+                .collection(Collections.EXERCISES)
+                .doc(exercise?.id)
+                .set({
+                    ...exercise,
+                });
         });
-    });
-    await Promise.all(promises);
-    logger.debug('Save exercises completed');
-  } catch (e) {
-    logger.debug('Save exercises error: ', e);
-  }
+        await Promise.all(promises);
+        logger.debug('Save exercises completed');
+    } catch (e) {
+        logger.debug('Save exercises error: ', e);
+    }
 };
 
 export const getExerciseById = async (
-  id: string,
+    id: string,
 ): Promise<ExerciseModel | undefined> => {
-  return await myFirestoreService.getDoc<ExerciseModel>({
-    collection: Collections.EXERCISES,
-    docId: id,
-    methodName: 'getExerciseById',
-  });
+    return await myFirestoreService.getDoc<ExerciseModel>({
+        collection: Collections.EXERCISES,
+        docId: id,
+        methodName: 'getExerciseById',
+    });
 };
 
 export const exerciseService = {
-  saveExercises,
-  getExerciseById,
+    saveExercises,
+    getExerciseById,
 };

@@ -25,7 +25,7 @@ export interface Props {
     children?: React.ReactNode;
 }
 
-export const ThemeProvider = React.memo<Props>((props) => {
+export const ThemeProvider = React.memo<Props>(props => {
     const [theme, setTheme] = React.useState<Theme>(props.initial);
 
     const SetThemeCallback = React.useCallback((newTheme: Theme) => {
@@ -39,7 +39,7 @@ export const ThemeProvider = React.memo<Props>((props) => {
     }, []);
 
     const ToggleThemeCallback = React.useCallback(() => {
-        setTheme((currentTheme) => {
+        setTheme(currentTheme => {
             if (currentTheme.id === LIGHT_THEME_ID) {
                 return DARK_THEME;
             }
@@ -59,7 +59,11 @@ export const ThemeProvider = React.memo<Props>((props) => {
         return value;
     }, [theme, SetThemeCallback, ToggleThemeCallback]);
 
-    return <ThemeContext.Provider value={MemoizedValue}>{props.children}</ThemeContext.Provider>;
+    return (
+        <ThemeContext.Provider value={MemoizedValue}>
+            {props.children}
+        </ThemeContext.Provider>
+    );
 });
 
 export const useTheme = () => React.useContext(ThemeContext);

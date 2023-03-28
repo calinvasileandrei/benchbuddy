@@ -7,15 +7,16 @@ const getWorkouts = (state: RootState): WorkoutModel[] => {
 };
 
 const getDetailWorkout = (state: RootState): WorkoutModel | undefined => {
-    return state.workout.detailWorkout
-}
-const getWorkoutSessionDetail = (state: RootState): WorkoutSessionModel | undefined => {
-    return state.workout.workoutSessionDetail
-}
-
+    return state.workout.detailWorkout;
+};
+const getWorkoutSessionDetail = (
+    state: RootState,
+): WorkoutSessionModel | undefined => {
+    return state.workout.workoutSessionDetail;
+};
 
 export const workoutSelectors = {
     getWorkouts,
     getDetailWorkout,
-    getWorkoutSessionDetail
-}
+    getWorkoutSessionDetail,
+};

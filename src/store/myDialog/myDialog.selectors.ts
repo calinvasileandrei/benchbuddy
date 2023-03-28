@@ -6,5 +6,5 @@ const getMyDialogProps = (state: RootState) => state.myDialog.dialogProps;
 
 export const myDialogSelectors = {
     getVisible,
-    getMyDialogProps
-}
+    getMyDialogProps,
+};

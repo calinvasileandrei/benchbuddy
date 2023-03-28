@@ -11,16 +11,22 @@ import {createStackNavigator} from '@react-navigation/stack';
 const Stack = createStackNavigator<AppParamList>();
 
 export const AppStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name={AppRoutes.TABS} component={TabsNavigator} />
-      <Stack.Screen name={AppRoutes.HOME_STACK} component={HomeStack} />
-      <Stack.Screen name={AppRoutes.WORKOUTS_STACK} component={WorkoutStack} />
-      <Stack.Screen
-        name={AppRoutes.EXERCISES_STACK}
-        component={ExercisesStack}
-      />
-      <Stack.Screen name={AppRoutes.ACCOUNT_STACK} component={AccountStack} />
-    </Stack.Navigator>
-  );
+    return (
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name={AppRoutes.TABS} component={TabsNavigator} />
+            <Stack.Screen name={AppRoutes.HOME_STACK} component={HomeStack} />
+            <Stack.Screen
+                name={AppRoutes.WORKOUTS_STACK}
+                component={WorkoutStack}
+            />
+            <Stack.Screen
+                name={AppRoutes.EXERCISES_STACK}
+                component={ExercisesStack}
+            />
+            <Stack.Screen
+                name={AppRoutes.ACCOUNT_STACK}
+                component={AccountStack}
+            />
+        </Stack.Navigator>
+    );
 };

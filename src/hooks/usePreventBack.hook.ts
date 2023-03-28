@@ -10,79 +10,89 @@ const logger = new Logger('usePreventBack.hook');
 export interface usePreventBackDialogProps {
     title?: string;
     message?: string;
-    actionFirst?: (eventAction:()=>void)=> {
+    actionFirst?: (eventAction: () => void) => {
         label: string;
         style?: MyDialogActionStyle;
         onPress: () => void;
-    }
-    actionSecond?: (eventAction:()=>void)=> {
+    };
+    actionSecond?: (eventAction: () => void) => {
         label: string;
         style?: MyDialogActionStyle;
         onPress: () => void;
-    }
+    };
 }
 
 export interface UsePreventBackHookProps {
     isDirty: boolean;
     isActive?: boolean;
     dependencies: any[];
-    dialogProps?: usePreventBackDialogProps
+    dialogProps?: usePreventBackDialogProps;
 }
 
 export const usePreventBackHook = (props: UsePreventBackHookProps) => {
-    const {isDirty, dependencies, dialogProps,isActive=true} = props;
+    const {isDirty, dependencies, dialogProps, isActive = true} = props;
     const dispatch = useAppDispatch();
     const unsubscribeBeforeRemove = useRef<any>(null);
     const navigation = useNavigation();
 
-    const getActionFirst = (eventAction:any) => {
+    const getActionFirst = (eventAction: any) => {
         if (dialogProps?.actionFirst) {
-            return dialogProps.actionFirst(()=>navigation.dispatch(eventAction));
+            return dialogProps.actionFirst(() =>
+                navigation.dispatch(eventAction),
+            );
         }
         return {
             label: 'Discard',
             style: 'destructive' as MyDialogActionStyle,
             onPress: () => navigation.dispatch(eventAction),
-        }
-    }
+        };
+    };
 
-    const getActionSecond = (eventAction:any) => {
+    const getActionSecond = (eventAction: any) => {
         if (dialogProps?.actionSecond) {
-            return dialogProps.actionSecond(()=>navigation.dispatch(eventAction));
+            return dialogProps.actionSecond(() =>
+                navigation.dispatch(eventAction),
+            );
         }
         return {
-            label: 'Don\'t leave',
+            label: "Don't leave",
             onPress: () => {},
-        }
-    }
+        };
+    };
 
     useEffect(() => {
-            unsubscribeBeforeRemove.current = navigation.addListener(
-                'beforeRemove',
-                (e: any) => {
-                    logger.debug('event data nav action: ', e.data.action);
-                    if (isActive){
-                        if ((e.data.action.type === 'GO_BACK' || e.data.action.type === 'POP') && isDirty) {
-                            e.preventDefault();
-                            dispatch(myDialogSliceActions.show({
+        unsubscribeBeforeRemove.current = navigation.addListener(
+            'beforeRemove',
+            (e: any) => {
+                logger.debug('event data nav action: ', e.data.action);
+                if (isActive) {
+                    if (
+                        (e.data.action.type === 'GO_BACK' ||
+                            e.data.action.type === 'POP') &&
+                        isDirty
+                    ) {
+                        e.preventDefault();
+                        dispatch(
+                            myDialogSliceActions.show({
                                 title: dialogProps?.title || 'Discard changes?',
-                                message: dialogProps?.message || 'You have unsaved changes. Are you sure to discard them and leave the screen?',
+                                message:
+                                    dialogProps?.message ||
+                                    'You have unsaved changes. Are you sure to discard them and leave the screen?',
                                 actionSecond: getActionSecond(e.data.action),
-                                actionFirst: getActionFirst(e.data.action)
-                            }))
-                        }
+                                actionFirst: getActionFirst(e.data.action),
+                            }),
+                        );
                     }
                 }
-            );
+            },
+        );
 
-            return () => {
-                if (unsubscribeBeforeRemove.current) {
-                    unsubscribeBeforeRemove.current();
-                }
-            };
-        }, [navigation, ...dependencies]
-    );
+        return () => {
+            if (unsubscribeBeforeRemove.current) {
+                unsubscribeBeforeRemove.current();
+            }
+        };
+    }, [navigation, ...dependencies]);
 
-
-    return {}
+    return {};
 };

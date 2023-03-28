@@ -20,28 +20,26 @@ export const myButtonStyle = (theme: Theme) => {
             backgroundColor: theme.color.primary,
             borderColor: theme.color.primary,
         },
-        outlineButton:{
+        outlineButton: {
             backgroundColor: theme.color.background,
             borderColor: theme.color.primary,
-            borderWidth: 1
-
+            borderWidth: 1,
         },
-        reverseButton:{
+        reverseButton: {
             backgroundColor: theme.color.surface,
             borderColor: theme.color.surface,
         },
         primaryButtonText: {
             color: theme.color.onSurface,
-
         },
         outlineButtonText: {
-            color: theme.color.primary
+            color: theme.color.primary,
         },
         reverseButtonText: {
             color: theme.color.onSurface,
         },
         disabledButtonText: {
             color: theme.color.placeholder,
-        }
+        },
     });
 };

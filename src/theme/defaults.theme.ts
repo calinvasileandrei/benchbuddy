@@ -1,4 +1,10 @@
-import {FontWeightTheme, FontSizeTheme, IconSizeTheme, SpacingTheme, BorderRadiusTheme} from 'src/theme/types';
+import {
+    FontWeightTheme,
+    FontSizeTheme,
+    IconSizeTheme,
+    SpacingTheme,
+    BorderRadiusTheme,
+} from 'src/theme/types';
 
 export const FONT_SIZE_THEME: FontSizeTheme = {
     xxxxsmall: 10,
@@ -11,23 +17,23 @@ export const FONT_SIZE_THEME: FontSizeTheme = {
     xlarge: 22,
     xxlarge: 26,
     xxxlarge: 32,
-}
+};
 
-export const ICON_SIZE_THEME: IconSizeTheme  = {
+export const ICON_SIZE_THEME: IconSizeTheme = {
     xxxsmall: 16,
     xxsmall: 18,
     xsmall: 20,
     small: 24,
     medium: 30,
     large: 34,
-    xlarge: 60
-}
+    xlarge: 60,
+};
 
-export const FONT_FAMILY_THEME : FontWeightTheme = {
+export const FONT_FAMILY_THEME: FontWeightTheme = {
     regular: 'normal',
     medium: '500',
-    bold: 'bold'
-}
+    bold: 'bold',
+};
 
 export const SPACING_THEME: SpacingTheme = {
     xsmall: 2,
@@ -36,8 +42,8 @@ export const SPACING_THEME: SpacingTheme = {
     double: 16,
 };
 
-export const BORDER_RADIUS_THEME:BorderRadiusTheme = {
+export const BORDER_RADIUS_THEME: BorderRadiusTheme = {
     small: 4,
     base: 8,
     double: 16,
-}
+};

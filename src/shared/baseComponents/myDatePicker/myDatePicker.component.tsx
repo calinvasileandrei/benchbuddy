@@ -16,21 +16,27 @@ export interface MyDatePickerProps {
     withBorder?: boolean;
 }
 
-export const MyDatePicker: FC<MyDatePickerProps> = (props) => {
-    const {date, setDate,withBorder, mode = 'datetime', withHaptics = 'success'} = props;
-    const [showTimePicker, setShowTimePicker] = React.useState(false)
+export const MyDatePicker: FC<MyDatePickerProps> = props => {
+    const {
+        date,
+        setDate,
+        withBorder,
+        mode = 'datetime',
+        withHaptics = 'success',
+    } = props;
+    const [showTimePicker, setShowTimePicker] = React.useState(false);
 
-    const style = useThemeStyle(myDatePickerStyle)
+    const style = useThemeStyle(myDatePickerStyle);
 
     const getDateTitle = () => {
         if (mode === 'date') {
-            return dateUtils.getPrettyDate(date)
+            return dateUtils.getPrettyDate(date);
         }
         if (mode === 'time') {
-            return dateUtils.getPrettyTime(date)
+            return dateUtils.getPrettyTime(date);
         }
-        return dateUtils.getPrettyDateAndTime(date)
-    }
+        return dateUtils.getPrettyDateAndTime(date);
+    };
 
     return (
         <>
@@ -39,17 +45,17 @@ export const MyDatePicker: FC<MyDatePickerProps> = (props) => {
                 open={showTimePicker}
                 date={date}
                 mode={mode}
-                onConfirm={(date) => {
-                    setShowTimePicker(false)
-                    handleHaptic(withHaptics)
-                    setDate(date)
+                onConfirm={dateSaved => {
+                    setShowTimePicker(false);
+                    handleHaptic(withHaptics);
+                    setDate(dateSaved);
                 }}
                 onCancel={() => {
-                    setShowTimePicker(false)
+                    setShowTimePicker(false);
                 }}
             />
             <TouchableOpacity onPress={() => setShowTimePicker(true)}>
-                <View style={[style.card,withBorder?style.withBorder:{}]}>
+                <View style={[style.card, withBorder ? style.withBorder : {}]}>
                     <View style={style.title}>
                         <MyText type="header3Text">{getDateTitle()}</MyText>
                     </View>

@@ -11,29 +11,29 @@ export interface MySearchBarProps {
     minCharsForRequest?: number;
 }
 
-export const MySearchBar: FC<MySearchBarProps> = (props) => {
+export const MySearchBar: FC<MySearchBarProps> = props => {
     const style = useThemeStyle(mySearchBarStyle);
     const [search, setSearch] = useState('');
     const [searchbarLoading, setSearchBarLoading] = useState(false);
     const {onChange, minCharsForRequest = 2} = props;
 
-    const updateSearch = (search: string) => {
-        if (search.length > minCharsForRequest || search.length === 0) {
+    const updateSearch = (searchText: string) => {
+        if (searchText.length > minCharsForRequest || searchText.length === 0) {
             setSearchBarLoading(true);
         }
-        setSearch(search);
+        setSearch(searchText);
     };
 
     useDebouncedEffect(
         () => {
             if (search.length > minCharsForRequest || search.length === 0) {
                 onChange(search);
-                handleHaptic(props.withHaptics)
+                handleHaptic(props.withHaptics);
             }
             setSearchBarLoading(false);
         },
         300,
-        [search]
+        [search],
     );
 
     return (
@@ -45,13 +45,18 @@ export const MySearchBar: FC<MySearchBarProps> = (props) => {
             inputStyle={style.inputStyle}
             cancelButtonProps={{color: style.cancelButtonStyle.color}}
             showCancel={false}
-            onClear={() => { setSearchBarLoading(false)}}
-            onCancel={() => { setSearchBarLoading(false)}}
+            onClear={() => {
+                setSearchBarLoading(false);
+            }}
+            onCancel={() => {
+                setSearchBarLoading(false);
+            }}
             showLoading={searchbarLoading}
             cursorColor={style.cursor.color}
             placeholderTextColor={style.placeholder.color}
             searchIcon={style.searchIcon}
             value={search}
-            placeholder="Type Here..."/>
+            placeholder="Type Here..."
+        />
     );
 };

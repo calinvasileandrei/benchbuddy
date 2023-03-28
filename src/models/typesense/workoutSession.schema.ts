@@ -1,7 +1,7 @@
 import {CollectionCreateSchema} from 'typesense/lib/Typesense/Collections';
 import {TypesenseCollections} from 'src/models/extra/typesense.model';
 
-export const workoutSessionSchema:CollectionCreateSchema = {
+export const workoutSessionSchema: CollectionCreateSchema = {
     name: TypesenseCollections.WORKOUT_SESSIONS,
     fields: [
         {
@@ -24,13 +24,13 @@ export const workoutSessionSchema:CollectionCreateSchema = {
         {
             name: 'exercises',
             type: 'string[]',
-            facet: false
+            facet: false,
         },
         {
             name: 'notes',
             type: 'string',
-            facet: false
-        }
+            facet: false,
+        },
     ],
 };
 
@@ -48,4 +48,4 @@ export const WorkoutSessionCollectionFields = {
     CREATED_AT: 'createdAt',
     EXERCISES: 'exercises',
     NOTES: 'notes',
-}
+};

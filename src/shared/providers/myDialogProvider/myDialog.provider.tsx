@@ -12,26 +12,26 @@ export interface MyDialogProviderProps {
     children: React.ReactNode;
 }
 
-export const MyDialogProvider: FC<MyDialogProviderProps> = (props) => {
-    const dispatch = useAppDispatch()
-    const style = useThemeStyle(myDialogStyle)
-    const visible = useAppSelector(myDialogSelectors.getVisible)
-    const dialogProps = useAppSelector(myDialogSelectors.getMyDialogProps)
+export const MyDialogProvider: FC<MyDialogProviderProps> = props => {
+    const dispatch = useAppDispatch();
+    const style = useThemeStyle(myDialogStyle);
+    const visible = useAppSelector(myDialogSelectors.getVisible);
+    const dialogProps = useAppSelector(myDialogSelectors.getMyDialogProps);
 
     const handleDismiss = () => {
-        dispatch(myDialogSliceActions.dismiss())
-    }
+        dispatch(myDialogSliceActions.dismiss());
+    };
     const handleConfirm = () => {
-        dialogProps?.actionFirst.onPress()
-        handleDismiss()
-    }
+        dialogProps?.actionFirst.onPress();
+        handleDismiss();
+    };
 
     const handleCancel = () => {
-        dialogProps?.actionSecond.onPress()
-        handleDismiss()
-    }
+        dialogProps?.actionSecond.onPress();
+        handleDismiss();
+    };
 
-    const getTitleColor = (actionStyle?:MyDialogActionStyle) => {
+    const getTitleColor = (actionStyle?: MyDialogActionStyle) => {
         switch (actionStyle) {
             case 'destructive':
                 return style.destructiveTitle;
@@ -40,22 +40,36 @@ export const MyDialogProvider: FC<MyDialogProviderProps> = (props) => {
             default:
                 return style.defaultTitle;
         }
-
-    }
+    };
 
     return (
         <>
             <Dialog
                 isVisible={visible}
                 overlayStyle={style.overlay}
-                onBackdropPress={handleDismiss}
-            >
-                <Dialog.Title titleStyle={style.title} title={dialogProps?.title}/>
-                {dialogProps?.message &&
-                    <MyText>{dialogProps?.message}</MyText>}
+                onBackdropPress={handleDismiss}>
+                <Dialog.Title
+                    titleStyle={style.title}
+                    title={dialogProps?.title}
+                />
+                {dialogProps?.message && (
+                    <MyText>{dialogProps?.message}</MyText>
+                )}
                 <Dialog.Actions>
-                    <Dialog.Button titleStyle={getTitleColor(dialogProps?.actionFirst.style)} title={dialogProps?.actionFirst.label} onPress={handleConfirm}/>
-                    <Dialog.Button titleStyle={getTitleColor(dialogProps?.actionSecond.style)} title={dialogProps?.actionSecond.label} onPress={handleCancel}/>
+                    <Dialog.Button
+                        titleStyle={getTitleColor(
+                            dialogProps?.actionFirst.style,
+                        )}
+                        title={dialogProps?.actionFirst.label}
+                        onPress={handleConfirm}
+                    />
+                    <Dialog.Button
+                        titleStyle={getTitleColor(
+                            dialogProps?.actionSecond.style,
+                        )}
+                        title={dialogProps?.actionSecond.label}
+                        onPress={handleCancel}
+                    />
                 </Dialog.Actions>
             </Dialog>
             {props.children}

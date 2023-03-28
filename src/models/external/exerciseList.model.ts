@@ -1,4 +1,3 @@
-
 export interface ExerciseListModel {
     name: string;
     force?: string;

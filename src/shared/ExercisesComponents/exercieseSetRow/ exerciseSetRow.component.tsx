@@ -10,9 +10,7 @@ import {TouchableOpacity, View} from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {MyIcon} from 'src/shared/baseComponents/myIcon/myIcon.component';
 import {handleHaptic} from 'src/utils/haptics.utils';
-import {
-    MyAnimatedIcon
-} from 'src/shared/ExercisesComponents/exercieseSetRow/components/myAnimatedIcon/myAnimatedIcon.component';
+import {MyAnimatedIcon} from 'src/shared/ExercisesComponents/exercieseSetRow/components/myAnimatedIcon/myAnimatedIcon.component';
 import {Logger} from 'src/utils/logger';
 
 export interface ExerciseSetRowProps {
@@ -24,51 +22,62 @@ export interface ExerciseSetRowProps {
     withFastSet?: boolean;
 }
 
-const logger = new Logger('ExerciseSetRow')
+const logger = new Logger('ExerciseSetRow');
 
-export const ExerciseSetRow: FC<ExerciseSetRowProps> = (props) => {
-    const {exerciseSet, setExerciseSet, setNumber, placeHolderSet, withFastSet, removeExerciseSet} = props;
-    const style = useThemeStyle(exerciseSetCreatorStyle)
-    const [isFastSet, setIsFastSet] = useState<boolean>(false)
+export const ExerciseSetRow: FC<ExerciseSetRowProps> = props => {
+    const {
+        exerciseSet,
+        setExerciseSet,
+        setNumber,
+        placeHolderSet,
+        withFastSet,
+        removeExerciseSet,
+    } = props;
+    const style = useThemeStyle(exerciseSetCreatorStyle);
+    const [isFastSet, setIsFastSet] = useState<boolean>(false);
 
     useEffect(() => {
-        const hasFastSet = (withFastSet === true && placeHolderSet && !exerciseSet.weight && !exerciseSet.reps && !exerciseSet.rest) || false
-        setIsFastSet(hasFastSet)
-        logger.debug('isFastSet', hasFastSet)
-    }, [])
+        const hasFastSet =
+            (withFastSet === true &&
+                placeHolderSet &&
+                !exerciseSet.weight &&
+                !exerciseSet.reps &&
+                !exerciseSet.rest) ||
+            false;
+        setIsFastSet(hasFastSet);
+        logger.debug('isFastSet', hasFastSet);
+    }, []);
 
-    const numRows = 4
+    const numRows = 4;
 
     const handleChange = (newSet: ExerciseSetModel) => {
-        setExerciseSet(newSet, setNumber)
-    }
+        setExerciseSet(newSet, setNumber);
+    };
 
     const getValue = (value: number) => {
         if (value !== 0) {
-            return value
+            return value;
         }
-        return undefined
-    }
+        return undefined;
+    };
     const rightSwipeActions = () => {
         if (!removeExerciseSet || setNumber === 0) {
-            return null
+            return null;
         }
         return (
-            <View
-                style={style.deleteButton}
-            >
+            <View style={style.deleteButton}>
                 <TouchableOpacity onPress={() => removeExerciseSet(setNumber)}>
                     <Col numRows={1}>
-                        <MyIcon iconName={'trash-outline'} size={20} color={style.deleteText.color}/>
-                        <MyText
-                            type={'captionText'}
-                            style={style.deleteText}
-                        >
+                        <MyIcon
+                            iconName={'trash-outline'}
+                            size={20}
+                            color={style.deleteText.color}
+                        />
+                        <MyText type={'captionText'} style={style.deleteText}>
                             Delete
                         </MyText>
                     </Col>
                 </TouchableOpacity>
-
             </View>
         );
     };
@@ -79,19 +88,20 @@ export const ExerciseSetRow: FC<ExerciseSetRowProps> = (props) => {
             weight: placeHolderSet?.weight || 0,
             reps: placeHolderSet?.reps || 0,
             rest: placeHolderSet?.rest || 0,
-        })
-        handleHaptic('success')
-    }
+        });
+        handleHaptic('success');
+    };
 
     return (
         <Swipeable
             renderRightActions={rightSwipeActions}
-            containerStyle={{flex: 1}}
-        >
+            containerStyle={{flex: 1}}>
             <Row style={style.rowContainer}>
                 <Col numRows={numRows} style={style.numberRow}>
                     <View style={style.roundContainer}>
-                        <MyText type={'captionText'} style={style.exerciseNumber}>
+                        <MyText
+                            type={'captionText'}
+                            style={style.exerciseNumber}>
                             {`${(setNumber + 1).toString()}`}
                         </MyText>
                     </View>
@@ -102,9 +112,12 @@ export const ExerciseSetRow: FC<ExerciseSetRowProps> = (props) => {
                         placeholder={placeHolderSet?.weight}
                         disabled={!setExerciseSet}
                         textAlign={'center'}
-                        onChangeNumber={(weight) => handleChange({...exerciseSet, weight})}
+                        onChangeNumber={weight =>
+                            handleChange({...exerciseSet, weight})
+                        }
                         value={getValue(exerciseSet.weight)}
-                        style={{flex: 1, flexGrow: 1}}/>
+                        style={{flex: 1, flexGrow: 1}}
+                    />
                 </Col>
                 <Col numRows={numRows}>
                     <MyText type={'captionText'}>Reps</MyText>
@@ -112,9 +125,12 @@ export const ExerciseSetRow: FC<ExerciseSetRowProps> = (props) => {
                         placeholder={placeHolderSet?.reps}
                         disabled={!setExerciseSet}
                         textAlign={'center'}
-                        onChangeNumber={(reps) => handleChange({...exerciseSet, reps})}
+                        onChangeNumber={reps =>
+                            handleChange({...exerciseSet, reps})
+                        }
                         value={getValue(exerciseSet.reps)}
-                        style={{flex: 1, flexGrow: 1}}/>
+                        style={{flex: 1, flexGrow: 1}}
+                    />
                 </Col>
                 <Col numRows={numRows}>
                     <Row style={{flex: 1, alignItems: 'center'}}>
@@ -124,11 +140,19 @@ export const ExerciseSetRow: FC<ExerciseSetRowProps> = (props) => {
                                 placeholder={placeHolderSet?.rest}
                                 disabled={!setExerciseSet}
                                 textAlign={'center'}
-                                onChangeNumber={(rest) => handleChange({...exerciseSet, rest})}
+                                onChangeNumber={rest =>
+                                    handleChange({...exerciseSet, rest})
+                                }
                                 value={getValue(exerciseSet.rest)}
-                                style={{flex: 1, flexGrow: 1}}/>
+                                style={{flex: 1, flexGrow: 1}}
+                            />
                         </Col>
-                        {isFastSet && <MyAnimatedIcon iconName={'checkmark-outline'} onPress={handleSetFastSet}/>}
+                        {isFastSet && (
+                            <MyAnimatedIcon
+                                iconName={'checkmark-outline'}
+                                onPress={handleSetFastSet}
+                            />
+                        )}
                     </Row>
                 </Col>
             </Row>

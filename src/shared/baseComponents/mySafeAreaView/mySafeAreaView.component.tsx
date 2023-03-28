@@ -17,50 +17,52 @@ import {useTheme} from 'src/theme/theme.context';
 type Edge = 'top' | 'right' | 'bottom' | 'left';
 
 export type MySafeAreaViewProps = ViewProps & {
-  children?: React.ReactNode;
-  mode?: 'padding' | 'margin';
-  edges?: ReadonlyArray<Edge>;
+    children?: React.ReactNode;
+    mode?: 'padding' | 'margin';
+    edges?: ReadonlyArray<Edge>;
 };
 
 export const MySafeAreaView: FC<MySafeAreaViewProps> = ({
-  edges,
-  mode,
-  style,
-  children,
-  ...rest
+    edges,
+    mode,
+    style,
+    children,
+    ...rest
 }) => {
-  const insets = useSafeAreaInsets();
-  const theme = useTheme();
+    const insets = useSafeAreaInsets();
+    const theme = useTheme();
 
-  const safeAreaViewStyle = StyleSheet.create({
-    marginStyle: {
-      marginTop: !edges || edges.includes('top') ? insets.top : 0,
-      marginLeft: !edges || edges.includes('left') ? insets.left : 0,
-      marginRight: !edges || edges.includes('right') ? insets.right : 0,
-      marginBottom: !edges || edges.includes('bottom') ? insets.bottom : 0,
-    },
-    paddingStyle: {
-      paddingTop: !edges || edges.includes('top') ? insets.top : 0,
-      paddingLeft: !edges || edges.includes('left') ? insets.left : 0,
-      paddingRight: !edges || edges.includes('right') ? insets.right : 0,
-      paddingBottom: !edges || edges.includes('bottom') ? insets.bottom : 0,
-    },
-  });
-
-  return (
-    <View
-      {...rest}
-      style={[
-        {
-          backgroundColor: theme.theme.color.background,
-          flex: 1,
+    const safeAreaViewStyle = StyleSheet.create({
+        marginStyle: {
+            marginTop: !edges || edges.includes('top') ? insets.top : 0,
+            marginLeft: !edges || edges.includes('left') ? insets.left : 0,
+            marginRight: !edges || edges.includes('right') ? insets.right : 0,
+            marginBottom:
+                !edges || edges.includes('bottom') ? insets.bottom : 0,
         },
-        style,
-        mode == 'margin'
-          ? safeAreaViewStyle.marginStyle
-          : safeAreaViewStyle.paddingStyle,
-      ]}>
-      {children}
-    </View>
-  );
+        paddingStyle: {
+            paddingTop: !edges || edges.includes('top') ? insets.top : 0,
+            paddingLeft: !edges || edges.includes('left') ? insets.left : 0,
+            paddingRight: !edges || edges.includes('right') ? insets.right : 0,
+            paddingBottom:
+                !edges || edges.includes('bottom') ? insets.bottom : 0,
+        },
+    });
+
+    return (
+        <View
+            {...rest}
+            style={[
+                {
+                    backgroundColor: theme.theme.color.background,
+                    flex: 1,
+                },
+                style,
+                mode == 'margin'
+                    ? safeAreaViewStyle.marginStyle
+                    : safeAreaViewStyle.paddingStyle,
+            ]}>
+            {children}
+        </View>
+    );
 };
