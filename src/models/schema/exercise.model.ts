@@ -28,10 +28,10 @@ export interface ExerciseModel {
     id: string;
     name: string;
     force: ForceModel;
-    level: LevelModel;
     mechanic: MechanicModel;
+    level: LevelModel;
     equipment: EquipmentModel;
-    instructions: string;
+    instructions: string[];
     category: CategoryModel;
     primaryMuscles: MuscleModel[];
     secondaryMuscles: MuscleModel[];
@@ -50,7 +50,7 @@ export class ExerciseSchema extends Realm.Object<ExerciseModel> {
     mechanic!: MechanicSchema;
     level!: LevelSchema;
     equipment!: EquipmentSchema;
-    instructions!: string;
+    instructions!: string[];
     category!: CategorySchema;
     primaryMuscles!: Realm.List<MuscleSchema>;
     secondaryMuscles!: Realm.List<MuscleSchema>;
@@ -63,7 +63,7 @@ export class ExerciseSchema extends Realm.Object<ExerciseModel> {
             mechanic: 'Mechanic',
             level: 'Level',
             equipment: 'Equipment',
-            instructions: 'string',
+            instructions: 'string[]',
             category: 'Category',
             primaryMuscles: 'Muscle[]',
             secondaryMuscles: 'Muscle[]',
@@ -71,27 +71,3 @@ export class ExerciseSchema extends Realm.Object<ExerciseModel> {
         primaryKey: 'id',
     };
 }
-
-const getSecondaries = (item: any): any => {
-    return {
-        id: item.id,
-        name: item.name,
-    };
-};
-
-export const exerciseFromSchema = (
-    exerciseSchema: ExerciseSchema,
-): ExerciseModel => {
-    return {
-        id: exerciseSchema.id,
-        name: exerciseSchema.name,
-        force: getSecondaries(exerciseSchema.force),
-        level: getSecondaries(exerciseSchema.level),
-        mechanic: getSecondaries(exerciseSchema.mechanic),
-        equipment: getSecondaries(exerciseSchema.equipment),
-        instructions: exerciseSchema.instructions,
-        category: getSecondaries(exerciseSchema.category),
-        primaryMuscles: getSecondaries(exerciseSchema.primaryMuscles),
-        secondaryMuscles: getSecondaries(exerciseSchema.secondaryMuscles),
-    };
-};

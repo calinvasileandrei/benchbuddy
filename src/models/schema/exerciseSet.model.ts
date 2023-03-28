@@ -26,16 +26,3 @@ export class ExerciseSetSchema extends Realm.Object<ExerciseSetModel> {
         },
     };
 }
-
-export const exerciseSetFromSchema = (
-    exerciseSetSchema: ExerciseSetSchema,
-): ExerciseSetModel => {
-    const exerciseSet: ExerciseSetModel = {
-        setNumber: exerciseSetSchema.setNumber,
-        reps: exerciseSetSchema.reps,
-        weight: exerciseSetSchema.weight,
-        rest: exerciseSetSchema.rest,
-        isWarmup: exerciseSetSchema.isWarmup,
-    };
-    return exerciseSet;
-};

@@ -1,19 +1,19 @@
 // hook
 
-export interface useRealmListParams<T> {
+export interface useRealmListParams<T, I> {
     schema: any;
     keyExtractorKey: keyof T;
 }
 
-export interface useRealmListReturn<T> {
-    data: Realm.Results<T & Realm.Object<unknown, never>>;
+export interface useRealmListReturn<T, I> {
+    data: I[];
     keyExtractor: (item: T) => string;
 }
 
 // component
 
-export interface RealmListProps<T> {
-    realmHookParams: useRealmListReturn<T>;
+export interface RealmListProps<T, I> {
+    realmHookParams: useRealmListReturn<T, I>;
     renderItem: (item: any) => any;
 
     emptyList?: {

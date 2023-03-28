@@ -1,16 +1,14 @@
-import {useQuery, useRealm} from 'src/services/realm.config';
+import {useRealm} from 'src/services/realm.config';
 import {WorkoutModel, WorkoutSchema} from 'src/models/schema/workout.model';
-import {useEffect} from 'react';
 
 export const useRealmWorkouts = () => {
     const realm = useRealm();
-    const workouts = useQuery(WorkoutSchema);
 
-    useEffect(() => {
-        return () => {
+    const closeRealm = () => {
+        if (realm) {
             realm.close();
-        };
-    }, []);
+        }
+    };
 
     const addItem = (data: WorkoutModel) => {
         realm.write(() => {
@@ -28,6 +26,6 @@ export const useRealmWorkouts = () => {
     return {
         addItem,
         deleteItem,
-        workouts,
+        closeRealm,
     };
 };

@@ -12,6 +12,8 @@ module.exports = {
                 'react-hooks/exhaustive-deps': 'off',
                 'no-shadow': 'off',
                 'no-undef': 'off',
+                'double-quote': 'off',
+                'no-new': 'off',
             },
         },
     ],

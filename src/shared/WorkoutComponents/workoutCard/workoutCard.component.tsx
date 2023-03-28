@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {View} from 'react-native';
 import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component';
 import {MyText} from 'src/shared/baseComponents/myText/myText.component';
-import {WorkoutSchema} from 'src/models/schema/workout.model';
+import {WorkoutModel} from 'src/models/schema/workout.model';
 import {Divider} from '@rneui/themed';
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {workoutCardStyle} from 'src/shared/WorkoutComponents/workoutCard/workoutCard.style';
@@ -13,8 +13,8 @@ import {useAppDispatch} from 'src/store/store';
 import {workoutSliceActions} from 'src/store/workout/workout.slice';
 
 export interface WorkoutCardProps {
-    workout: WorkoutSchema;
-    onPress?: (workout: WorkoutSchema) => void;
+    workout: WorkoutModel;
+    onPress?: (workout: WorkoutModel) => void;
 }
 
 export const WorkoutCard: FC<WorkoutCardProps> = ({workout, onPress}) => {
