@@ -24,7 +24,7 @@ export const saveSession = createAsyncThunk(
                 const session: WorkoutSessionModel = {
                     ...state.workoutSession.workoutSession,
                     notes: state.workoutSession.notes || '',
-                    userId: user.uid,
+                    owner: user.uid,
                 };
                 console.log('workout session Exercises', session);
                 // Save session in workoutSession collection
@@ -56,7 +56,7 @@ export const editSession = createAsyncThunk(
                 const session: WorkoutSessionModel = {
                     ...state.workoutSession.workoutSession,
                     notes: state.workoutSession.notes || '',
-                    userId: user.uid,
+                    owner: user.uid,
                 };
                 console.log('workout session Exercises', session);
                 // Save session in workoutSession collection

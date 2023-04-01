@@ -12,9 +12,6 @@ export interface WorkoutModel {
     createdAt: string;
     notes?: string;
     ownerId: string;
-}
-
-export interface ReferenceWorkoutModel extends WorkoutModel {
     hasBeenEdit?: boolean;
 }
 

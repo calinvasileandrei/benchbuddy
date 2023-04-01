@@ -20,7 +20,7 @@ import {MyDialogProvider} from 'src/shared/providers/myDialogProvider/myDialog.p
 import {AppProvider, UserProvider} from '@realm/react';
 import {MONGO_APP_ID} from '@dotenv';
 import 'react-native-get-random-values';
-import LoginScreen from 'src/screens/auth/login/login.screen'; // Polyfill for Mongo ObjectId
+import LoginScreen from 'src/screens/auth/login/login.screen';
 
 // for disabling warning when passing function to navigation params, but be careful is you use DeepLinking or persisting state
 LogBox.ignoreLogs([
@@ -31,11 +31,11 @@ function App(): JSX.Element {
     const theme = DARK_THEME;
 
     return (
-        <AppProvider id={MONGO_APP_ID}>
-            <Provider store={store}>
-                <UserProvider fallback={LoginScreen}>
-                    <SafeAreaProvider style={{backgroundColor: '#0B2830'}}>
-                        <ThemeProvider initial={theme}>
+        <ThemeProvider initial={theme}>
+            <SafeAreaProvider style={{backgroundColor: '#0B2830'}}>
+                <AppProvider id={MONGO_APP_ID}>
+                    <UserProvider fallback={LoginScreen}>
+                        <Provider store={store}>
                             <IsLoadingProvider>
                                 <NavigationContainer>
                                     <MenuProvider>
@@ -45,11 +45,11 @@ function App(): JSX.Element {
                                     </MenuProvider>
                                 </NavigationContainer>
                             </IsLoadingProvider>
-                        </ThemeProvider>
-                    </SafeAreaProvider>
-                </UserProvider>
-            </Provider>
-        </AppProvider>
+                        </Provider>
+                    </UserProvider>
+                </AppProvider>
+            </SafeAreaProvider>
+        </ThemeProvider>
     );
 }
 
