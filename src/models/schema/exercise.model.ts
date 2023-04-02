@@ -23,6 +23,7 @@ import {
     MuscleSchema,
 } from 'src/models/schema/exerciseRef/muscle.model';
 import Realm from 'realm';
+import {RealmCollections} from 'src/models/schema/realmTypes';
 
 export interface ExerciseModel {
     id: string;
@@ -55,7 +56,7 @@ export class ExerciseSchema extends Realm.Object<ExerciseModel> {
     primaryMuscles!: Realm.List<MuscleSchema>;
     secondaryMuscles!: Realm.List<MuscleSchema>;
     static schema = {
-        name: 'Exercise',
+        name: RealmCollections.EXERCISE,
         properties: {
             id: 'string',
             name: 'string',

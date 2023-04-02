@@ -14,7 +14,6 @@ import {ExerciseSelectionScreen} from 'src/screens/app/exercises/screens/exercis
 import {MenuMoreButton} from 'src/navigation/components/menuMoreButton/menuMoreButton.component';
 import {WorkoutEditScreen} from 'src/screens/app/workout/screens/workoutEdit/workoutEdit.screen';
 import {UserWorkoutService} from 'src/services/app/userWorkout.service';
-import {workoutSliceActions} from 'src/store/workout/workout.slice';
 import {useAppDispatch, useAppSelector} from 'src/store/store';
 import {workoutSelectors} from 'src/store/workout/workout.selectors';
 import {WorkoutSessionEditScreen} from 'src/screens/app/workout/screens/workoutSessionEdit/workoutSessionEdit.screen';
@@ -29,6 +28,7 @@ import {
 import {GoBack} from 'src/navigation/components/goBack/goBack.component';
 import {myLoadingActions} from 'src/store/myLoading/myLoading.slice';
 import {WorkoutModel} from 'src/models/schema/workout.model';
+import {useRealmWorkouts} from 'src/hooks/realm/useRealmWorkouts.hook';
 
 const Stack = createStackNavigator<WorkoutStackParamList>();
 
@@ -40,6 +40,8 @@ export const WorkoutStack = () => {
     const workoutSession = useAppSelector(
         workoutSelectors.getWorkoutSessionDetail,
     );
+    const realmWorkouts = useRealmWorkouts();
+
     const getOptions = (title: string): StackNavigationOptions => {
         return {
             headerShown: true,
@@ -84,8 +86,7 @@ export const WorkoutStack = () => {
         const handleDelete = async () => {
             if (workout) {
                 dispatch(myLoadingActions.show(true));
-                await UserWorkoutService.deleteUserWorkout(workout);
-                await dispatch(workoutSliceActions.deleteWorkout(workout));
+                realmWorkouts.deleteItem(workout._id);
                 dispatch(myLoadingActions.show(false));
             }
             navigation.goBack();

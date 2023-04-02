@@ -2,6 +2,8 @@ import {useRealm} from 'src/services/realm.config';
 import {WorkoutModel, WorkoutSchema} from 'src/models/schema/workout.model';
 import {Collections} from 'src/services/types';
 import {UserService} from 'src/services/app/user.service';
+import Realm from 'realm';
+import {RealmCollections} from 'src/models/schema/realmTypes';
 
 export const useRealmWorkouts = () => {
     const realm = useRealm();
@@ -35,7 +37,20 @@ export const useRealmWorkouts = () => {
         });
     };
 
-    const deleteItem = (id: string) => {
+    const updateItem = (id: Realm.BSON.ObjectId, data: WorkoutModel) => {
+        realm.write(() => {
+            realm.create(
+                RealmCollections.WORKOUT,
+                {
+                    ...data,
+                    _id: id,
+                },
+                Realm.UpdateMode.Modified,
+            );
+        });
+    };
+
+    const deleteItem = (id: Realm.BSON.ObjectId) => {
         realm.write(() => {
             const item = realm.objectForPrimaryKey(WorkoutSchema, id);
             realm.delete(item);
@@ -47,5 +62,6 @@ export const useRealmWorkouts = () => {
         deleteItem,
         closeRealm,
         subscribe,
+        updateItem,
     };
 };

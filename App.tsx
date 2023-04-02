@@ -21,6 +21,8 @@ import {AppProvider, UserProvider} from '@realm/react';
 import {MONGO_APP_ID} from '@dotenv';
 import 'react-native-get-random-values';
 import LoginScreen from 'src/screens/auth/login/login.screen';
+import {RealmProvider} from 'src/services/realm.config';
+import {RealmLogger} from 'src/shared/advancedComponents/realmLogger/realmLogger.component';
 
 // for disabling warning when passing function to navigation params, but be careful is you use DeepLinking or persisting state
 LogBox.ignoreLogs([
@@ -33,21 +35,25 @@ function App(): JSX.Element {
     return (
         <ThemeProvider initial={theme}>
             <SafeAreaProvider style={{backgroundColor: '#0B2830'}}>
-                <AppProvider id={MONGO_APP_ID}>
-                    <UserProvider fallback={LoginScreen}>
-                        <Provider store={store}>
-                            <IsLoadingProvider>
-                                <NavigationContainer>
-                                    <MenuProvider>
-                                        <MyDialogProvider>
-                                            <RootNavigator />
-                                        </MyDialogProvider>
-                                    </MenuProvider>
-                                </NavigationContainer>
-                            </IsLoadingProvider>
-                        </Provider>
-                    </UserProvider>
-                </AppProvider>
+                <RealmProvider>
+                    <AppProvider id={MONGO_APP_ID}>
+                        <UserProvider fallback={LoginScreen}>
+                            <Provider store={store}>
+                                <RealmLogger>
+                                    <IsLoadingProvider>
+                                        <NavigationContainer>
+                                            <MenuProvider>
+                                                <MyDialogProvider>
+                                                    <RootNavigator />
+                                                </MyDialogProvider>
+                                            </MenuProvider>
+                                        </NavigationContainer>
+                                    </IsLoadingProvider>
+                                </RealmLogger>
+                            </Provider>
+                        </UserProvider>
+                    </AppProvider>
+                </RealmProvider>
             </SafeAreaProvider>
         </ThemeProvider>
     );

@@ -1,4 +1,5 @@
 import Realm from 'realm';
+import {RealmCollections} from 'src/models/schema/realmTypes';
 
 export interface ExerciseSetModel {
     setNumber: number;
@@ -15,7 +16,7 @@ export class ExerciseSetSchema extends Realm.Object<ExerciseSetModel> {
     rest!: number;
     isWarmup!: boolean;
     static schema = {
-        name: 'ExerciseSet',
+        name: RealmCollections.EXERCISE_SET,
         embedded: true,
         properties: {
             setNumber: 'int',

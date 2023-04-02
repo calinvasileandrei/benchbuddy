@@ -15,10 +15,10 @@ import {workoutSelectors} from 'src/store/workout/workout.selectors';
 import {ExerciseWithSetCard} from 'src/shared/ExercisesComponents/exerciseWithSetCard/exerciseWithSetCard.component';
 import {workoutCreationEditSelectors} from 'src/store/workoutCreationEdit/workoutCreationEdit.selectors';
 import {workoutCreationEditSliceActions} from 'src/store/workoutCreationEdit/workoutCreationEdit.slice';
-import {workoutCreationEditActions} from 'src/store/workoutCreationEdit/workoutCreationEdit.actions';
 import {MyKeyboardAwareScrollView} from 'src/shared/baseComponents/myKeyboardAwareScrollView/myKeyboardAwareScrollView.component';
 import {usePreventBackHook} from 'src/hooks/usePreventBack.hook';
 import {isEqual} from 'lodash';
+import {useRealmWorkouts} from 'src/hooks/realm/useRealmWorkouts.hook';
 
 export interface WorkoutEditScreenProps {}
 
@@ -29,6 +29,7 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
     const workoutDetail = useAppSelector(workoutSelectors.getDetailWorkout);
     const workout = useAppSelector(workoutCreationEditSelectors.getWorkout);
     const [isLoading, setIsLoading] = React.useState(false);
+    const realmWorkouts = useRealmWorkouts();
 
     const isDirty = () => {
         // check deep equality of sessionExercises
@@ -46,6 +47,7 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
                 onPress: () => {
                     eventAction();
                     dispatch(workoutCreationEditSliceActions.deleteWorkout());
+                    realmWorkouts.closeRealm();
                 },
             }),
         },
@@ -89,11 +91,16 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
 
     const handleEditWorkout = async () => {
         setIsLoading(true);
-        await dispatch(workoutCreationEditActions.editWorkout());
-        navigation.goBack();
-        dispatch(workoutCreationEditSliceActions.deleteWorkout());
+        if (workout) {
+            realmWorkouts.updateItem(workout._id, workout);
+            navigation.goBack();
+        }
         setIsLoading(false);
     };
+
+    if (!workout) {
+        return null;
+    }
 
     return (
         <MySafeAreaView edges={['bottom']}>
@@ -148,6 +155,7 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
                 <View style={{marginVertical: 10}}>
                     <MyButton
                         isLoading={isLoading}
+                        disabled={!isDirty()}
                         type={'outline'}
                         onPress={() => handleEditWorkout()}>
                         Confirm edits

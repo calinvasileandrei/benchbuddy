@@ -12,7 +12,6 @@ import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component';
 import {useAppDispatch, useAppSelector} from 'src/store/store';
 import {workoutCreationEditSelectors} from 'src/store/workoutCreationEdit/workoutCreationEdit.selectors';
 import {workoutCreationEditSliceActions} from 'src/store/workoutCreationEdit/workoutCreationEdit.slice';
-import {workoutCreationEditActions} from 'src/store/workoutCreationEdit/workoutCreationEdit.actions';
 import {ExerciseWithSetCard} from 'src/shared/ExercisesComponents/exerciseWithSetCard/exerciseWithSetCard.component';
 import {MyKeyboardAwareScrollView} from 'src/shared/baseComponents/myKeyboardAwareScrollView/myKeyboardAwareScrollView.component';
 import {usePreventBackHook} from 'src/hooks/usePreventBack.hook';
@@ -74,12 +73,10 @@ export const WorkoutCreationScreen: FC<WorkoutCreationScreenProps> = props => {
 
     const handleSaveWorkout = async () => {
         setIsLoading(true);
-        await dispatch(workoutCreationEditActions.saveWorkout());
         if (workout) {
             realmWorkouts.addItem(workout);
+            navigation.goBack();
         }
-        navigation.goBack();
-        dispatch(workoutCreationEditSliceActions.deleteWorkout());
         setIsLoading(false);
     };
 
@@ -139,6 +136,7 @@ export const WorkoutCreationScreen: FC<WorkoutCreationScreenProps> = props => {
                 <MyButton
                     isLoading={isLoading}
                     type={'primary'}
+                    disabled={!workout?.name}
                     withHaptics={'success'}
                     onPress={() => handleSaveWorkout()}>
                     Save workout to profile

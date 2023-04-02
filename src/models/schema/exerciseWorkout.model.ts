@@ -4,6 +4,7 @@ import {
 } from 'src/models/schema/exerciseSet.model';
 import {ExerciseModel, ExerciseSchema} from 'src/models/schema/exercise.model';
 import Realm from 'realm';
+import {RealmCollections} from 'src/models/schema/realmTypes';
 
 export interface ExerciseWorkoutModel {
     id: string;
@@ -18,7 +19,7 @@ export class ExerciseWorkoutSchema extends Realm.Object<ExerciseWorkoutModel> {
     exercise!: ExerciseSchema;
     exerciseSets!: Realm.List<ExerciseSetSchema>;
     static schema = {
-        name: 'ExerciseWorkout',
+        name: RealmCollections.EXERCISE_WORKOUT,
         embedded: true,
         properties: {
             id: 'string',

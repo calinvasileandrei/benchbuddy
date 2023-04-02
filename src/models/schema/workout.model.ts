@@ -3,6 +3,7 @@ import {
     ExerciseWorkoutModel,
     ExerciseWorkoutSchema,
 } from 'src/models/schema/exerciseWorkout.model';
+import {RealmCollections} from 'src/models/schema/realmTypes';
 
 export interface WorkoutModel {
     _id: Realm.BSON.ObjectId;
@@ -24,7 +25,7 @@ export class WorkoutSchema extends Realm.Object<WorkoutModel> {
     ownerId!: string;
     exercises!: Realm.List<ExerciseWorkoutSchema>;
     static schema = {
-        name: 'Workout',
+        name: RealmCollections.WORKOUT,
         properties: {
             _id: 'objectId',
             name: 'string',
