@@ -4,7 +4,6 @@ import {
 } from 'src/models/schema/exerciseWorkout.model';
 import {WorkoutModel, WorkoutSchema} from 'src/models/schema/workout.model';
 import Realm from 'realm';
-import {UserSchema} from 'src/models/user.model';
 
 export interface WorkoutSessionModel {
     id: string;
@@ -13,7 +12,7 @@ export interface WorkoutSessionModel {
     notes?: string;
     duration: string;
     createdAt: string;
-    owner: string;
+    ownerId: string;
 }
 
 export class WorkoutSessionSchema extends Realm.Object<WorkoutSessionModel> {
@@ -23,7 +22,7 @@ export class WorkoutSessionSchema extends Realm.Object<WorkoutSessionModel> {
     notes?: string;
     duration!: string;
     createdAt!: string;
-    owner!: UserSchema;
+    owner!: string;
     static schema = {
         name: 'WorkoutSession',
         properties: {
@@ -32,7 +31,7 @@ export class WorkoutSessionSchema extends Realm.Object<WorkoutSessionModel> {
             sessionExercises: 'ExerciseWorkout[]',
             notes: 'string?',
             createdAt: 'string',
-            owner: 'User',
+            ownerId: 'string',
         },
         primaryKey: 'id',
     };

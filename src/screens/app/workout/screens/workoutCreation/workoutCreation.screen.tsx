@@ -16,6 +16,7 @@ import {ExerciseWithSetCard} from 'src/shared/ExercisesComponents/exerciseWithSe
 import {MyKeyboardAwareScrollView} from 'src/shared/baseComponents/myKeyboardAwareScrollView/myKeyboardAwareScrollView.component';
 import {usePreventBackHook} from 'src/hooks/usePreventBack.hook';
 import {useRealmWorkouts} from 'src/hooks/realm/useRealmWorkouts.hook';
+import {workoutSliceActions} from 'src/store/workout/workout.slice';
 
 export interface WorkoutCreationScreenProps {}
 
@@ -74,6 +75,7 @@ export const WorkoutCreationScreen: FC<WorkoutCreationScreenProps> = props => {
         setIsLoading(true);
         if (workout) {
             realmWorkouts.addItem(workout);
+            await dispatch(workoutSliceActions.saveWorkout(workout));
             navigation.goBack();
         }
         setIsLoading(false);

@@ -92,8 +92,16 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
     const handleEditWorkout = async () => {
         setIsLoading(true);
         if (workout) {
+            //update realm
             await realmWorkouts.updateItem(workout._id, workout);
-            await dispatch(workoutSliceActions.saveWorkout(workout));
+            // update details screen
+            await dispatch(
+                workoutSliceActions.setWorkoutProps({
+                    detailWorkout: workout,
+                }),
+            );
+            // update list screen
+            await dispatch(workoutSliceActions.editWorkout(workout));
             navigation.goBack();
         }
         setIsLoading(false);
