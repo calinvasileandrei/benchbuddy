@@ -20,7 +20,7 @@ export const WorkoutDetailScreen: FC<WorkoutDetailScreenProps> = props => {
     const workout = useAppSelector(workoutSelectors.getDetailWorkout);
 
     useEffect(() => {
-        console.log('exercise', workout?.exercises);
+        console.log('WorkoutDetail', workout);
     }, [workout]);
 
     if (!workout) {

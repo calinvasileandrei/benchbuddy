@@ -5,7 +5,7 @@ export interface EquipmentModel {
     name: string;
 }
 
-export class EquipmentSchema extends Realm.Object<EquipmentSchema> {
+export class EquipmentSchema extends Realm.Object<EquipmentModel> {
     id!: string;
     name!: string;
     static schema = {

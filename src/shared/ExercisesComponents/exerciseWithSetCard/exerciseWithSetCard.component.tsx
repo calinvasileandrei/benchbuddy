@@ -9,6 +9,7 @@ import {MenuMoreButton} from 'src/navigation/components/menuMoreButton/menuMoreB
 import {exerciseWithSetCardStyle} from 'src/shared/ExercisesComponents/exerciseWithSetCard/exerciseWithSetCard.style';
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {ExerciseSetModel} from 'src/models/schema/exerciseSet.model';
+import {Logger} from 'src/utils/logger';
 
 export interface ExerciseWithSetCardProps {
     exerciseWithSet?: ExerciseWorkoutModel;
@@ -17,6 +18,8 @@ export interface ExerciseWithSetCardProps {
     deleteExercise?: () => void;
     withFastSet?: boolean;
 }
+
+const logger = new Logger('ExerciseWithSetCard');
 
 export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = props => {
     const {exerciseWithSet, templateExerciseSets} = props;
@@ -109,11 +112,12 @@ export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = props => {
     };
 
     const getName = () => {
+        logger.debug('ExerciseWithSetCard', exerciseWithSet?.exercise);
         if (exerciseWithSet) {
-            return exerciseWithSet.exercise.name;
+            return exerciseWithSet?.exercise?.name;
         }
         if (templateExerciseSets) {
-            return templateExerciseSets.exercise.name;
+            return templateExerciseSets?.exercise?.name;
         }
         return 'Exercise';
     };

@@ -19,6 +19,7 @@ import {MyKeyboardAwareScrollView} from 'src/shared/baseComponents/myKeyboardAwa
 import {usePreventBackHook} from 'src/hooks/usePreventBack.hook';
 import {isEqual} from 'lodash';
 import {useRealmWorkouts} from 'src/hooks/realm/useRealmWorkouts.hook';
+import {workoutSliceActions} from 'src/store/workout/workout.slice';
 
 export interface WorkoutEditScreenProps {}
 
@@ -47,7 +48,6 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
                 onPress: () => {
                     eventAction();
                     dispatch(workoutCreationEditSliceActions.deleteWorkout());
-                    realmWorkouts.closeRealm();
                 },
             }),
         },
@@ -92,7 +92,8 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
     const handleEditWorkout = async () => {
         setIsLoading(true);
         if (workout) {
-            realmWorkouts.updateItem(workout._id, workout);
+            await realmWorkouts.updateItem(workout._id, workout);
+            await dispatch(workoutSliceActions.saveWorkout(workout));
             navigation.goBack();
         }
         setIsLoading(false);
@@ -107,7 +108,7 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
             <MyKeyboardAwareScrollView>
                 <MyCard>
                     <MyInput
-                        value={workout?.name}
+                        value={workout?.name || ''}
                         onChangeText={name => handleEdit({name})}
                         placeholder={'Name'}
                     />

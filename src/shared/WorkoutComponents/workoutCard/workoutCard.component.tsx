@@ -26,7 +26,6 @@ export const WorkoutCard: FC<WorkoutCardProps> = ({workout, onPress}) => {
     const dispatch = useAppDispatch();
 
     const handleNavigationToDetail = () => {
-        // @ts-ignore
         dispatch(workoutSliceActions.setWorkoutProps({detailWorkout: workout}));
         navigation.navigate(AppRoutes.WORKOUTS_STACK, {
             screen: AppRoutes.WORKOUT_DETAIL_SCREEN,

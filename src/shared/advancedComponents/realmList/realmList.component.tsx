@@ -29,7 +29,7 @@ export const RealmList = <T extends any, I>(props: RealmListProps<T, I>) => {
 
     return (
         <FlatList
-            data={realmHookParams.data as any}
+            data={realmHookParams.data}
             renderItem={item => renderItem(item.item)}
             keyExtractor={realmHookParams.keyExtractor}
             indicatorStyle={'default'}

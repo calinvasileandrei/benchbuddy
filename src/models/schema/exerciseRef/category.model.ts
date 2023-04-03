@@ -5,7 +5,7 @@ export interface CategoryModel {
     name: string;
 }
 
-export class CategorySchema extends Realm.Object<CategorySchema> {
+export class CategorySchema extends Realm.Object<CategoryModel> {
     id!: string;
     name!: string;
     static schema = {

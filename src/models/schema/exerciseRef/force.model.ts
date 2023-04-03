@@ -5,7 +5,7 @@ export interface ForceModel {
     name: string;
 }
 
-export class ForceSchema extends Realm.Object<ForceSchema> {
+export class ForceSchema extends Realm.Object<ForceModel> {
     id!: string;
     name!: string;
     static schema = {

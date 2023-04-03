@@ -25,6 +25,12 @@ import {
 import Realm from 'realm';
 import {RealmCollections} from 'src/models/schema/realmTypes';
 
+export interface ExerciseHitModel {
+    id: string;
+    name: string;
+    category: string;
+}
+
 export interface ExerciseModel {
     id: string;
     name: string;
@@ -36,12 +42,6 @@ export interface ExerciseModel {
     category: CategoryModel;
     primaryMuscles: MuscleModel[];
     secondaryMuscles: MuscleModel[];
-}
-
-export interface ExerciseHitModel {
-    id: string;
-    name: string;
-    category: string;
 }
 
 export class ExerciseSchema extends Realm.Object<ExerciseModel> {

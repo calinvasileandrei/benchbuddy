@@ -38,7 +38,6 @@ export const WorkoutCreationScreen: FC<WorkoutCreationScreenProps> = props => {
                 onPress: () => {
                     eventAction();
                     dispatch(workoutCreationEditSliceActions.deleteWorkout());
-                    realmWorkouts.closeRealm();
                 },
             }),
         },

@@ -5,7 +5,7 @@ export interface LevelModel {
     name: string;
 }
 
-export class LevelSchema extends Realm.Object<LevelSchema> {
+export class LevelSchema extends Realm.Object<LevelModel> {
     id!: string;
     name!: string;
     static schema = {

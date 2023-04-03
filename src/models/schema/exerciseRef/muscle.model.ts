@@ -5,7 +5,7 @@ export interface MuscleModel {
     name: string;
 }
 
-export class MuscleSchema extends Realm.Object<MuscleSchema> {
+export class MuscleSchema extends Realm.Object<MuscleModel> {
     id!: string;
     name!: string;
     static schema = {

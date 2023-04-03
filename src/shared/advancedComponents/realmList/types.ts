@@ -2,12 +2,12 @@
 
 export interface useRealmListParams<T, I> {
     schema: any;
-    keyExtractorKey: keyof T;
+    keyExtractorKey: keyof I;
 }
 
 export interface useRealmListReturn<T, I> {
     data: I[];
-    keyExtractor: (item: T) => string;
+    keyExtractor: (item: I) => string;
 }
 
 // component

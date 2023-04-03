@@ -1,6 +1,5 @@
 import {useRealm} from 'src/services/realm.config';
 import {ExerciseModel, ExerciseSchema} from 'src/models/schema/exercise.model';
-import {Collections} from 'src/services/types';
 
 export const useRealmExercises = () => {
     const realm = useRealm();
