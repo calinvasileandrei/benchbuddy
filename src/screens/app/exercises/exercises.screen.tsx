@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component';
-import {ExerciseHitModel} from 'src/models/schema/exercise.model';
+import {ExerciseModel} from 'src/models/schema/exercise.model';
 import {useNavigation} from '@react-navigation/native';
 import {AppRoutes} from 'src/navigation/routes';
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
@@ -15,24 +15,25 @@ import {ExerciseStackNavigationProps} from 'src/navigation/stacks/exercises/type
 export interface ExercisesScreenProps {}
 
 export const ExercisesScreen: FC<ExercisesScreenProps> = props => {
+    const style = useThemeStyle(exercisesStyle);
     const navigation =
         useNavigation<
             ExerciseStackNavigationProps<AppRoutes.EXERCISE_DETAIL_SCREEN>
         >();
-    const style = useThemeStyle(exercisesStyle);
 
     const [searchTextParam, setSearchTextParam] = React.useState<
         string | undefined
     >(undefined);
     const [filterByMuscle, setFilterByMuscle] = React.useState<FilterObject>({
-        field: ExerciseCollectionFields.PRIMARY_MUSCLES,
+        field: `Exercise.primaryMuscles.name`,
+        operator: 'IN',
         value: [],
     });
 
-    const handleNavigateToDetail = (exerciseHit: ExerciseHitModel) => {
+    const handleNavigateToDetail = (exercise: ExerciseModel) => {
         navigation.navigate(AppRoutes.EXERCISES_STACK, {
             screen: AppRoutes.EXERCISE_DETAIL_SCREEN,
-            params: {exerciseHit},
+            params: {exercise},
         });
     };
 

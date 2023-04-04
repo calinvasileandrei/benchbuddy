@@ -1,30 +1,41 @@
 import React, {FC} from 'react';
-import {ExerciseHitModel} from 'src/models/schema/exercise.model';
+import {ExerciseModel, ExerciseSchema} from 'src/models/schema/exercise.model';
 import {ExerciseItem} from 'src/screens/app/exercises/components/exerciseItem/exerciseItem.component';
-import {TypesenseInfiniteList} from 'src/shared/advancedComponents/typesenseInfiniteList/typesenseInfiniteList.component';
-import {useTypesenseInfiniteList} from 'src/shared/advancedComponents/typesenseInfiniteList/hook/useTypesenseInfiniteList.hook';
-import {TypesenseCollections} from 'src/models/extra/typesense.model';
 import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
+import {RealmList} from 'src/shared/advancedComponents/realmList/realmList.component';
+import ImageNoData from 'assets/no_data.svg';
+import {useRealmList} from 'src/shared/advancedComponents/realmList/useRealmList.hook';
+import {useRealm} from 'src/services/realm.config';
+import {Logger} from 'src/utils/logger';
 
 export interface ExerciseInfiniteFlatListProps {
-    onItemPress: (exercise: ExerciseHitModel) => void;
+    onItemPress: (exercise: ExerciseModel) => void;
     searchTextParam?: string;
     filterBy?: FilterObject[];
 }
 
+const logger = new Logger('ExerciseInfiniteFlatList');
 export const ExerciseInfiniteFlatList: FC<
     ExerciseInfiniteFlatListProps
 > = props => {
-    const typesenseExerciseList = useTypesenseInfiniteList<ExerciseHitModel>({
+    /*    const typesenseExerciseList = useTypesenseInfiniteList<ExerciseHitModel>({
         col: TypesenseCollections.EXERCISES,
         orderValue: 'name',
         keyExtractorKey: 'id',
         pageSize: 50,
         searchTextParam: props.searchTextParam,
         filterBy: props.filterBy,
+    });*/
+    const realmHookParams = useRealmList<ExerciseSchema, ExerciseModel>({
+        schema: ExerciseSchema,
+        keyExtractorKey: 'id',
+        searchTextParam: props.searchTextParam,
+        searchField: 'name',
+        filterBy: props.filterBy,
     });
+    const realm = useRealm();
 
-    const renderItem = (item: ExerciseHitModel) => {
+    const renderItem = (item: ExerciseModel) => {
         return (
             <ExerciseItem
                 key={item.id}
@@ -35,9 +46,23 @@ export const ExerciseInfiniteFlatList: FC<
     };
 
     return (
-        <TypesenseInfiniteList
-            typesenseHookParams={typesenseExerciseList}
+        <RealmList
+            realmHookParams={realmHookParams}
             renderItem={renderItem}
+            emptyList={{
+                image: ImageNoData,
+                imageStyle: {
+                    width: 120,
+                    height: 120,
+                },
+                message: "I can't find any exercise",
+            }}
         />
+        /*
+            <TypesenseInfiniteList
+                typesenseHookParams={typesenseExerciseList}
+                renderItem={renderItem}
+            />
+        */
     );
 };

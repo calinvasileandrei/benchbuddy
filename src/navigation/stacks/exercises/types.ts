@@ -1,13 +1,13 @@
 import {AppRoutes} from 'src/navigation/routes';
 import type {RouteProp} from '@react-navigation/native';
 import {CompositeScreenProps} from '@react-navigation/native';
-import {ExerciseHitModel} from 'src/models/schema/exercise.model';
+import {ExerciseModel} from 'src/models/schema/exercise.model';
 import {AppScreenProps} from 'src/navigation/root/app/types';
 import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
 
 export type ExercisesStackParamList = {
     [AppRoutes.EXERCISES_SCREEN]: undefined;
-    [AppRoutes.EXERCISE_DETAIL_SCREEN]: {exerciseHit: ExerciseHitModel};
+    [AppRoutes.EXERCISE_DETAIL_SCREEN]: {exercise: ExerciseModel};
 };
 
 export type ExerciseRouteProp<T extends keyof ExercisesStackParamList> =

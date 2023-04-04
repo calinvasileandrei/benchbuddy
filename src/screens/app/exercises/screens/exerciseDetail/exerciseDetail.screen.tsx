@@ -12,8 +12,6 @@ import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component';
 import {MuscleModel} from 'src/models/schema/exerciseRef/muscle.model';
 import {stringUtils} from 'src/utils/string.utils';
 import {AppRoutes} from 'src/navigation/routes';
-import {ExerciseModel} from 'src/models/schema/exercise.model';
-import {exerciseService} from 'src/services/app/exercise.service';
 import {MyLoading} from 'src/shared/baseComponents/myLoading/myLoading.component';
 
 export interface ExerciseDetailScreenProps {}
@@ -22,21 +20,14 @@ export const ExerciseDetailScreen: FC<ExerciseDetailScreenProps> = props => {
     const style = useThemeStyle(exerciseDetailStyle);
     const route =
         useRoute<ExerciseRouteProp<AppRoutes.EXERCISE_DETAIL_SCREEN>>();
-    const [exercise, setExercise] = React.useState<ExerciseModel | undefined>(
-        undefined,
-    );
     const [muscles, setMuscles] = React.useState<MuscleModel[]>([]);
-    const {exerciseHit} = route.params;
+    const {exercise} = route.params;
 
     useEffect(() => {
         const fetchExercise = async () => {
-            const exerciseToLoad = await exerciseService.getExerciseById(
-                exerciseHit.id,
-            );
-            setExercise(exerciseToLoad);
             setMuscles([
-                ...(exerciseToLoad?.primaryMuscles || []),
-                ...(exerciseToLoad?.secondaryMuscles || []),
+                ...(exercise?.primaryMuscles || []),
+                ...(exercise?.secondaryMuscles || []),
             ]);
         };
         fetchExercise();

@@ -42,6 +42,7 @@ export interface ExerciseModel {
     category: CategoryModel;
     primaryMuscles: MuscleModel[];
     secondaryMuscles: MuscleModel[];
+    owner: string;
 }
 
 export class ExerciseSchema extends Realm.Object<ExerciseModel> {
@@ -55,6 +56,8 @@ export class ExerciseSchema extends Realm.Object<ExerciseModel> {
     category!: CategorySchema;
     primaryMuscles!: Realm.List<MuscleSchema>;
     secondaryMuscles!: Realm.List<MuscleSchema>;
+    owner!: string;
+
     static schema = {
         name: RealmCollections.EXERCISE,
         properties: {
@@ -68,6 +71,7 @@ export class ExerciseSchema extends Realm.Object<ExerciseModel> {
             category: 'Category',
             primaryMuscles: 'Muscle[]',
             secondaryMuscles: 'Muscle[]',
+            owner: 'string',
         },
         primaryKey: 'id',
     };

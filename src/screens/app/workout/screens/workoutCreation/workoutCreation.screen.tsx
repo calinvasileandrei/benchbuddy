@@ -28,8 +28,18 @@ export const WorkoutCreationScreen: FC<WorkoutCreationScreenProps> = props => {
     const [isLoading, setIsLoading] = React.useState(false);
     const realmWorkouts = useRealmWorkouts();
 
+    const isDirty = () => {
+        if (workout && workout.exercises.length > 0) {
+            return true;
+        }
+        if (workout && (workout.name || workout.description || workout.notes)) {
+            return true;
+        }
+        return false;
+    };
+
     usePreventBackHook({
-        isDirty: (workout && workout.exercises.length > 0) || false,
+        isDirty: isDirty(),
         isActive: !isLoading,
         dependencies: [workout, isLoading],
         dialogProps: {

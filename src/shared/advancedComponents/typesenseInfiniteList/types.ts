@@ -11,6 +11,7 @@ export interface FetchMoreDataWithSearchParams {
 
 export interface FilterObject {
     field: string;
+    operator: string;
     value: (string | number)[];
 }
 

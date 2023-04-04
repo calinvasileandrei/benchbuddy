@@ -1,8 +1,13 @@
 // hook
 
+import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
+
 export interface useRealmListParams<T, I> {
     schema: any;
     keyExtractorKey: keyof I;
+    searchTextParam?: string;
+    searchField?: keyof I;
+    filterBy?: FilterObject[];
 }
 
 export interface useRealmListReturn<T, I> {

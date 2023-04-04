@@ -6,6 +6,7 @@ import {MuscleService} from 'src/services/app/exerciseRef/muscle.service';
 import {EquipmentService} from 'src/services/app/exerciseRef/equipment.service';
 import {MechanicService} from 'src/services/app/exerciseRef/mechanic.service';
 import {LevelService} from 'src/services/app/exerciseRef/level.service';
+import {ExerciseModel, ExerciseSchema} from 'src/models/schema/exercise.model';
 
 const logger = new Logger('ExerciseListService');
 
@@ -45,6 +46,37 @@ const exportExercises = async () => {
     }
 };
 
+const populateRealmExercises = (realm: Realm) => {
+    const data: ExerciseModel[] =
+        require('../../../../exports/exportDir/exercises.json') as ExerciseModel[];
+
+    realm.write(() => {
+        const allItems = realm.objects(ExerciseSchema.schema.name);
+        realm.delete(allItems);
+    });
+    logger.debug('delete complete of number of items: ', data.length);
+
+    realm.write(() => {
+        data.map(item => {
+            new ExerciseSchema(realm, {
+                id: item.id,
+                name: item.name,
+                secondaryMuscles: item.secondaryMuscles,
+                primaryMuscles: item.primaryMuscles,
+                mechanic: item.mechanic,
+                force: item.force,
+                category: item.category,
+                instructions: item.instructions,
+                level: item.level,
+                equipment: item.equipment,
+                owner: 'benchbuddy',
+            });
+        });
+    });
+    logger.debug('populate complete of number of items: ', data.length);
+};
+
 export const exerciseListService = {
     exportExercises,
+    populateRealmExercises,
 };
