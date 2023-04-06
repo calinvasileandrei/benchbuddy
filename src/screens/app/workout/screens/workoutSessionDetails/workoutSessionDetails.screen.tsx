@@ -5,8 +5,6 @@ import {WorkoutSessionCard} from 'src/shared/WorkoutComponents/workoutSessionCar
 import {MyScrollView} from 'src/shared/baseComponents/myScrollView/myScrollView.component';
 import {useAppDispatch, useAppSelector} from 'src/store/store';
 import {workoutSelectors} from 'src/store/workout/workout.selectors';
-import {workoutSessionsService} from 'src/services/app/workoutSessions.service';
-import {workoutSliceActions} from 'src/store/workout/workout.slice';
 import {useRoute} from '@react-navigation/native';
 import {WorkoutRouteProp} from 'src/navigation/stacks/workout/types';
 import {AppRoutes} from 'src/navigation/routes';
@@ -36,14 +34,14 @@ export const WorkoutSessionDetailsScreen: FC<
 
     useEffect(() => {
         const fetchDetail = async () => {
-            setIsLoading(true);
+            setIsLoading(true); /*
             const workoutSessionDetail =
                 await workoutSessionsService.getWorkoutSessionById(
                     route.params?.workoutSessionId,
-                );
-            dispatch(
+                );*/
+            /*  dispatch(
                 workoutSliceActions.setWorkoutProps({workoutSessionDetail}),
-            );
+            );*/
             setIsLoading(false);
         };
         fetchDetail();

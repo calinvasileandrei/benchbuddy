@@ -37,7 +37,7 @@ export const workoutSessionSlice = createSlice({
             );
             state.workoutSession = {
                 id: firestoreUtils.autoId(),
-                userId: '',
+                ownerId: '',
                 referenceWorkout: workout,
                 notes: undefined,
                 sessionExercises: sessionExercises,

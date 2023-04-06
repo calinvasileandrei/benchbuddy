@@ -1,7 +1,7 @@
 import {Theme} from 'src/theme/types';
 import {StyleSheet} from 'react-native';
 
-export const fireListStyle = (theme: Theme) =>
+export const realmListStyle = (theme: Theme) =>
     StyleSheet.create({
         noData: {
             flex: 1,

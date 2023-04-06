@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
-import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
 import {useRealmList} from 'src/shared/advancedComponents/realmList/useRealmList.hook';
 import {RealmList} from 'src/shared/advancedComponents/realmList/realmList.component';
 import {WorkoutModel, WorkoutSchema} from 'src/models/schema/workout.model';
 import {WorkoutCard} from 'src/shared/WorkoutComponents/workoutCard/workoutCard.component';
 import {Logger} from 'src/utils/logger';
 import ImageNoData from 'assets/no_data.svg';
+import {FilterObject} from 'src/models/generalTypes';
 
 export interface WorkoutInfiniteFlatListProps {
     filterBy?: FilterObject[];

@@ -1,4 +1,4 @@
-import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
+import {FilterObject} from 'src/models/generalTypes';
 
 type operatorFilterObject = 'OR' | 'AND';
 

@@ -10,9 +10,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@react-native-firebase/app": "^17.4.0",
-    "@react-native-firebase/auth": "^17.4.0",
-    "@react-native-firebase/firestore": "^17.4.0",
     "@react-native-google-signin/google-signin": "^9.0.2",
     "@react-native-masked-view/masked-view": "^0.2.8",
     "@react-navigation/bottom-tabs": "^6.5.7",
@@ -42,8 +39,7 @@
     "react-native-svg": "^13.8.0",
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
-    "realm": "^11.7.0",
-    "typesense": "^1.5.3"
+    "realm": "^11.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

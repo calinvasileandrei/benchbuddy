@@ -1,11 +1,15 @@
 import {useRealm} from 'src/services/realm.config';
-import {WorkoutModel, WorkoutSchema} from 'src/models/schema/workout.model';
+import {WorkoutSchema} from 'src/models/schema/workout.model';
 import Realm from 'realm';
 import {RealmCollections} from 'src/models/schema/realmTypes';
 import {ExerciseSchema} from 'src/models/schema/exercise.model';
 import {useApp} from '@realm/react';
+import {
+    WorkoutSessionModel,
+    WorkoutSessionSchema,
+} from 'src/models/schema/workoutSession.model';
 
-export const useRealmWorkouts = () => {
+export const useRealmWorkoutSession = () => {
     const realm = useRealm();
     const app = useApp();
     const currentUser = app.currentUser;
@@ -20,7 +24,7 @@ export const useRealmWorkouts = () => {
         await realm.subscriptions.update(subs => {
             subs.add(
                 realm
-                    .objects(RealmCollections.MUSCLES)
+                    .objects(RealmCollections.WORKOUT_SESSION)
                     .filtered('ownerId = $0', currentUser?.id),
                 {
                     name: 'workoutsSubscription',
@@ -29,11 +33,15 @@ export const useRealmWorkouts = () => {
         });
     };
 
-    const addItem = (data: WorkoutModel) => {
+    const addItem = (data: WorkoutSessionModel) => {
         realm.write(() => {
-            new WorkoutSchema(realm, {
-                _id: new Realm.BSON.ObjectId(),
-                exercises: data.exercises.map(exerciseWorkout => {
+            new WorkoutSessionSchema(realm, {
+                id: new Realm.BSON.ObjectId(),
+                referenceWorkout: realm.objectForPrimaryKey(
+                    WorkoutSchema,
+                    data.referenceWorkout._id,
+                ),
+                sessionExercises: data.sessionExercises.map(exerciseWorkout => {
                     // get the existing exercise from the realm
                     const existingExercise = realm.objectForPrimaryKey(
                         ExerciseSchema,
@@ -46,37 +54,41 @@ export const useRealmWorkouts = () => {
                         exerciseSets: exerciseWorkout.exerciseSets,
                     };
                 }),
-                name: data.name,
                 notes: data.notes,
-                description: data.description,
+                duration: data.duration,
                 createdAt: data.createdAt,
                 ownerId: currentUser?.id,
             });
         });
     };
 
-    const updateItem = (id: Realm.BSON.ObjectId, data: WorkoutModel) => {
+    const updateItem = (id: Realm.BSON.ObjectId, data: WorkoutSessionModel) => {
         realm.write(() => {
             realm.create(
                 RealmCollections.WORKOUT,
                 {
-                    _id: id,
-                    exercises: data.exercises.map(exerciseWorkout => {
-                        // get the existing exercise from the realm
-                        const existingExercise = realm.objectForPrimaryKey(
-                            ExerciseSchema,
-                            exerciseWorkout.exercise.id,
-                        );
-                        return {
-                            id: exerciseWorkout.id,
-                            exercise: existingExercise,
-                            description: exerciseWorkout.description,
-                            exerciseSets: exerciseWorkout.exerciseSets,
-                        };
-                    }),
-                    name: data.name,
+                    id: new Realm.BSON.ObjectId(),
+                    referenceWorkout: realm.objectForPrimaryKey(
+                        WorkoutSchema,
+                        data.referenceWorkout._id,
+                    ),
+                    sessionExercises: data.sessionExercises.map(
+                        exerciseWorkout => {
+                            // get the existing exercise from the realm
+                            const existingExercise = realm.objectForPrimaryKey(
+                                ExerciseSchema,
+                                exerciseWorkout.exercise.id,
+                            );
+                            return {
+                                id: exerciseWorkout.id,
+                                exercise: existingExercise,
+                                description: exerciseWorkout.description,
+                                exerciseSets: exerciseWorkout.exerciseSets,
+                            };
+                        },
+                    ),
                     notes: data.notes,
-                    description: data.description,
+                    duration: data.duration,
                     createdAt: data.createdAt,
                     ownerId: currentUser?.id,
                 },
@@ -87,7 +99,7 @@ export const useRealmWorkouts = () => {
 
     const deleteItem = (id: Realm.BSON.ObjectId) => {
         realm.write(() => {
-            const item = realm.objectForPrimaryKey(WorkoutSchema, id);
+            const item = realm.objectForPrimaryKey(WorkoutSessionSchema, id);
             realm.delete(item);
         });
     };

@@ -29,12 +29,17 @@ export const MyCalendarStripComponent: FC<
         useMyCalendarStripAnimations();
 
     const options: DateChipItem[] = [
-        {id: 0, name: 'All', value: {field: 'createdAt', value: []}},
+        {
+            id: 0,
+            name: 'All',
+            value: {field: 'createdAt', operator: 'IN', value: []},
+        },
         {
             id: 1,
             name: 'Month',
             value: {
                 field: 'createdAt',
+                operator: 'IN',
                 value: myCalendarStripUtils.getThisMonthValue(),
             },
         },
@@ -43,10 +48,15 @@ export const MyCalendarStripComponent: FC<
             name: 'Week',
             value: {
                 field: 'createdAt',
+                operator: 'IN',
                 value: myCalendarStripUtils.getThisWeekValue(),
             },
         },
-        {id: 3, name: 'Pick a day', value: {field: 'createdAt', value: []}},
+        {
+            id: 3,
+            name: 'Pick a day',
+            value: {field: 'createdAt', operator: 'IN', value: []},
+        },
     ];
 
     const handleDateSelect = (date: moment.Moment) => {

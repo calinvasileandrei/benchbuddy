@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {AccountStackNavigationProps} from 'src/navigation/stacks/account/types';
 import {AppRoutes} from 'src/navigation/routes';
 import {MyText} from 'src/shared/baseComponents/myText/myText.component';
-import {exerciseListService} from 'src/services/appAdmin/exerciseList/exerciseList.service';
+import {exerciseListService} from 'src/services/appAdmin/exerciseList.service';
 import {useRealm} from 'src/services/realm.config';
 
 export interface AccountScreenProps {}

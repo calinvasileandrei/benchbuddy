@@ -5,13 +5,13 @@ import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {exerciseHeaderStyle} from 'src/screens/app/exercises/components/exerciseHeader/exerciseHeader.style';
 import {MyChip} from 'src/shared/baseComponents/myChip/myChip.component';
 import {stringUtils} from 'src/utils/string.utils';
-import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
 import {
     MuscleModel,
     MuscleSchema,
 } from 'src/models/schema/exerciseRef/muscle.model';
 import {useQuery} from 'src/services/realm.config';
 import {realmMapper} from 'src/utils/realmMapper.utils';
+import {FilterObject} from 'src/models/generalTypes';
 
 export interface ExerciseHeaderProps {
     setSearchTextParam: (search?: string) => void;

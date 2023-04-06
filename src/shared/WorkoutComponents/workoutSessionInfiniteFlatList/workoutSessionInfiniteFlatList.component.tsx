@@ -1,5 +1,4 @@
 import React, {FC} from 'react';
-import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
 import {WorkoutHitSessionCard} from 'src/shared/WorkoutComponents/workoutHitSessionCard/workoutHitSessionCard.component';
 import ImageSession from 'assets/session.svg';
 import {useRealmList} from 'src/shared/advancedComponents/realmList/useRealmList.hook';
@@ -8,6 +7,7 @@ import {
     WorkoutSessionSchema,
 } from 'src/models/schema/workoutSession.model';
 import {RealmList} from 'src/shared/advancedComponents/realmList/realmList.component';
+import {FilterObject} from 'src/models/generalTypes';
 
 export interface WorkoutSessionInfiniteFlatListProps {
     filterBy?: FilterObject[];
@@ -16,21 +16,6 @@ export interface WorkoutSessionInfiniteFlatListProps {
 export const WorkoutSessionInfiniteFlatList: FC<
     WorkoutSessionInfiniteFlatListProps
 > = props => {
-    /*    const typesenseExerciseList =
-        useTypesenseInfiniteListWithStore<WorkoutSessionHitModel>({
-            col: TypesenseCollections.WORKOUT_SESSIONS,
-            isLoadingSelectorMethod:
-                workoutSessionInfiniteListSelectors.getIsLoading,
-            selectorMethod:
-                workoutSessionInfiniteListSelectors.getWorkoutSessions,
-            pageSelectorMethod: workoutSessionInfiniteListSelectors.getPage,
-            fetchAction: workoutSessionInfiniteListActions.fetchData,
-            orderValue: 'workoutName',
-            keyExtractorKey: 'id',
-            pageSize: 10,
-            filterBy: props.filterBy,
-        });*/
-
     const realmHookParams = useRealmList<
         WorkoutSessionSchema,
         WorkoutSessionModel
@@ -53,13 +38,5 @@ export const WorkoutSessionInfiniteFlatList: FC<
                 message: "I see no workout sessions... it's time for gym!",
             }}
         />
-        /*        <TypesenseInfiniteList
-                    typesenseHookParams={typesenseExerciseList}
-                    renderItem={renderItem}
-                    emptyList={{
-                        image: ImageSession,
-                        message: "I see no workout sessions... it's time for gym!",
-                    }}
-                />*/
     );
 };

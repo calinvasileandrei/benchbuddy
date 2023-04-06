@@ -6,7 +6,7 @@ import {WorkoutModel, WorkoutSchema} from 'src/models/schema/workout.model';
 import Realm from 'realm';
 
 export interface WorkoutSessionModel {
-    id: string;
+    id: Realm.BSON.ObjectId;
     referenceWorkout: WorkoutModel;
     sessionExercises: ExerciseWorkoutModel[];
     notes?: string;
@@ -22,7 +22,7 @@ export class WorkoutSessionSchema extends Realm.Object<WorkoutSessionSchema> {
     notes?: string;
     duration!: string;
     createdAt!: string;
-    owner!: string;
+    ownerId!: string;
     static schema = {
         name: 'WorkoutSession',
         properties: {

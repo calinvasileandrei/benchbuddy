@@ -1,7 +1,6 @@
 import type {PayloadAction} from '@reduxjs/toolkit';
 import {createSlice} from '@reduxjs/toolkit';
 import {WorkoutModel} from 'src/models/schema/workout.model';
-import {workoutActions} from 'src/store/workout/workout.actions';
 import {WorkoutSessionModel} from 'src/models/schema/workoutSession.model';
 
 interface WorkoutProps {
@@ -48,14 +47,7 @@ export const workoutSlice = createSlice({
             }
         },
     },
-    extraReducers: builder => {
-        builder.addCase(
-            workoutActions.getWorkouts.fulfilled,
-            (state, action) => {
-                state.workouts = action.payload;
-            },
-        );
-    },
+    extraReducers: builder => {},
 });
 
 // Action creators are generated for each case reducer function

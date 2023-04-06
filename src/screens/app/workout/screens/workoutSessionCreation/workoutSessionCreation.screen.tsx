@@ -13,12 +13,13 @@ import {Logger} from 'src/utils/logger';
 import {useAppDispatch, useAppSelector} from 'src/store/store';
 import {workoutSessionSliceActions} from 'src/store/workoutSession/workoutSession.slice';
 import {workoutSessionSelectors} from 'src/store/workoutSession/workoutSession.selectors';
-import {workoutSessionActions} from 'src/store/workoutSession/workoutSession.actions';
 import {ExerciseWithSetCard} from 'src/shared/ExercisesComponents/exerciseWithSetCard/exerciseWithSetCard.component';
 import {MyKeyboardAwareScrollView} from 'src/shared/baseComponents/myKeyboardAwareScrollView/myKeyboardAwareScrollView.component';
 import {usePreventBackHook} from 'src/hooks/usePreventBack.hook';
 import {MyDatePicker} from 'src/shared/baseComponents/myDatePicker/myDatePicker.component';
 import {ExerciseModel} from 'src/models/schema/exercise.model';
+import {useRealmWorkoutSession} from 'src/hooks/realm/useRealmWorkoutSession.hook';
+import {WorkoutSessionModel} from 'src/models/schema/workoutSession.model';
 
 export interface WorkoutSessionCreationScreenProps {}
 
@@ -33,6 +34,7 @@ export const WorkoutSessionCreationScreen: FC<
         workoutSessionSelectors.getStore,
     );
     const date = useAppSelector(workoutSessionSelectors.getCreatedAt);
+    const realmWorkoutSession = useRealmWorkoutSession();
     const templateWorkout = workoutSession?.referenceWorkout;
     const [isLoading, setIsLoading] = React.useState(false);
 
@@ -90,9 +92,15 @@ export const WorkoutSessionCreationScreen: FC<
 
     const handleSaveSession = async () => {
         setIsLoading(true);
-        await dispatch(workoutSessionActions.saveSession());
-        navigation.goBack();
-        dispatch(workoutSessionSliceActions.clearSession());
+        if (workoutSession) {
+            const session: WorkoutSessionModel = {
+                ...workoutSession,
+                notes: notes || '',
+            };
+            realmWorkoutSession.addItem(session);
+            navigation.goBack();
+            dispatch(workoutSessionSliceActions.clearSession());
+        }
         setIsLoading(false);
     };
 

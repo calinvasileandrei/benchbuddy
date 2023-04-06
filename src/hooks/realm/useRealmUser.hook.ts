@@ -1,14 +1,15 @@
 import {useRealm} from 'src/services/realm.config';
 import {WorkoutSchema} from 'src/models/schema/workout.model';
-import {Collections} from 'src/services/types';
-import {UserService} from 'src/services/app/user.service';
 import {UserModel, UserSchema} from 'src/models/user.model';
 import {Logger} from 'src/utils/logger';
+import {RealmCollections} from 'src/models/schema/realmTypes';
+import {useApp} from '@realm/react';
 
 const logger = new Logger('useRealmUser');
 export const useRealmUser = () => {
     const realm = useRealm();
-    const currentUser = UserService.getAuthUser();
+    const app = useApp();
+    const currentUser = app.currentUser;
 
     const closeRealm = () => {
         if (realm) {
@@ -20,8 +21,8 @@ export const useRealmUser = () => {
         await realm.subscriptions.update(subs => {
             subs.add(
                 realm
-                    .objects(Collections.MUSCLES)
-                    .filtered('ownerId = $0', currentUser?.uid),
+                    .objects(RealmCollections.MUSCLES)
+                    .filtered('ownerId = $0', currentUser?.id),
                 {
                     name: 'workoutsSubscription',
                 },
@@ -50,7 +51,10 @@ export const useRealmUser = () => {
         });
     };
 
+    const getUser = () => {};
+
     return {
+        getUser,
         registerUser,
         deleteItem,
         closeRealm,

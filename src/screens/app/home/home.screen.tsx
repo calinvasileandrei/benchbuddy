@@ -5,12 +5,11 @@ import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {homeStyle} from 'src/screens/app/home/home.style';
 import {MyCalendarStripComponent} from 'src/shared/advancedComponents/myCalendarStrip/myCalendarStrip.component';
 import {WorkoutSessionInfiniteFlatList} from 'src/shared/WorkoutComponents/workoutSessionInfiniteFlatList/workoutSessionInfiniteFlatList.component';
-import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
-import {WorkoutSessionCollectionFields} from 'src/models/typesense/workoutSession.schema';
 import {dateUtils} from 'src/utils/date.utils';
 import {DateChipItem} from 'src/shared/advancedComponents/myCalendarStrip/types';
 import {useTheme} from 'src/theme/theme.context';
 import {QuickStart} from 'src/screens/app/home/components/quickStart/quickStart.component';
+import {FilterObject} from 'src/models/generalTypes';
 
 export interface HomeScreenProps {}
 
@@ -19,14 +18,14 @@ export const HomeScreen: FC<HomeScreenProps> = props => {
     const {theme} = useTheme();
 
     const [filterByDate, setFilterByDate] = React.useState<FilterObject>({
-        field: WorkoutSessionCollectionFields.CREATED_AT,
+        field: 'createdAt',
         operator: 'BETWEEN',
         value: [],
     });
 
     const handleSelectDate = (date: Date | undefined) => {
         const newFilter: FilterObject = {
-            field: WorkoutSessionCollectionFields.CREATED_AT,
+            field: 'createdAt',
             operator: 'BETWEEN',
             value: date
                 ? [dateUtils.dateToUnixTimestamp(date.toDateString())]

@@ -13,13 +13,9 @@ import {useNavigation} from '@react-navigation/native';
 import {ExerciseSelectionScreen} from 'src/screens/app/exercises/screens/exerciseSelection/exerciseSelection.screen';
 import {MenuMoreButton} from 'src/navigation/components/menuMoreButton/menuMoreButton.component';
 import {WorkoutEditScreen} from 'src/screens/app/workout/screens/workoutEdit/workoutEdit.screen';
-import {UserWorkoutService} from 'src/services/app/userWorkout.service';
 import {useAppDispatch, useAppSelector} from 'src/store/store';
 import {workoutSelectors} from 'src/store/workout/workout.selectors';
 import {WorkoutSessionEditScreen} from 'src/screens/app/workout/screens/workoutSessionEdit/workoutSessionEdit.screen';
-import {workoutSessionsService} from 'src/services/app/workoutSessions.service';
-import {workoutSessionTypesenseService} from 'src/services/appAdmin/typesense/workoutSession.typesense.servise';
-import {workoutSessionInfiniteListActions} from 'src/store/workoutSessionInfiniteList/workoutSessionInfiniteList.actions';
 import {workoutSessionSliceActions} from 'src/store/workoutSession/workoutSession.slice';
 import {
     createStackNavigator,
@@ -122,7 +118,7 @@ export const WorkoutStack = () => {
             if (workoutSession) {
                 dispatch(myLoadingActions.show(true));
                 // Delete the session from workoutSession collection
-                await workoutSessionsService.deleteWorkoutSession(
+                /* await workoutSessionsService.deleteWorkoutSession(
                     workoutSession.id,
                 );
                 // Delete the session id from the user
@@ -132,9 +128,8 @@ export const WorkoutStack = () => {
                 // Delete the session Hit from typesense
                 await workoutSessionTypesenseService.deleteWorkoutSession(
                     workoutSession.id,
-                );
+                );*/
                 // Refresh the infinite list
-                await dispatch(workoutSessionInfiniteListActions.refreshData());
                 dispatch(myLoadingActions.show(false));
             }
             navigation.goBack();

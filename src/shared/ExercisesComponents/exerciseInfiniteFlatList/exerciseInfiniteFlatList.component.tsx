@@ -1,12 +1,12 @@
 import React, {FC} from 'react';
 import {ExerciseModel, ExerciseSchema} from 'src/models/schema/exercise.model';
 import {ExerciseItem} from 'src/screens/app/exercises/components/exerciseItem/exerciseItem.component';
-import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
 import {RealmList} from 'src/shared/advancedComponents/realmList/realmList.component';
 import ImageNoData from 'assets/no_data.svg';
 import {useRealmList} from 'src/shared/advancedComponents/realmList/useRealmList.hook';
 import {Logger} from 'src/utils/logger';
 import {ExerciseHeader} from 'src/screens/app/exercises/components/exerciseHeader/exerciseHeader.component';
+import {FilterObject} from 'src/models/generalTypes';
 
 export interface ExerciseInfiniteFlatListProps {
     onItemPress: (exercise: ExerciseModel) => void;

@@ -1,6 +1,6 @@
 // hook
 
-import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
+import {FilterObject} from 'src/models/generalTypes';
 
 export interface useRealmListParams<T, I> {
     schema: any;
