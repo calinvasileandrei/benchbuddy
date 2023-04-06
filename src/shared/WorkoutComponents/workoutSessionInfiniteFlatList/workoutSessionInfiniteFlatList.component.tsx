@@ -1,13 +1,13 @@
 import React, {FC} from 'react';
-import {TypesenseInfiniteList} from 'src/shared/advancedComponents/typesenseInfiniteList/typesenseInfiniteList.component';
-import {TypesenseCollections} from 'src/models/extra/typesense.model';
 import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
-import {WorkoutSessionHitModel} from 'src/models/typesense/workoutSession.schema';
 import {WorkoutHitSessionCard} from 'src/shared/WorkoutComponents/workoutHitSessionCard/workoutHitSessionCard.component';
-import {useTypesenseInfiniteListWithStore} from 'src/shared/advancedComponents/typesenseInfiniteListWithStore/hook/useTypesenseInfiniteListWithStore.hook';
-import {workoutSessionInfiniteListSelectors} from 'src/store/workoutSessionInfiniteList/workoutSessionInfiniteList.selectors';
-import {workoutSessionInfiniteListActions} from 'src/store/workoutSessionInfiniteList/workoutSessionInfiniteList.actions';
 import ImageSession from 'assets/session.svg';
+import {useRealmList} from 'src/shared/advancedComponents/realmList/useRealmList.hook';
+import {
+    WorkoutSessionModel,
+    WorkoutSessionSchema,
+} from 'src/models/schema/workoutSession.model';
+import {RealmList} from 'src/shared/advancedComponents/realmList/realmList.component';
 
 export interface WorkoutSessionInfiniteFlatListProps {
     filterBy?: FilterObject[];
@@ -16,7 +16,7 @@ export interface WorkoutSessionInfiniteFlatListProps {
 export const WorkoutSessionInfiniteFlatList: FC<
     WorkoutSessionInfiniteFlatListProps
 > = props => {
-    const typesenseExerciseList =
+    /*    const typesenseExerciseList =
         useTypesenseInfiniteListWithStore<WorkoutSessionHitModel>({
             col: TypesenseCollections.WORKOUT_SESSIONS,
             isLoadingSelectorMethod:
@@ -29,20 +29,37 @@ export const WorkoutSessionInfiniteFlatList: FC<
             keyExtractorKey: 'id',
             pageSize: 10,
             filterBy: props.filterBy,
-        });
+        });*/
 
-    const renderItem = (item: WorkoutSessionHitModel) => {
+    const realmHookParams = useRealmList<
+        WorkoutSessionSchema,
+        WorkoutSessionModel
+    >({
+        schema: WorkoutSessionSchema,
+        keyExtractorKey: 'id',
+        filterBy: props.filterBy,
+    });
+
+    const renderItem = (item: WorkoutSessionModel) => {
         return <WorkoutHitSessionCard key={item.id} workoutSession={item} />;
     };
 
     return (
-        <TypesenseInfiniteList
-            typesenseHookParams={typesenseExerciseList}
+        <RealmList
+            realmHookParams={realmHookParams}
             renderItem={renderItem}
             emptyList={{
                 image: ImageSession,
                 message: "I see no workout sessions... it's time for gym!",
             }}
         />
+        /*        <TypesenseInfiniteList
+                    typesenseHookParams={typesenseExerciseList}
+                    renderItem={renderItem}
+                    emptyList={{
+                        image: ImageSession,
+                        message: "I see no workout sessions... it's time for gym!",
+                    }}
+                />*/
     );
 };

@@ -42,17 +42,19 @@ export const ExerciseHeader: FC<ExerciseHeaderProps> = props => {
 
     const handleChipPress = (muscle: MuscleModel) => {
         if (props.filterByMuscle.value.includes(muscle.name)) {
-            let newFilterBy = {
+            let newFilterBy: FilterObject = {
                 field: props.filterByMuscle.field,
                 value: props.filterByMuscle.value.filter(
                     (name: string | number) => name !== muscle.name,
                 ),
+                operator: props.filterByMuscle.operator,
             };
             props.setFilterByMuscle(newFilterBy);
         } else {
-            let newFilterBy = {
+            let newFilterBy: FilterObject = {
                 field: props.filterByMuscle.field,
                 value: [...props.filterByMuscle.value, muscle.name],
+                operator: props.filterByMuscle.operator,
             };
             props.setFilterByMuscle(newFilterBy);
         }
@@ -71,7 +73,11 @@ export const ExerciseHeader: FC<ExerciseHeaderProps> = props => {
 
     return (
         <View>
-            <MySearchBar onChange={handleSearch} withHaptics={'success'} />
+            <MySearchBar
+                delayMillis={50}
+                onChange={handleSearch}
+                withHaptics={'success'}
+            />
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}

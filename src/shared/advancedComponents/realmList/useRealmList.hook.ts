@@ -3,6 +3,7 @@ import {Logger} from 'src/utils/logger';
 import {useQuery} from 'src/services/realm.config';
 import {useRealmListParams, useRealmListReturn} from './types';
 import {realmMapper} from 'src/utils/realmMapper.utils';
+import {filterByUtils} from 'src/utils/filterBy.utils';
 
 const logger = new Logger('useRealmList.hook');
 export const useRealmList = <T, I>({
@@ -15,7 +16,9 @@ export const useRealmList = <T, I>({
     const dataNotFiltered = useQuery<Realm.Object<T>>(schema);
 
     useEffect(() => {
-        logger.debug('data changed', getFilteredData());
+        logger.debug(
+            `data changed: [searchTextParam, ${searchTextParam}] , [filterBy, ${filterBy}]`,
+        );
     }, [dataNotFiltered, searchTextParam]);
 
     const keyExtractor = (item: I) => {
@@ -28,20 +31,17 @@ export const useRealmList = <T, I>({
 
     const getFilteredData = () => {
         let returnData;
+
+        if (filterBy) {
+            filterByUtils.applyFilterObjects(filterBy, 'OR').map(query => {
+                returnData = dataNotFiltered.filtered(query);
+            });
+        }
+
         if (searchTextParam) {
             returnData = dataNotFiltered.filtered(
                 `${searchField as string} CONTAINS[c] "${searchTextParam}"`,
             );
-        }
-        if (filterBy) {
-            filterBy.map(item => {
-                if (item.value.length > 0) {
-                    returnData = dataNotFiltered.filtered(
-                        `${item.field} ${item.operator} `,
-                        item.value,
-                    );
-                }
-            });
         }
 
         return returnData || dataNotFiltered;

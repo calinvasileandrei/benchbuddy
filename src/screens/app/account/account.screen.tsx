@@ -10,6 +10,8 @@ import {useNavigation} from '@react-navigation/native';
 import {AccountStackNavigationProps} from 'src/navigation/stacks/account/types';
 import {AppRoutes} from 'src/navigation/routes';
 import {MyText} from 'src/shared/baseComponents/myText/myText.component';
+import {exerciseListService} from 'src/services/appAdmin/exerciseList/exerciseList.service';
+import {useRealm} from 'src/services/realm.config';
 
 export interface AccountScreenProps {}
 
@@ -18,6 +20,7 @@ export const AccountScreen: FC<AccountScreenProps> = props => {
     const navigation =
         useNavigation<AccountStackNavigationProps<AppRoutes.ACCOUNT_SCREEN>>();
     const theme = useTheme();
+    const realm = useRealm();
 
     const handleNavigationToProfile = () => {
         navigation.navigate(AppRoutes.ACCOUNT_STACK, {
@@ -40,6 +43,13 @@ export const AccountScreen: FC<AccountScreenProps> = props => {
                 <MenuItem onPress={workoutSessionTypesenseService.initSchema} disabled={false}
                           title={'Init Typesense WorkoutSession'}/>*/}
                 {/*<MenuItem onPress={theme.toggleTheme} title={'Change Theme'} iconName={'contrast-outline'}/>*/}
+                <MenuItem
+                    onPress={() =>
+                        exerciseListService.populateRealmExercises(realm)
+                    }
+                    disabled={false}
+                    title={'Populate Exercises'}
+                />
                 <MyText type={'header3Text'} style={style.header}>
                     Help us
                 </MyText>

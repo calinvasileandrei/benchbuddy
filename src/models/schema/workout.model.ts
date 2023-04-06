@@ -16,7 +16,7 @@ export interface WorkoutModel {
     hasBeenEdit?: boolean;
 }
 
-export class WorkoutSchema extends Realm.Object<WorkoutModel> {
+export class WorkoutSchema extends Realm.Object<WorkoutSchema> {
     _id!: Realm.BSON.ObjectId;
     name!: string;
     description?: string;

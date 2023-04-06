@@ -15,7 +15,7 @@ export interface WorkoutSessionModel {
     ownerId: string;
 }
 
-export class WorkoutSessionSchema extends Realm.Object<WorkoutSessionModel> {
+export class WorkoutSessionSchema extends Realm.Object<WorkoutSessionSchema> {
     id!: Realm.BSON.ObjectId;
     referenceWorkout!: WorkoutSchema;
     sessionExercises!: Realm.List<ExerciseWorkoutSchema>;

@@ -20,12 +20,14 @@ export const HomeScreen: FC<HomeScreenProps> = props => {
 
     const [filterByDate, setFilterByDate] = React.useState<FilterObject>({
         field: WorkoutSessionCollectionFields.CREATED_AT,
+        operator: 'BETWEEN',
         value: [],
     });
 
     const handleSelectDate = (date: Date | undefined) => {
         const newFilter: FilterObject = {
             field: WorkoutSessionCollectionFields.CREATED_AT,
+            operator: 'BETWEEN',
             value: date
                 ? [dateUtils.dateToUnixTimestamp(date.toDateString())]
                 : [],

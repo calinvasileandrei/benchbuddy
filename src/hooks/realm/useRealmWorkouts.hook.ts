@@ -4,6 +4,7 @@ import {Collections} from 'src/services/types';
 import {UserService} from 'src/services/app/user.service';
 import Realm from 'realm';
 import {RealmCollections} from 'src/models/schema/realmTypes';
+import {ExerciseSchema} from 'src/models/schema/exercise.model';
 
 export const useRealmWorkouts = () => {
     const realm = useRealm();
@@ -31,7 +32,24 @@ export const useRealmWorkouts = () => {
     const addItem = (data: WorkoutModel) => {
         realm.write(() => {
             new WorkoutSchema(realm, {
-                ...data,
+                _id: new Realm.BSON.ObjectId(),
+                exercises: data.exercises.map(exerciseWorkout => {
+                    // get the existing exercise from the realm
+                    const existingExercise = realm.objectForPrimaryKey(
+                        ExerciseSchema,
+                        exerciseWorkout.exercise.id,
+                    );
+                    return {
+                        id: exerciseWorkout.id,
+                        exercise: existingExercise,
+                        description: exerciseWorkout.description,
+                        exerciseSets: exerciseWorkout.exerciseSets,
+                    };
+                }),
+                name: data.name,
+                notes: data.notes,
+                description: data.description,
+                createdAt: data.createdAt,
                 ownerId: currentUser?.uid,
             });
         });
@@ -42,8 +60,25 @@ export const useRealmWorkouts = () => {
             realm.create(
                 RealmCollections.WORKOUT,
                 {
-                    ...data,
                     _id: id,
+                    exercises: data.exercises.map(exerciseWorkout => {
+                        // get the existing exercise from the realm
+                        const existingExercise = realm.objectForPrimaryKey(
+                            ExerciseSchema,
+                            exerciseWorkout.exercise.id,
+                        );
+                        return {
+                            id: exerciseWorkout.id,
+                            exercise: existingExercise,
+                            description: exerciseWorkout.description,
+                            exerciseSets: exerciseWorkout.exerciseSets,
+                        };
+                    }),
+                    name: data.name,
+                    notes: data.notes,
+                    description: data.description,
+                    createdAt: data.createdAt,
+                    ownerId: currentUser?.uid,
                 },
                 Realm.UpdateMode.Modified,
             );

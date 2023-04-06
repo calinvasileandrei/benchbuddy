@@ -9,7 +9,7 @@ export interface ExerciseSetModel {
     isWarmup: boolean;
 }
 
-export class ExerciseSetSchema extends Realm.Object<ExerciseSetModel> {
+export class ExerciseSetSchema extends Realm.Object<ExerciseSetSchema> {
     setNumber!: number;
     reps!: number;
     weight!: number;

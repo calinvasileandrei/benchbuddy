@@ -13,7 +13,7 @@ export interface ExerciseWorkoutModel {
     exerciseSets: ExerciseSetModel[];
 }
 
-export class ExerciseWorkoutSchema extends Realm.Object<ExerciseWorkoutModel> {
+export class ExerciseWorkoutSchema extends Realm.Object<ExerciseWorkoutSchema> {
     id!: string;
     description!: string;
     exercise!: ExerciseSchema;

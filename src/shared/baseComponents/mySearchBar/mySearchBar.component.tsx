@@ -8,6 +8,7 @@ import {useDebouncedEffect} from 'src/hooks/useDebouncedEffect';
 export interface MySearchBarProps {
     onChange: (search: string) => void;
     withHaptics?: HapticType;
+    delayMillis?: number;
     minCharsForRequest?: number;
 }
 
@@ -15,7 +16,7 @@ export const MySearchBar: FC<MySearchBarProps> = props => {
     const style = useThemeStyle(mySearchBarStyle);
     const [search, setSearch] = useState('');
     const [searchbarLoading, setSearchBarLoading] = useState(false);
-    const {onChange, minCharsForRequest = 2} = props;
+    const {onChange, delayMillis = 300, minCharsForRequest = 2} = props;
 
     const updateSearch = (searchText: string) => {
         if (searchText.length > minCharsForRequest || searchText.length === 0) {
@@ -32,7 +33,7 @@ export const MySearchBar: FC<MySearchBarProps> = props => {
             }
             setSearchBarLoading(false);
         },
-        300,
+        delayMillis,
         [search],
     );
 

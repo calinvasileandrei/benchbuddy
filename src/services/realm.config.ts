@@ -10,9 +10,11 @@ import {LevelSchema} from 'src/models/schema/exerciseRef/level.model';
 import {EquipmentSchema} from 'src/models/schema/exerciseRef/equipment.model';
 import {CategorySchema} from 'src/models/schema/exerciseRef/category.model';
 import {MuscleSchema} from 'src/models/schema/exerciseRef/muscle.model';
+import {WorkoutSessionSchema} from 'src/models/schema/workoutSession.model';
 
 const realmConfig: Realm.Configuration = {
     schema: [
+        WorkoutSessionSchema,
         WorkoutSchema,
         ExerciseSchema,
         ExerciseWorkoutSchema,

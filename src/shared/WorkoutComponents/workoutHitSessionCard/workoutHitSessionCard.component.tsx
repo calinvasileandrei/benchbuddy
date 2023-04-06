@@ -8,12 +8,12 @@ import {useNavigation} from '@react-navigation/native';
 import {AppRoutes} from 'src/navigation/routes';
 import {workoutHitSessionCardStyle} from 'src/shared/WorkoutComponents/workoutHitSessionCard/workoutHitSessionCard.style';
 import {WorkoutStackNavigationProps} from 'src/navigation/stacks/workout/types';
-import {WorkoutSessionHitModel} from 'src/models/typesense/workoutSession.schema';
 import {dateUtils} from 'src/utils/date.utils';
+import {WorkoutSessionModel} from 'src/models/schema/workoutSession.model';
 
 export interface WorkoutHitSessionCardProps {
-    workoutSession: WorkoutSessionHitModel;
-    onPress?: (workoutSession: WorkoutSessionHitModel) => void;
+    workoutSession: WorkoutSessionModel;
+    onPress?: (workoutSession: WorkoutSessionModel) => void;
 }
 
 export const WorkoutHitSessionCard: FC<WorkoutHitSessionCardProps> = ({
@@ -43,7 +43,9 @@ export const WorkoutHitSessionCard: FC<WorkoutHitSessionCardProps> = ({
     };
 
     const getSessionDate = () => {
-        const date = dateUtils.dateFromUnixTimestamp(workoutSession.createdAt);
+        const date = dateUtils.dateFromUnixTimestamp(
+            Number(workoutSession.createdAt),
+        );
         return dateUtils.getPrettyDateAndTime(date);
     };
 
@@ -55,22 +57,24 @@ export const WorkoutHitSessionCard: FC<WorkoutHitSessionCardProps> = ({
             <MyText>{workoutSession.notes}</MyText>
             <Divider />
             <MyCard title={'Exercises'}>
-                {workoutSession.exercises.map((exercise, index) => {
-                    return (
-                        <View style={style.item} key={exercise}>
-                            <View style={style.exerciseRow}>
-                                <View style={style.roundContainer}>
-                                    <MyText
-                                        type={'captionText'}
-                                        style={style.exerciseNumber}>
-                                        {`${(index + 1).toString()}`}
-                                    </MyText>
+                {workoutSession.referenceWorkout.exercises.map(
+                    (exercise, index) => {
+                        return (
+                            <View style={style.item} key={exercise.id}>
+                                <View style={style.exerciseRow}>
+                                    <View style={style.roundContainer}>
+                                        <MyText
+                                            type={'captionText'}
+                                            style={style.exerciseNumber}>
+                                            {`${(index + 1).toString()}`}
+                                        </MyText>
+                                    </View>
+                                    <MyText>{exercise.exercise.name}</MyText>
                                 </View>
-                                <MyText>{exercise}</MyText>
                             </View>
-                        </View>
-                    );
-                })}
+                        );
+                    },
+                )}
             </MyCard>
         </MyCard>
     );
