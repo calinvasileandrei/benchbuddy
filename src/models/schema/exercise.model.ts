@@ -45,7 +45,7 @@ export interface ExerciseModel {
     owner: string;
 }
 
-export class ExerciseSchema extends Realm.Object<ExerciseSchema> {
+export class ExerciseSchema extends Realm.Object<ExerciseModel> {
     id!: string;
     name!: string;
     force!: ForceSchema;

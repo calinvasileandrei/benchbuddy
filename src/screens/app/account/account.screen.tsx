@@ -50,6 +50,13 @@ export const AccountScreen: FC<AccountScreenProps> = props => {
                     disabled={false}
                     title={'Populate Exercises'}
                 />
+                <MenuItem
+                    onPress={() =>
+                        exerciseListService.populateRealmMuscles(realm)
+                    }
+                    disabled={false}
+                    title={'Populate Muscles'}
+                />
                 <MyText type={'header3Text'} style={style.header}>
                     Help us
                 </MyText>

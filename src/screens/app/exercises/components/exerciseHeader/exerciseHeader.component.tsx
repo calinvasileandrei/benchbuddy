@@ -4,10 +4,14 @@ import {MySearchBar} from 'src/shared/baseComponents/mySearchBar/mySearchBar.com
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {exerciseHeaderStyle} from 'src/screens/app/exercises/components/exerciseHeader/exerciseHeader.style';
 import {MyChip} from 'src/shared/baseComponents/myChip/myChip.component';
-import {MuscleService} from 'src/services/app/exerciseRef/muscle.service';
 import {stringUtils} from 'src/utils/string.utils';
 import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
-import {MuscleModel} from 'src/models/schema/exerciseRef/muscle.model';
+import {
+    MuscleModel,
+    MuscleSchema,
+} from 'src/models/schema/exerciseRef/muscle.model';
+import {useQuery} from 'src/services/realm.config';
+import {realmMapper} from 'src/utils/realmMapper.utils';
 
 export interface ExerciseHeaderProps {
     setSearchTextParam: (search?: string) => void;
@@ -16,6 +20,7 @@ export interface ExerciseHeaderProps {
 }
 
 export const ExerciseHeader: FC<ExerciseHeaderProps> = props => {
+    const ms = useQuery(MuscleSchema);
     const [muscles, setMuscles] = React.useState<MuscleModel[]>([]);
 
     const {setSearchTextParam} = props;
@@ -23,14 +28,13 @@ export const ExerciseHeader: FC<ExerciseHeaderProps> = props => {
 
     useEffect(() => {
         if (muscles.length === 0) {
-            fetchMuscles();
+            const rowData = realmMapper.schemaToObject<
+                MuscleSchema,
+                MuscleModel
+            >(ms as Realm.Results<any>);
+            setMuscles(rowData.sort((a, b) => a.name.localeCompare(b.name)));
         }
     }, []);
-
-    const fetchMuscles = async () => {
-        const categories = await MuscleService.getAll();
-        setMuscles(categories.sort((a, b) => a.name.localeCompare(b.name)));
-    };
 
     const handleSearch = (text: string) => {
         if (text === '') {
