@@ -10,6 +10,8 @@ import {workoutHitSessionCardStyle} from 'src/shared/WorkoutComponents/workoutHi
 import {WorkoutStackNavigationProps} from 'src/navigation/stacks/workout/types';
 import {dateUtils} from 'src/utils/date.utils';
 import {WorkoutSessionModel} from 'src/models/schema/workoutSession.model';
+import {workoutSliceActions} from 'src/store/workout/workout.slice';
+import {useAppDispatch} from 'src/store/store';
 
 export interface WorkoutHitSessionCardProps {
     workoutSession: WorkoutSessionModel;
@@ -25,13 +27,16 @@ export const WorkoutHitSessionCard: FC<WorkoutHitSessionCardProps> = ({
         useNavigation<
             WorkoutStackNavigationProps<AppRoutes.WORKOUT_SESSION_DETAILS>
         >();
+    const dispatch = useAppDispatch();
 
     const handleNavigationToDetail = () => {
+        dispatch(
+            workoutSliceActions.setWorkoutProps({
+                workoutSessionDetail: workoutSession,
+            }),
+        );
         navigation.navigate(AppRoutes.WORKOUTS_STACK, {
             screen: AppRoutes.WORKOUT_SESSION_DETAILS,
-            params: {
-                workoutSessionId: workoutSession.id,
-            },
         });
     };
 
@@ -43,15 +48,12 @@ export const WorkoutHitSessionCard: FC<WorkoutHitSessionCardProps> = ({
     };
 
     const getSessionDate = () => {
-        const date = dateUtils.dateFromUnixTimestamp(
-            Number(workoutSession.createdAt),
-        );
-        return dateUtils.getPrettyDateAndTime(date);
+        return dateUtils.prettyDateFromUnixTimestamp(workoutSession.createdAt);
     };
 
     return (
         <MyCard
-            key={workoutSession.id}
+            key={workoutSession.id.toHexString()}
             title={getSessionDate()}
             onPress={handleOnPress}>
             <MyText>{workoutSession.notes}</MyText>

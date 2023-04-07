@@ -26,7 +26,12 @@ export const WorkoutSessionInfiniteFlatList: FC<
     });
 
     const renderItem = (item: WorkoutSessionModel) => {
-        return <WorkoutHitSessionCard key={item.id} workoutSession={item} />;
+        return (
+            <WorkoutHitSessionCard
+                key={item.id.toHexString()}
+                workoutSession={item}
+            />
+        );
     };
 
     return (

@@ -26,7 +26,7 @@ export const WorkoutSessionCard: FC<WorkoutSessionCardProps> = ({
     };
 
     return (
-        <MyCard key={workoutSession.id} title={'Exercises'}>
+        <MyCard key={workoutSession.id.toHexString()} title={'Exercises'}>
             {workoutSession.sessionExercises.map((exercise, index) => {
                 return (
                     <View style={style.item} key={exercise.id}>

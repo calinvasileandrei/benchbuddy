@@ -10,6 +10,11 @@ const dateFromUnixTimestamp = (timestamp: number): string => {
     return new Date(timestamp * 1000).toISOString();
 };
 
+const prettyDateFromUnixTimestamp = (timestamp: number): string => {
+    const date = dateUtils.dateFromUnixTimestamp(timestamp);
+    return dateUtils.getPrettyDateAndTime(date);
+};
+
 const getMonthStartEnd = (date: Date): {start: string; end: string} => {
     // Get the current year and month
     const year = date.getFullYear();
@@ -124,4 +129,5 @@ export const dateUtils = {
     getPrettyDate,
     getPrettyDateAndTime,
     getPrettyTime,
+    prettyDateFromUnixTimestamp,
 };

@@ -1,14 +1,10 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component';
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {WorkoutSessionCard} from 'src/shared/WorkoutComponents/workoutSessionCard/workoutSessionCard.component';
 import {MyScrollView} from 'src/shared/baseComponents/myScrollView/myScrollView.component';
-import {useAppDispatch, useAppSelector} from 'src/store/store';
+import {useAppSelector} from 'src/store/store';
 import {workoutSelectors} from 'src/store/workout/workout.selectors';
-import {useRoute} from '@react-navigation/native';
-import {WorkoutRouteProp} from 'src/navigation/stacks/workout/types';
-import {AppRoutes} from 'src/navigation/routes';
-import {MyLoading} from 'src/shared/baseComponents/myLoading/myLoading.component';
 import {MyLineChart} from 'src/shared/charts/myLineChart/myLineChart.component';
 import {workoutToChartUtils} from 'src/utils/workoutToChart.utils';
 import {MyHeader} from 'src/shared/baseComponents/myHeader/myHeader.component';
@@ -24,32 +20,9 @@ export const WorkoutSessionDetailsScreen: FC<
     WorkoutSessionDetailsScreenProps
 > = props => {
     const style = useThemeStyle(workoutSessionDetailsStyle);
-    const dispatch = useAppDispatch();
-    const route =
-        useRoute<WorkoutRouteProp<AppRoutes.WORKOUT_SESSION_DETAILS>>();
     const workoutSession = useAppSelector(
         workoutSelectors.getWorkoutSessionDetail,
     );
-    const [isLoading, setIsLoading] = React.useState(false);
-
-    useEffect(() => {
-        const fetchDetail = async () => {
-            setIsLoading(true); /*
-            const workoutSessionDetail =
-                await workoutSessionsService.getWorkoutSessionById(
-                    route.params?.workoutSessionId,
-                );*/
-            /*  dispatch(
-                workoutSliceActions.setWorkoutProps({workoutSessionDetail}),
-            );*/
-            setIsLoading(false);
-        };
-        fetchDetail();
-    }, []);
-
-    if (isLoading) {
-        return <MyLoading />;
-    }
 
     if (!workoutSession) {
         return null;
@@ -79,7 +52,9 @@ export const WorkoutSessionDetailsScreen: FC<
                 <MyCard>
                     <MyText type={'bodyText'}>
                         {dateUtils.getPrettyDateAndTime(
-                            workoutSession.createdAt,
+                            dateUtils.dateFromUnixTimestamp(
+                                workoutSession.createdAt,
+                            ),
                         )}
                     </MyText>
                 </MyCard>

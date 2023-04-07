@@ -65,7 +65,7 @@ export const useRealmWorkoutSession = () => {
     const updateItem = (id: Realm.BSON.ObjectId, data: WorkoutSessionModel) => {
         realm.write(() => {
             realm.create(
-                RealmCollections.WORKOUT,
+                RealmCollections.WORKOUT_SESSION,
                 {
                     id: new Realm.BSON.ObjectId(),
                     referenceWorkout: realm.objectForPrimaryKey(

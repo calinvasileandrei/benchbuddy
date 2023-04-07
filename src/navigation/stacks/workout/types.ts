@@ -12,7 +12,7 @@ export type WorkoutStackParamList = {
     [AppRoutes.WORKOUT_CREATION_SCREEN]: undefined;
     [AppRoutes.WORKOUT_SESSION_CREATION_SCREEN]: undefined;
     [AppRoutes.WORKOUT_SESSION_EDIT]: undefined;
-    [AppRoutes.WORKOUT_SESSION_DETAILS]: {workoutSessionId: string};
+    [AppRoutes.WORKOUT_SESSION_DETAILS]: undefined;
     [AppRoutes.WORKOUT_SELECTION_SCREEN]: {
         setWorkout: (workout: WorkoutModel) => void;
     };

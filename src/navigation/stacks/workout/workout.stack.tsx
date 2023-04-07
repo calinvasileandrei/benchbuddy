@@ -25,6 +25,7 @@ import {GoBack} from 'src/navigation/components/goBack/goBack.component';
 import {myLoadingActions} from 'src/store/myLoading/myLoading.slice';
 import {WorkoutModel} from 'src/models/schema/workout.model';
 import {useRealmWorkouts} from 'src/hooks/realm/useRealmWorkouts.hook';
+import {useRealmWorkoutSession} from 'src/hooks/realm/useRealmWorkoutSession.hook';
 
 const Stack = createStackNavigator<WorkoutStackParamList>();
 
@@ -37,6 +38,7 @@ export const WorkoutStack = () => {
         workoutSelectors.getWorkoutSessionDetail,
     );
     const realmWorkouts = useRealmWorkouts();
+    const realmWorkoutSessions = useRealmWorkoutSession();
 
     const getOptions = (title: string): StackNavigationOptions => {
         return {
@@ -117,19 +119,8 @@ export const WorkoutStack = () => {
         const handleDelete = async () => {
             if (workoutSession) {
                 dispatch(myLoadingActions.show(true));
-                // Delete the session from workoutSession collection
-                /* await workoutSessionsService.deleteWorkoutSession(
-                    workoutSession.id,
-                );
-                // Delete the session id from the user
-                await UserWorkoutService.deleteUserSessionWorkout(
-                    workoutSession.id,
-                );
-                // Delete the session Hit from typesense
-                await workoutSessionTypesenseService.deleteWorkoutSession(
-                    workoutSession.id,
-                );*/
-                // Refresh the infinite list
+                realmWorkoutSessions.deleteItem(workoutSession.id);
+                dispatch(workoutSessionSliceActions.clearSession());
                 dispatch(myLoadingActions.show(false));
             }
             navigation.goBack();

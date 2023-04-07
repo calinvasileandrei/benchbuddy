@@ -20,6 +20,7 @@ import {MyDatePicker} from 'src/shared/baseComponents/myDatePicker/myDatePicker.
 import {ExerciseModel} from 'src/models/schema/exercise.model';
 import {useRealmWorkoutSession} from 'src/hooks/realm/useRealmWorkoutSession.hook';
 import {WorkoutSessionModel} from 'src/models/schema/workoutSession.model';
+import {dateUtils} from 'src/utils/date.utils';
 
 export interface WorkoutSessionCreationScreenProps {}
 
@@ -41,7 +42,7 @@ export const WorkoutSessionCreationScreen: FC<
     usePreventBackHook({
         isDirty: !!workoutSession,
         isActive: !isLoading,
-        dependencies: [templateWorkout, isLoading],
+        dependencies: [templateWorkout, isLoading, workoutSession],
         dialogProps: {
             actionFirst: eventAction => ({
                 label: 'Discard',
@@ -96,10 +97,11 @@ export const WorkoutSessionCreationScreen: FC<
             const session: WorkoutSessionModel = {
                 ...workoutSession,
                 notes: notes || '',
+                createdAt: dateUtils.dateToUnixTimestamp(date.toDateString()),
             };
             realmWorkoutSession.addItem(session);
+            await dispatch(workoutSessionSliceActions.clearSession());
             navigation.goBack();
-            dispatch(workoutSessionSliceActions.clearSession());
         }
         setIsLoading(false);
     };

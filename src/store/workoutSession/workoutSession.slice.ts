@@ -1,11 +1,11 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {WorkoutSessionModel} from 'src/models/schema/workoutSession.model';
 import {WorkoutModel} from 'src/models/schema/workout.model';
-import {firestoreUtils} from 'src/utils/firestore.utils';
 import {ExerciseSetModel} from 'src/models/schema/exerciseSet.model';
 import {ExerciseWorkoutModel} from 'src/models/schema/exerciseWorkout.model';
 import {Logger} from 'src/utils/logger';
 import {ExerciseModel} from 'src/models/schema/exercise.model';
+import {dateUtils} from 'src/utils/date.utils';
 
 const logger = new Logger('workoutSession.slice');
 
@@ -36,13 +36,15 @@ export const workoutSessionSlice = createSlice({
                 },
             );
             state.workoutSession = {
-                id: firestoreUtils.autoId(),
+                id: new Realm.BSON.ObjectId(),
                 ownerId: '',
                 referenceWorkout: workout,
                 notes: undefined,
                 sessionExercises: sessionExercises,
                 duration: '0',
-                createdAt: new Date().toDateString(),
+                createdAt: dateUtils.getDateToMilliseconds(
+                    state.createdAt.toDateString(),
+                ),
             };
         },
         setNotes: (state, action: PayloadAction<string>) => {

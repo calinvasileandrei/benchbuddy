@@ -35,9 +35,9 @@ function App(): JSX.Element {
     return (
         <ThemeProvider initial={theme}>
             <SafeAreaProvider style={{backgroundColor: '#0B2830'}}>
-                <RealmProvider>
-                    <AppProvider id={MONGO_APP_ID}>
-                        <UserProvider fallback={LoginScreen}>
+                <AppProvider id={MONGO_APP_ID}>
+                    <UserProvider fallback={LoginScreen}>
+                        <RealmProvider>
                             <Provider store={store}>
                                 <RealmLogger>
                                     <IsLoadingProvider>
@@ -51,9 +51,9 @@ function App(): JSX.Element {
                                     </IsLoadingProvider>
                                 </RealmLogger>
                             </Provider>
-                        </UserProvider>
-                    </AppProvider>
-                </RealmProvider>
+                        </RealmProvider>
+                    </UserProvider>
+                </AppProvider>
             </SafeAreaProvider>
         </ThemeProvider>
     );
