@@ -9,4 +9,8 @@ export const workoutDetailStyle = (theme: Theme) =>
         exerciseName: {
             marginBottom: theme.spacing.base,
         },
+        exerciseContainer: {
+            marginVertical: theme.spacing.double,
+            marginHorizontal: theme.spacing.base,
+        },
     });

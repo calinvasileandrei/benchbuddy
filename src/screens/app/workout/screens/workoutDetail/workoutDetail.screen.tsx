@@ -30,12 +30,10 @@ export const WorkoutDetailScreen: FC<WorkoutDetailScreenProps> = props => {
     return (
         <MySafeAreaView edges={['bottom']}>
             <MyScrollView title={workout.name}>
-                <MyCard
-                    key={workout._id.toHexString()}
-                    title={workout.createdAt}>
+                <MyCard key={workout._id.toHexString()} title={'Exercises'}>
                     {workout.notes && <MyText>{workout.notes}</MyText>}
                     <Divider />
-                    <MyCard title={'Exercises'}>
+                    <View style={style.exerciseContainer}>
                         {workout.exercises.map((exercise, index) => {
                             return (
                                 <View style={style.item} key={exercise.id}>
@@ -52,7 +50,18 @@ export const WorkoutDetailScreen: FC<WorkoutDetailScreenProps> = props => {
                                 </View>
                             );
                         })}
+                    </View>
+                </MyCard>
+                {workout.description && (
+                    <MyCard title={'Description'}>
+                        <MyText>{workout.description}</MyText>
                     </MyCard>
+                )}
+                <MyCard>
+                    <MyText
+                        type={
+                            'bodyText'
+                        }>{`Created at ${workout.createdAt}`}</MyText>
                 </MyCard>
                 <MyScrollView horizontal={true}>
                     {workoutToChartUtils
