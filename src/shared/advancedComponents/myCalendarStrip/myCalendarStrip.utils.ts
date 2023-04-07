@@ -6,7 +6,7 @@ const getThisMonthValue = () => {
     const startUnix = dateUtils.dateToUnixTimestamp(start);
     const endUnix = dateUtils.dateToUnixTimestamp(end);
     console.log('getThisMonthValue', start, end);
-    return [`[${startUnix}..${endUnix}]`];
+    return [`{${startUnix},${endUnix}}`];
 };
 
 const getThisWeekValue = () => {
@@ -15,7 +15,7 @@ const getThisWeekValue = () => {
     const startUnix = dateUtils.dateToUnixTimestamp(start);
     const endUnix = dateUtils.dateToUnixTimestamp(end);
     console.log('getThisWeekValue', start, end);
-    return [`[${startUnix}..${endUnix}]`];
+    return [`{${startUnix},${endUnix}}`];
 };
 
 export const myCalendarStripUtils = {

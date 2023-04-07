@@ -15,7 +15,11 @@ const applyFilterObjects = (
                 if (query.length > 0) {
                     query += ` ${operatorFilterObject} `;
                 }
-                query += `${item.field} ${item.operator} "${value}"`;
+                if (item.operator === 'BETWEEN') {
+                    query += `${item.field} ${item.operator} ${value}`;
+                } else {
+                    query += `${item.field} ${item.operator} "${value}"`;
+                }
             }
             returnQuery.push(query);
         }

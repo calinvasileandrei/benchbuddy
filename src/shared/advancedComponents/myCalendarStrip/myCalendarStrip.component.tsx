@@ -11,9 +11,9 @@ import moment from 'moment';
 import CalendarStrip from 'react-native-calendar-strip';
 import Animated from 'react-native-reanimated';
 import {useMyCalendarStripAnimations} from 'src/shared/advancedComponents/myCalendarStrip/useMyCalendarStripAnimations';
+import {dateUtils} from 'src/utils/date.utils';
 
 export interface MyCalendarStripComponentProps {
-    onDateSelect?: (date: Date | undefined) => void;
     onFilterSelect?: (filter: DateChipItem) => void;
 }
 
@@ -32,14 +32,14 @@ export const MyCalendarStripComponent: FC<
         {
             id: 0,
             name: 'All',
-            value: {field: 'createdAt', operator: 'IN', value: []},
+            value: {field: 'createdAt', operator: 'BETWEEN', value: []},
         },
         {
             id: 1,
             name: 'Month',
             value: {
                 field: 'createdAt',
-                operator: 'IN',
+                operator: 'BETWEEN',
                 value: myCalendarStripUtils.getThisMonthValue(),
             },
         },
@@ -48,23 +48,23 @@ export const MyCalendarStripComponent: FC<
             name: 'Week',
             value: {
                 field: 'createdAt',
-                operator: 'IN',
+                operator: 'BETWEEN',
                 value: myCalendarStripUtils.getThisWeekValue(),
             },
         },
         {
             id: 3,
             name: 'Pick a day',
-            value: {field: 'createdAt', operator: 'IN', value: []},
+            value: {field: 'createdAt', operator: '==', value: []},
         },
     ];
 
     const handleDateSelect = (date: moment.Moment) => {
-        if (!props.onDateSelect) {
-            return;
-        }
         const dateObject = new Date(date.year(), date.month(), date.date());
-        props.onDateSelect(dateObject);
+        options[3].value.value = [
+            dateUtils.dateToUnixTimestamp(dateObject.toDateString()),
+        ];
+        props.onFilterSelect?.(options[3]);
     };
 
     const renderChip = (item: DateChipItem) => {
