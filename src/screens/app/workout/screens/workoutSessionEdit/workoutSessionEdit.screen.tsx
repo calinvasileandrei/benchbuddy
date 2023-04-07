@@ -7,7 +7,6 @@ import {View} from 'react-native';
 import {MyInput} from 'src/shared/baseComponents/myInput/myInput.component';
 import {MyButton} from 'src/shared/baseComponents/myButton/myButton.component';
 import {workoutSessionSelectors} from 'src/store/workoutSession/workoutSession.selectors';
-import {workoutSessionActions} from 'src/store/workoutSession/workoutSession.actions';
 import {workoutSessionSliceActions} from 'src/store/workoutSession/workoutSession.slice';
 import {ExerciseSetModel} from 'src/models/schema/exerciseSet.model';
 import {useNavigation} from '@react-navigation/native';
@@ -16,6 +15,10 @@ import {MyKeyboardAwareScrollView} from 'src/shared/baseComponents/myKeyboardAwa
 import {usePreventBackHook} from 'src/hooks/usePreventBack.hook';
 import {workoutSelectors} from 'src/store/workout/workout.selectors';
 import {isEqual} from 'lodash';
+import {WorkoutSessionModel} from 'src/models/schema/workoutSession.model';
+import {dateUtils} from 'src/utils/date.utils';
+import {useRealmWorkoutSession} from 'src/hooks/realm/useRealmWorkoutSession.hook';
+import {workoutSliceActions} from 'src/store/workout/workout.slice';
 
 export interface WorkoutSessionDetailsScreenProps {}
 
@@ -26,10 +29,13 @@ export const WorkoutSessionEditScreen: FC<
     const dispatch = useAppDispatch();
     const navigation = useNavigation<any>();
     const [isLoading, setIsLoading] = React.useState(false);
+    const realmWorkoutSession = useRealmWorkoutSession();
 
     const {notes, workoutSession} = useAppSelector(
         workoutSessionSelectors.getStore,
     );
+    const date = useAppSelector(workoutSessionSelectors.getCreatedAt);
+
     const workoutSessionDetails = useAppSelector(
         workoutSelectors.getWorkoutSessionDetail,
     );
@@ -85,9 +91,23 @@ export const WorkoutSessionEditScreen: FC<
 
     const handleEditSession = async () => {
         setIsLoading(true);
-        await dispatch(workoutSessionActions.editSession());
-        navigation.goBack();
-        dispatch(workoutSessionSliceActions.clearSession());
+        if (workoutSession) {
+            const session: WorkoutSessionModel = {
+                ...workoutSession,
+                notes: notes || '',
+                createdAt: dateUtils.dateToUnixTimestamp(date.toDateString()),
+            };
+            //update db
+            realmWorkoutSession.updateItem(session.id, session);
+            //update store detail
+            dispatch(
+                workoutSliceActions.setWorkoutProps({
+                    workoutSessionDetail: workoutSession,
+                }),
+            );
+            await dispatch(workoutSessionSliceActions.clearSession());
+            navigation.goBack();
+        }
         setIsLoading(false);
     };
 
