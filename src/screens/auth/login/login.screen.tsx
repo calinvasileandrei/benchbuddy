@@ -10,14 +10,12 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useApp} from '@realm/react';
 import Realm from 'realm';
 import {UserModel} from 'src/models/user.model';
-import {useRealmUser} from 'src/hooks/realm/useRealmUser.hook';
 
 const logger = new Logger('LoginScreen');
 
 const LoginScreen = () => {
     const style = useThemeStyle(loginStyle);
     const app = useApp();
-    const realmUserHook = useRealmUser();
 
     useEffect(() => {
         GoogleSignin.configure({
@@ -46,7 +44,7 @@ const LoginScreen = () => {
                     photoURL: userMongo.profile.pictureUrl || '',
                     displayName: userMongo.profile.name || '',
                 };
-                return realmUserHook.registerUser(newUser);
+                //return realmUserHook.registerUser(newUser);
             }
         } catch (error) {
             console.error('Error signing in:', error);

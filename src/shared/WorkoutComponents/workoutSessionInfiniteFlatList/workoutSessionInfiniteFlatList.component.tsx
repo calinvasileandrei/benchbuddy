@@ -21,14 +21,14 @@ export const WorkoutSessionInfiniteFlatList: FC<
         WorkoutSessionModel
     >({
         schema: WorkoutSessionSchema,
-        keyExtractorKey: 'id',
+        keyExtractorKey: '_id',
         filterBy: props.filterBy,
     });
 
     const renderItem = (item: WorkoutSessionModel) => {
         return (
             <WorkoutHitSessionCard
-                key={item.id.toHexString()}
+                key={item._id.toHexString()}
                 workoutSession={item}
             />
         );
@@ -40,7 +40,7 @@ export const WorkoutSessionInfiniteFlatList: FC<
             renderItem={renderItem}
             emptyList={{
                 image: ImageSession,
-                message: "I see no workout sessions... it's time for gym!",
+                message: "I see no workout session... it's time for gym!",
             }}
         />
     );

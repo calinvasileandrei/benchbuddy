@@ -28,7 +28,7 @@ export const workoutSessionSlice = createSlice({
             const sessionExercises = workout.exercises.map(
                 (exerciseTemp, index): ExerciseWorkoutModel => {
                     return {
-                        id: index.toString(),
+                        _id: index.toString(),
                         exercise: exerciseTemp.exercise,
                         exerciseSets: [...exerciseTemp.exerciseSets],
                         description: exerciseTemp.description,
@@ -36,7 +36,7 @@ export const workoutSessionSlice = createSlice({
                 },
             );
             state.workoutSession = {
-                id: new Realm.BSON.ObjectId(),
+                _id: new Realm.BSON.ObjectId(),
                 ownerId: '',
                 referenceWorkout: workout,
                 notes: undefined,
@@ -62,7 +62,7 @@ export const workoutSessionSlice = createSlice({
                 // find the exercise in the list
                 const index = state.workoutSession?.sessionExercises.findIndex(
                     exerciseWorkout =>
-                        exerciseWorkout?.id === sessionExerciseId,
+                        exerciseWorkout?._id === sessionExerciseId,
                 );
                 if (index === -1) {
                     logger.debug(
@@ -95,7 +95,7 @@ export const workoutSessionSlice = createSlice({
         addExtraExercise: (state, action: PayloadAction<ExerciseModel>) => {
             if (state.workoutSession) {
                 const newExercise: ExerciseWorkoutModel = {
-                    id: state.workoutSession.referenceWorkout.exercises.length.toString(),
+                    _id: state.workoutSession.referenceWorkout.exercises.length.toString(),
                     exercise: action.payload,
                     exerciseSets: [
                         {

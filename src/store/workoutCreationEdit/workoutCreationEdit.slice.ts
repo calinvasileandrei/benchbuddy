@@ -50,7 +50,8 @@ export const workoutCreationEditSlice = createSlice({
             const {sessionExerciseId, exerciseSets} = action.payload;
             if (state.workout) {
                 const index = state.workout?.exercises.findIndex(
-                    exerciseWorkout => exerciseWorkout.id === sessionExerciseId,
+                    exerciseWorkout =>
+                        exerciseWorkout._id === sessionExerciseId,
                 );
                 if (index === -1) {
                     logger.debug(
@@ -71,7 +72,7 @@ export const workoutCreationEditSlice = createSlice({
             if (state.workout?.exercises) {
                 const index = state.workout?.exercises.findIndex(
                     exerciseWorkout =>
-                        exerciseWorkout.exercise.id === exerciseId,
+                        exerciseWorkout.exercise._id === exerciseId,
                 );
                 const exerciseWorkout = state.workout?.exercises;
                 exerciseWorkout.splice(index, 1);

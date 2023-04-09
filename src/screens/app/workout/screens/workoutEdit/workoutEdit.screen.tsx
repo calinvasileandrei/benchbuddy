@@ -64,11 +64,11 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
 
     const searchExercise = () => {
         const setExercises = (exercise: ExerciseModel) => {
-            let id = workout?.exercises
+            let _id = workout?.exercises
                 ? workout.exercises.length.toString()
                 : '0';
             const newExercise = {
-                id,
+                _id,
                 exercise,
                 exerciseSets: [],
                 description: '',
@@ -135,14 +135,14 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
                     workout.exercises.map(exerciseWorkout => {
                         return (
                             <ExerciseWithSetCard
-                                key={exerciseWorkout.id}
+                                key={exerciseWorkout._id}
                                 exerciseWithSet={exerciseWorkout}
                                 onChange={exercises =>
                                     dispatch(
                                         workoutCreationEditSliceActions.saveExerciseSet(
                                             {
                                                 sessionExerciseId:
-                                                    exerciseWorkout.id,
+                                                    exerciseWorkout._id,
                                                 exerciseSets: exercises,
                                             },
                                         ),
@@ -151,7 +151,7 @@ export const WorkoutEditScreen: FC<WorkoutEditScreenProps> = props => {
                                 deleteExercise={() =>
                                     dispatch(
                                         workoutCreationEditSliceActions.deleteExercise(
-                                            exerciseWorkout.id,
+                                            exerciseWorkout._id,
                                         ),
                                     )
                                 }

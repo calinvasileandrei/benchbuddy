@@ -119,7 +119,7 @@ export const WorkoutStack = () => {
         const handleDelete = async () => {
             if (workoutSession) {
                 dispatch(myLoadingActions.show(true));
-                realmWorkoutSessions.deleteItem(workoutSession.id);
+                realmWorkoutSessions.deleteItem(workoutSession._id);
                 dispatch(workoutSessionSliceActions.clearSession());
                 dispatch(myLoadingActions.show(false));
             }

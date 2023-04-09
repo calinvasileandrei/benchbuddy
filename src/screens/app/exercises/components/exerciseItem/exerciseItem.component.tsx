@@ -17,7 +17,7 @@ export const ExerciseItem: FC<ExerciseItemProps> = props => {
 
     return (
         <TouchableNativeFeedback
-            key={exercise.id}
+            key={exercise._id}
             onPress={() => onPress(exercise)}>
             <View style={style.container}>
                 <MyText>{exercise.name}</MyText>

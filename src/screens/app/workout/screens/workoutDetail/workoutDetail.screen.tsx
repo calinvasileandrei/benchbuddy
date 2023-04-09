@@ -36,7 +36,7 @@ export const WorkoutDetailScreen: FC<WorkoutDetailScreenProps> = props => {
                     <View style={style.exerciseContainer}>
                         {workout.exercises.map((exercise, index) => {
                             return (
-                                <View style={style.item} key={exercise.id}>
+                                <View style={style.item} key={exercise._id}>
                                     <MyText style={style.exerciseName}>
                                         {exercise.exercise?.name}
                                     </MyText>

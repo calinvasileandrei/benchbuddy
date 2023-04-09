@@ -1,19 +1,20 @@
 import Realm from 'realm';
+import {RealmCollections} from 'src/models/schema/realmTypes';
 
 export interface MuscleModel {
-    id: string;
+    _id: string;
     name: string;
 }
 
 export class MuscleSchema extends Realm.Object<MuscleModel> {
-    id!: string;
+    _id!: string;
     name!: string;
     static schema = {
-        name: 'Muscle',
+        name: RealmCollections.MUSCLE,
         properties: {
-            id: 'string',
+            _id: 'string',
             name: 'string',
         },
-        primaryKey: 'id',
+        primaryKey: '_id',
     };
 }

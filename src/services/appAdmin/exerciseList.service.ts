@@ -1,9 +1,6 @@
 import {Logger} from 'src/utils/logger';
-import {ExerciseModel, ExerciseSchema} from 'src/models/schema/exercise.model';
-import {
-    MuscleModel,
-    MuscleSchema,
-} from 'src/models/schema/exerciseRef/muscle.model';
+import {ExerciseSchema} from 'src/models/schema/exercise.model';
+import {MuscleSchema} from 'src/models/schema/exerciseRef/muscle.model';
 
 const logger = new Logger('ExerciseListService');
 
@@ -43,10 +40,43 @@ const exportExercises = async () => {
     }
 };
 
+export interface ExerciseRow {
+    id: string;
+    name: string;
+    force: {
+        id: string;
+        name: string;
+    };
+    mechanic: {
+        id: string;
+        name: string;
+    };
+    level: {
+        id: string;
+        name: string;
+    };
+    equipment: {
+        id: string;
+        name: string;
+    };
+    instructions: string[];
+    category: {
+        id: string;
+        name: string;
+    };
+    primaryMuscles: {
+        id: string;
+        name: string;
+    }[];
+    secondaryMuscles: {
+        id: string;
+        name: string;
+    }[];
+}
+
 const populateRealmExercises = (realm: Realm) => {
     populateRealmMuscles(realm);
-    const data: ExerciseModel[] =
-        require('exports/exportDir/exercises.json') as ExerciseModel[];
+    const data = require('exports/exportDir/exercises.json') as ExerciseRow[];
 
     realm.write(() => {
         const allItems = realm.objects(ExerciseSchema.schema.name);
@@ -75,7 +105,7 @@ const populateRealmExercises = (realm: Realm) => {
             );
 
             new ExerciseSchema(realm, {
-                id: item.id,
+                _id: item.id,
                 name: item.name,
                 secondaryMuscles: secondaryMuscles,
                 primaryMuscles: primaryMuscles,
@@ -96,8 +126,10 @@ const populateRealmExercises = (realm: Realm) => {
 };
 
 const populateRealmMuscles = (realm: Realm) => {
-    const data: MuscleModel[] =
-        require('exports/exportDir/muscle.json') as MuscleModel[];
+    const data = require('exports/exportDir/muscle.json') as {
+        id: string;
+        name: string;
+    }[];
 
     realm.write(() => {
         const allItems = realm.objects(MuscleSchema.schema.name);
@@ -110,10 +142,12 @@ const populateRealmMuscles = (realm: Realm) => {
 
     realm.write(() => {
         data.map(item => {
-            new MuscleSchema(realm, {
-                id: item.id,
-                name: item.name,
-            });
+            if (item.id && item.name) {
+                new MuscleSchema(realm, {
+                    _id: item.id,
+                    name: item.name,
+                });
+            }
         });
     });
     logger.debug(

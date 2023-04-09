@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import {Logger} from 'src/utils/logger';
-import {useQuery} from 'src/services/realm.config';
+import {useQuery, useRealm} from 'src/services/realm.config';
 import {useRealmListParams, useRealmListReturn} from './types';
 import {realmMapper} from 'src/utils/realmMapper.utils';
 import {filterByUtils} from 'src/utils/filterBy.utils';
@@ -12,7 +12,9 @@ export const useRealmList = <T, I>({
     searchTextParam,
     searchField,
     filterBy,
+    subscriptionName,
 }: useRealmListParams<T, I>): useRealmListReturn<T, I> => {
+    const realm = useRealm();
     const dataNotFiltered = useQuery<Realm.Object<T>>(schema);
 
     useEffect(() => {
@@ -20,6 +22,17 @@ export const useRealmList = <T, I>({
             `data changed: [searchTextParam, ${searchTextParam}] , [filterBy, ${filterBy}]`,
         );
     }, [dataNotFiltered, searchTextParam]);
+
+    useEffect(() => {
+        if (subscriptionName) {
+            realm.subscriptions.update((mutableSubs, realmSync) => {
+                // Create subscription query
+                const subQuery = realmSync.objects(schema.schema.name);
+                // Create subscription for filtered results.
+                mutableSubs.add(subQuery, {name: subscriptionName});
+            });
+        }
+    });
 
     const keyExtractor = (item: I) => {
         const key = item[keyExtractorKey]; // as unknown as string;

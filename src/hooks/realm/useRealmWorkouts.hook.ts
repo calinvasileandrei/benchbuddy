@@ -20,7 +20,7 @@ export const useRealmWorkouts = () => {
         await realm.subscriptions.update(subs => {
             subs.add(
                 realm
-                    .objects(RealmCollections.MUSCLES)
+                    .objects(RealmCollections.MUSCLE)
                     .filtered('ownerId = $0', currentUser?.id),
                 {
                     name: 'workoutsSubscription',
@@ -37,10 +37,10 @@ export const useRealmWorkouts = () => {
                     // get the existing exercise from the realm
                     const existingExercise = realm.objectForPrimaryKey(
                         ExerciseSchema,
-                        exerciseWorkout.exercise.id,
+                        exerciseWorkout.exercise._id,
                     );
                     return {
-                        id: exerciseWorkout.id,
+                        _id: exerciseWorkout._id,
                         exercise: existingExercise,
                         description: exerciseWorkout.description,
                         exerciseSets: exerciseWorkout.exerciseSets,
@@ -65,10 +65,10 @@ export const useRealmWorkouts = () => {
                         // get the existing exercise from the realm
                         const existingExercise = realm.objectForPrimaryKey(
                             ExerciseSchema,
-                            exerciseWorkout.exercise.id,
+                            exerciseWorkout.exercise._id,
                         );
                         return {
-                            id: exerciseWorkout.id,
+                            _id: exerciseWorkout._id,
                             exercise: existingExercise,
                             description: exerciseWorkout.description,
                             exerciseSets: exerciseWorkout.exerciseSets,

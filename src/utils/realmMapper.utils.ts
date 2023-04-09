@@ -1,6 +1,4 @@
-function schemaToObject<T, I>(
-    data: Realm.Results<Realm.Object<T>> | undefined,
-): I[] {
+function schemaToObject<T, I>(data: Realm.Results<any> | undefined): I[] {
     const dataObjects = data?.map(x => x.toJSON() as I);
     return dataObjects || [];
 }

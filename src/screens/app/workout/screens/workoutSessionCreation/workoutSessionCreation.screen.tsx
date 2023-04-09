@@ -140,12 +140,12 @@ export const WorkoutSessionCreationScreen: FC<
                 {templateWorkout?.exercises.map((exerciseWithSet, index) => {
                     return (
                         <ExerciseWithSetCard
-                            key={exerciseWithSet.id}
+                            key={exerciseWithSet._id}
                             templateExerciseSets={exerciseWithSet}
                             withFastSet={true}
                             onChange={exercises =>
                                 handleSaveExerciseSet(
-                                    exerciseWithSet.id,
+                                    exerciseWithSet._id,
                                     exercises,
                                 )
                             }

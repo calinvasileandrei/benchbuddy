@@ -1,4 +1,5 @@
 import Realm from 'realm';
+import {RealmCollections} from 'src/models/schema/realmTypes';
 
 export interface MechanicModel {
     id: string;
@@ -9,7 +10,7 @@ export class MechanicSchema extends Realm.Object<MechanicModel> {
     id!: string;
     name!: string;
     static schema = {
-        name: 'Mechanic',
+        name: RealmCollections.MECHANIC,
         embedded: true,
         properties: {
             id: 'string',

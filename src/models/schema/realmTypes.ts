@@ -5,10 +5,17 @@ export enum RealmCollections {
     EXERCISE_SET = 'ExerciseSet',
     EXERCISE = 'Exercise',
     //Secondaries
-    MUSCLES = 'Muscles',
+    MUSCLE = 'Muscle',
     FORCE = 'Force',
     LEVEL = 'Level',
     EQUIPMENT = 'Equipment',
     MECHANIC = 'Mechanic',
     CATEGORY = 'Category',
+}
+
+export enum RealmSubscriptions {
+    WORKOUT_SESSION = 'workoutSessionSubscription',
+    WORKOUT = 'workoutSubscription',
+    MUSCLES = 'musclesSubscription',
+    EXERCISE = 'exerciseSubscription',
 }

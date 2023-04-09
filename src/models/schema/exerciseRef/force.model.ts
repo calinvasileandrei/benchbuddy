@@ -1,4 +1,5 @@
 import Realm from 'realm';
+import {RealmCollections} from 'src/models/schema/realmTypes';
 
 export interface ForceModel {
     id: string;
@@ -9,7 +10,7 @@ export class ForceSchema extends Realm.Object<ForceModel> {
     id!: string;
     name!: string;
     static schema = {
-        name: 'Force',
+        name: RealmCollections.FORCE,
         embedded: true,
         properties: {
             id: 'string',

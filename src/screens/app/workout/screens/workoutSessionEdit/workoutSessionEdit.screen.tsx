@@ -98,7 +98,7 @@ export const WorkoutSessionEditScreen: FC<
                 createdAt: dateUtils.dateToUnixTimestamp(date.toDateString()),
             };
             //update db
-            realmWorkoutSession.updateItem(session.id, session);
+            realmWorkoutSession.updateItem(session._id, session);
             //update store detail
             dispatch(
                 workoutSliceActions.setWorkoutProps({
@@ -129,11 +129,11 @@ export const WorkoutSessionEditScreen: FC<
                         (exerciseWithSet, index) => {
                             return (
                                 <ExerciseWithSetCard
-                                    key={exerciseWithSet.id}
+                                    key={exerciseWithSet._id}
                                     exerciseWithSet={exerciseWithSet}
                                     onChange={exercises =>
                                         handleSaveExerciseSet(
-                                            exerciseWithSet.id,
+                                            exerciseWithSet._id,
                                             exercises,
                                         )
                                     }

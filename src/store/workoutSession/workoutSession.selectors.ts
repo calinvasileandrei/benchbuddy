@@ -17,7 +17,7 @@ const getCurrentExerciseSession = (
         return;
     }
     return state.workoutSession.workoutSession?.sessionExercises.find(
-        exercise => exercise.id === exerciseId,
+        exercise => exercise._id === exerciseId,
     );
 };
 

@@ -53,7 +53,7 @@ export const WorkoutHitSessionCard: FC<WorkoutHitSessionCardProps> = ({
 
     return (
         <MyCard
-            key={workoutSession.id.toHexString()}
+            key={workoutSession._id.toHexString()}
             title={getSessionDate()}
             onPress={handleOnPress}>
             <MyText>{workoutSession.notes}</MyText>
@@ -62,7 +62,7 @@ export const WorkoutHitSessionCard: FC<WorkoutHitSessionCardProps> = ({
                 {workoutSession.referenceWorkout.exercises.map(
                     (exercise, index) => {
                         return (
-                            <View style={style.item} key={exercise.id}>
+                            <View style={style.item} key={exercise._id}>
                                 <View style={style.exerciseRow}>
                                     <View style={style.roundContainer}>
                                         <MyText

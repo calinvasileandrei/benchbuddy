@@ -8,6 +8,7 @@ export interface useRealmListParams<T, I> {
     searchTextParam?: string;
     searchField?: keyof I;
     filterBy?: FilterObject[];
+    subscriptionName?: string;
 }
 
 export interface useRealmListReturn<T, I> {

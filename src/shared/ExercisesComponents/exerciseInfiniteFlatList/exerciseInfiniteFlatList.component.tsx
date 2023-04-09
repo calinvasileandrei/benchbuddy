@@ -7,6 +7,8 @@ import {useRealmList} from 'src/shared/advancedComponents/realmList/useRealmList
 import {Logger} from 'src/utils/logger';
 import {ExerciseHeader} from 'src/screens/app/exercises/components/exerciseHeader/exerciseHeader.component';
 import {FilterObject} from 'src/models/generalTypes';
+import {useRealm} from 'src/services/realm.config';
+import {RealmSubscriptions} from 'src/models/schema/realmTypes';
 
 export interface ExerciseInfiniteFlatListProps {
     onItemPress: (exercise: ExerciseModel) => void;
@@ -19,6 +21,7 @@ export const ExerciseInfiniteFlatList: FC<
     const [searchTextParam, setSearchTextParam] = React.useState<
         string | undefined
     >(undefined);
+    const realm = useRealm();
 
     const [filterByMuscle, setFilterByMuscle] = React.useState<FilterObject>({
         field: `primaryMuscles.name`,
@@ -28,16 +31,17 @@ export const ExerciseInfiniteFlatList: FC<
 
     const realmHookParams = useRealmList<ExerciseSchema, ExerciseModel>({
         schema: ExerciseSchema,
-        keyExtractorKey: 'id',
+        keyExtractorKey: '_id',
         searchTextParam: searchTextParam,
         searchField: 'name',
         filterBy: [filterByMuscle],
+        subscriptionName: RealmSubscriptions.EXERCISE,
     });
 
     const renderItem = (item: ExerciseModel) => {
         return (
             <ExerciseItem
-                key={item.id}
+                key={item._id}
                 exercise={item}
                 onPress={props.onItemPress}
             />

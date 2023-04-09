@@ -25,14 +25,8 @@ import {
 import Realm from 'realm';
 import {RealmCollections} from 'src/models/schema/realmTypes';
 
-export interface ExerciseHitModel {
-    id: string;
-    name: string;
-    category: string;
-}
-
 export interface ExerciseModel {
-    id: string;
+    _id: string;
     name: string;
     force: ForceModel;
     mechanic: MechanicModel;
@@ -46,7 +40,7 @@ export interface ExerciseModel {
 }
 
 export class ExerciseSchema extends Realm.Object<ExerciseModel> {
-    id!: string;
+    _id!: string;
     name!: string;
     force!: ForceSchema;
     mechanic!: MechanicSchema;
@@ -61,7 +55,7 @@ export class ExerciseSchema extends Realm.Object<ExerciseModel> {
     static schema = {
         name: RealmCollections.EXERCISE,
         properties: {
-            id: 'string',
+            _id: 'string',
             name: 'string',
             force: 'Force',
             mechanic: 'Mechanic',
@@ -73,6 +67,6 @@ export class ExerciseSchema extends Realm.Object<ExerciseModel> {
             secondaryMuscles: 'Muscle[]',
             owner: 'string',
         },
-        primaryKey: 'id',
+        primaryKey: '_id',
     };
 }

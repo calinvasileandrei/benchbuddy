@@ -21,7 +21,7 @@ export const useRealmUser = () => {
         await realm.subscriptions.update(subs => {
             subs.add(
                 realm
-                    .objects(RealmCollections.MUSCLES)
+                    .objects(RealmCollections.MUSCLE)
                     .filtered('ownerId = $0', currentUser?.id),
                 {
                     name: 'workoutsSubscription',

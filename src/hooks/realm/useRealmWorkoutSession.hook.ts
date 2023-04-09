@@ -36,7 +36,7 @@ export const useRealmWorkoutSession = () => {
     const addItem = (data: WorkoutSessionModel) => {
         realm.write(() => {
             new WorkoutSessionSchema(realm, {
-                id: new Realm.BSON.ObjectId(),
+                _id: new Realm.BSON.ObjectId(),
                 referenceWorkout: realm.objectForPrimaryKey(
                     WorkoutSchema,
                     data.referenceWorkout._id,
@@ -45,10 +45,10 @@ export const useRealmWorkoutSession = () => {
                     // get the existing exercise from the realm
                     const existingExercise = realm.objectForPrimaryKey(
                         ExerciseSchema,
-                        exerciseWorkout.exercise.id,
+                        exerciseWorkout.exercise._id,
                     );
                     return {
-                        id: exerciseWorkout.id,
+                        _id: exerciseWorkout._id,
                         exercise: existingExercise,
                         description: exerciseWorkout.description,
                         exerciseSets: exerciseWorkout.exerciseSets,
@@ -62,12 +62,15 @@ export const useRealmWorkoutSession = () => {
         });
     };
 
-    const updateItem = (id: Realm.BSON.ObjectId, data: WorkoutSessionModel) => {
+    const updateItem = (
+        _id: Realm.BSON.ObjectId,
+        data: WorkoutSessionModel,
+    ) => {
         realm.write(() => {
             realm.create(
                 RealmCollections.WORKOUT_SESSION,
                 {
-                    id,
+                    _id,
                     referenceWorkout: realm.objectForPrimaryKey(
                         WorkoutSchema,
                         data.referenceWorkout._id,
@@ -77,10 +80,10 @@ export const useRealmWorkoutSession = () => {
                             // get the existing exercise from the realm
                             const existingExercise = realm.objectForPrimaryKey(
                                 ExerciseSchema,
-                                exerciseWorkout.exercise.id,
+                                exerciseWorkout.exercise._id,
                             );
                             return {
-                                id: exerciseWorkout.id,
+                                _id: exerciseWorkout._id,
                                 exercise: existingExercise,
                                 description: exerciseWorkout.description,
                                 exerciseSets: exerciseWorkout.exerciseSets,

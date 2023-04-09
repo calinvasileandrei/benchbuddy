@@ -5,13 +5,9 @@ import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {exerciseHeaderStyle} from 'src/screens/app/exercises/components/exerciseHeader/exerciseHeader.style';
 import {MyChip} from 'src/shared/baseComponents/myChip/myChip.component';
 import {stringUtils} from 'src/utils/string.utils';
-import {
-    MuscleModel,
-    MuscleSchema,
-} from 'src/models/schema/exerciseRef/muscle.model';
-import {useQuery} from 'src/services/realm.config';
-import {realmMapper} from 'src/utils/realmMapper.utils';
+import {MuscleModel} from 'src/models/schema/exerciseRef/muscle.model';
 import {FilterObject} from 'src/models/generalTypes';
+import {useRealmMuscles} from 'src/hooks/realm/useRealmMuscles.hook';
 
 export interface ExerciseHeaderProps {
     setSearchTextParam: (search?: string) => void;
@@ -20,7 +16,7 @@ export interface ExerciseHeaderProps {
 }
 
 export const ExerciseHeader: FC<ExerciseHeaderProps> = props => {
-    const ms = useQuery(MuscleSchema);
+    const realmMuscles = useRealmMuscles();
     const [muscles, setMuscles] = React.useState<MuscleModel[]>([]);
 
     const {setSearchTextParam} = props;
@@ -28,11 +24,7 @@ export const ExerciseHeader: FC<ExerciseHeaderProps> = props => {
 
     useEffect(() => {
         if (muscles.length === 0) {
-            const rowData = realmMapper.schemaToObject<
-                MuscleSchema,
-                MuscleModel
-            >(ms as Realm.Results<any>);
-            setMuscles(rowData.sort((a, b) => a.name.localeCompare(b.name)));
+            setMuscles(realmMuscles.getAll());
         }
     }, []);
 
@@ -67,7 +59,7 @@ export const ExerciseHeader: FC<ExerciseHeaderProps> = props => {
     const renderChip = (muscle: MuscleModel) => {
         return (
             <MyChip
-                key={muscle.id}
+                key={muscle._id}
                 title={stringUtils.capitalizeFirstLetter(muscle.name)}
                 withHaptics={'impactMedium'}
                 onPress={() => handleChipPress(muscle)}
