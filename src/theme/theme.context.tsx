@@ -11,7 +11,7 @@ interface ProvidedValue {
 }
 
 export const ThemeContext = React.createContext<ProvidedValue>({
-    theme: LIGHT_THEME,
+    theme: DARK_THEME,
     setTheme: () => {
         console.log('ThemeProvider is not rendered!');
     },

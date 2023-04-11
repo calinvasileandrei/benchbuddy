@@ -12,18 +12,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {store} from 'src/store/store';
-import {ThemeProvider} from 'src/theme/theme.context';
+import {ThemeProvider, useTheme} from 'src/theme/theme.context';
 import {DARK_THEME} from 'src/theme/dark.theme';
 import {IsLoadingProvider} from 'src/shared/providers/isLoadingProvider/isLoading.provider';
 import {MenuProvider} from 'react-native-popup-menu';
 import {MyDialogProvider} from 'src/shared/providers/myDialogProvider/myDialog.provider';
-import {AppProvider, UserProvider} from '@realm/react';
-import {MONGO_APP_ID} from '@dotenv';
 import 'react-native-get-random-values';
-import LoginScreen from 'src/screens/auth/login/login.screen';
-import {RealmProvider} from 'src/services/realm.config';
-import {RealmLogger} from 'src/shared/advancedComponents/realmLogger/realmLogger.component';
-import {RealmSubscriptionProvider} from 'src/shared/providers/realmSubscriptionProvider/realmSubscription.provider';
+import {MyRealmProvider} from 'src/shared/providers/myRealmProvider/myRealm.provider';
 
 // for disabling warning when passing function to navigation params, but be careful is you use DeepLinking or persisting state
 LogBox.ignoreLogs([
@@ -32,37 +27,27 @@ LogBox.ignoreLogs([
 
 function App(): JSX.Element {
     const theme = DARK_THEME;
+    const appTheme = useTheme();
 
     return (
-        <ThemeProvider initial={theme}>
-            <SafeAreaProvider style={{backgroundColor: '#0B2830'}}>
-                <AppProvider id={MONGO_APP_ID}>
-                    <UserProvider fallback={LoginScreen}>
-                        <RealmProvider
-                            sync={{
-                                flexible: true,
-                                onError: console.log,
-                            }}>
-                            <Provider store={store}>
-                                <RealmLogger>
-                                    <RealmSubscriptionProvider>
-                                        <IsLoadingProvider>
-                                            <NavigationContainer>
-                                                <MenuProvider>
-                                                    <MyDialogProvider>
-                                                        <RootNavigator />
-                                                    </MyDialogProvider>
-                                                </MenuProvider>
-                                            </NavigationContainer>
-                                        </IsLoadingProvider>
-                                    </RealmSubscriptionProvider>
-                                </RealmLogger>
-                            </Provider>
-                        </RealmProvider>
-                    </UserProvider>
-                </AppProvider>
-            </SafeAreaProvider>
-        </ThemeProvider>
+        <Provider store={store}>
+            <ThemeProvider initial={theme}>
+                <SafeAreaProvider
+                    style={{backgroundColor: appTheme.theme.color.background}}>
+                    <MyRealmProvider>
+                        <IsLoadingProvider>
+                            <NavigationContainer>
+                                <MenuProvider>
+                                    <MyDialogProvider>
+                                        <RootNavigator />
+                                    </MyDialogProvider>
+                                </MenuProvider>
+                            </NavigationContainer>
+                        </IsLoadingProvider>
+                    </MyRealmProvider>
+                </SafeAreaProvider>
+            </ThemeProvider>
+        </Provider>
     );
 }
 

@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component';
-import {AuthService} from 'src/services/auth/auth.service';
 import {MenuItem} from 'src/screens/app/account/components/menuItem/menuItem.component';
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {accountStyle} from 'src/screens/app/account/account.style';
@@ -10,6 +9,9 @@ import {useNavigation} from '@react-navigation/native';
 import {AccountStackNavigationProps} from 'src/navigation/stacks/account/types';
 import {AppRoutes} from 'src/navigation/routes';
 import {MyText} from 'src/shared/baseComponents/myText/myText.component';
+import {useApp} from '@realm/react';
+import {useAppDispatch} from 'src/store/store';
+import {userSliceActions} from 'src/store/user/user.slice';
 
 export interface AccountScreenProps {}
 
@@ -18,11 +20,18 @@ export const AccountScreen: FC<AccountScreenProps> = props => {
     const navigation =
         useNavigation<AccountStackNavigationProps<AppRoutes.ACCOUNT_SCREEN>>();
     const theme = useTheme();
+    const dispatch = useAppDispatch();
+    const app = useApp();
 
     const handleNavigationToProfile = () => {
         navigation.navigate(AppRoutes.ACCOUNT_STACK, {
             screen: AppRoutes.PROFILE_SCREEN,
         });
+    };
+
+    const handleLogout = () => {
+        app.currentUser?.logOut();
+        dispatch(userSliceActions.deleteUser());
     };
 
     return (
@@ -67,7 +76,7 @@ export const AccountScreen: FC<AccountScreenProps> = props => {
                     iconName={'document-text-outline'}
                 />
                 <MenuItem
-                    onPress={AuthService.handleLogout}
+                    onPress={handleLogout}
                     title={'Logout'}
                     iconName={'log-out-outline'}
                 />

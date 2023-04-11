@@ -7,7 +7,8 @@
     "ios": "react-native run-ios --simulator='iPhone 14 Pro'",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "devices" : "xcrun xctrace list devices"
   },
   "dependencies": {
     "@react-native-google-signin/google-signin": "^9.0.2",

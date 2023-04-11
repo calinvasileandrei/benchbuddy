@@ -10,4 +10,7 @@ export const myLoadingStyle = (theme: Theme) =>
             alignItems: 'center',
             backgroundColor: theme.color.background,
         },
+        caption: {
+            marginVertical: theme.spacing.base,
+        },
     });

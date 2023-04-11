@@ -1,7 +1,10 @@
 import {useRealm} from 'src/services/realm.config';
 import {WorkoutModel, WorkoutSchema} from 'src/models/schema/workout.model';
 import Realm from 'realm';
-import {RealmCollections} from 'src/models/schema/realmTypes';
+import {
+    RealmCollections,
+    RealmSubscriptions,
+} from 'src/models/schema/realmTypes';
 import {ExerciseSchema} from 'src/models/schema/exercise.model';
 import {useApp} from '@realm/react';
 
@@ -20,10 +23,10 @@ export const useRealmWorkouts = () => {
         await realm.subscriptions.update(subs => {
             subs.add(
                 realm
-                    .objects(RealmCollections.MUSCLE)
+                    .objects(RealmCollections.WORKOUT)
                     .filtered('ownerId = $0', currentUser?.id),
                 {
-                    name: 'workoutsSubscription',
+                    name: RealmSubscriptions.WORKOUT,
                 },
             );
         });

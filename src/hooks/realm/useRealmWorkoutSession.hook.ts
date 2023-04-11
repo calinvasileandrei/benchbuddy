@@ -1,7 +1,10 @@
 import {useRealm} from 'src/services/realm.config';
 import {WorkoutSchema} from 'src/models/schema/workout.model';
 import Realm from 'realm';
-import {RealmCollections} from 'src/models/schema/realmTypes';
+import {
+    RealmCollections,
+    RealmSubscriptions,
+} from 'src/models/schema/realmTypes';
 import {ExerciseSchema} from 'src/models/schema/exercise.model';
 import {useApp} from '@realm/react';
 import {
@@ -27,7 +30,7 @@ export const useRealmWorkoutSession = () => {
                     .objects(RealmCollections.WORKOUT_SESSION)
                     .filtered('ownerId = $0', currentUser?.id),
                 {
-                    name: 'workoutsSubscription',
+                    name: RealmSubscriptions.WORKOUT_SESSION,
                 },
             );
         });
