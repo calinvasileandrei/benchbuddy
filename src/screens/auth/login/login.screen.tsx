@@ -12,6 +12,7 @@ import Realm from 'realm';
 import {useAppDispatch} from 'src/store/store';
 import {userSliceActions} from 'src/store/user/user.slice';
 import {userUtils} from 'src/utils/user.utils';
+import {showToastable} from 'react-native-toastable';
 
 const logger = new Logger('LoginScreen');
 
@@ -45,6 +46,12 @@ const LoginScreen = () => {
             }
         } catch (error) {
             logger.error('Error signing in:', error);
+            showToastable({
+                title: 'Error signing in',
+                message:
+                    'An error occurred while signing in. Please try again.',
+                status: 'danger',
+            });
         }
     };
 

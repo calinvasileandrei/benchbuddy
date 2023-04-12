@@ -19,6 +19,7 @@ import {MenuProvider} from 'react-native-popup-menu';
 import {MyDialogProvider} from 'src/shared/providers/myDialogProvider/myDialog.provider';
 import 'react-native-get-random-values';
 import {MyRealmProvider} from 'src/shared/providers/myRealmProvider/myRealm.provider';
+import Toastable from 'react-native-toastable';
 
 // for disabling warning when passing function to navigation params, but be careful is you use DeepLinking or persisting state
 LogBox.ignoreLogs([
@@ -46,6 +47,7 @@ function App(): JSX.Element {
                         </IsLoadingProvider>
                     </MyRealmProvider>
                 </SafeAreaProvider>
+                <Toastable />
             </ThemeProvider>
         </Provider>
     );
