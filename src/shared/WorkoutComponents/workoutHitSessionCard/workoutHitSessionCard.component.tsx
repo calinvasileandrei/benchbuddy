@@ -54,9 +54,8 @@ export const WorkoutHitSessionCard: FC<WorkoutHitSessionCardProps> = ({
     return (
         <MyCard
             key={workoutSession._id.toHexString()}
-            title={getSessionDate()}
+            title={workoutSession.referenceWorkout.name}
             onPress={handleOnPress}>
-            <MyText>{workoutSession.notes}</MyText>
             <Divider />
             <MyCard title={'Exercises'}>
                 {workoutSession.referenceWorkout.exercises.map(
@@ -78,6 +77,9 @@ export const WorkoutHitSessionCard: FC<WorkoutHitSessionCardProps> = ({
                     },
                 )}
             </MyCard>
+            <View style={style.footer}>
+                <MyText type={'captionText'}>{getSessionDate()}</MyText>
+            </View>
         </MyCard>
     );
 };

@@ -26,4 +26,8 @@ export const workoutHitSessionCardStyle = (theme: Theme) =>
         exerciseNumber: {
             color: theme.color.primary,
         },
+        footer: {
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+        },
     });
