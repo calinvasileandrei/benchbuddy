@@ -4,8 +4,6 @@ import {profileStyle} from 'src/screens/app/account/screens/profile/profile.styl
 import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component';
 import {MyProfileImage} from 'src/shared/uiComponents/myProfileImage/myProfileImage.component';
 import {View} from 'react-native';
-import {useAppSelector} from 'src/store/store';
-import {userSelectors} from 'src/store/user/user.selectors';
 import {MyText} from 'src/shared/baseComponents/myText/myText.component';
 import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component';
 import {MyInput} from 'src/shared/baseComponents/myInput/myInput.component';
@@ -13,12 +11,13 @@ import {MyKeyboardAwareScrollView} from 'src/shared/baseComponents/myKeyboardAwa
 import {MyButton} from 'src/shared/baseComponents/myButton/myButton.component';
 import {MyButtonGroup} from 'src/shared/baseComponents/myButtonGroup/myButtonGroup.component';
 import {MyDatePicker} from 'src/shared/baseComponents/myDatePicker/myDatePicker.component';
+import {useRealmUser} from 'src/hooks/realm/useRealmUser.hook';
 
 export interface ProfileScreenProps {}
 
 export const ProfileScreen: FC<ProfileScreenProps> = props => {
     const style = useThemeStyle(profileStyle);
-    const user = useAppSelector(userSelectors.getUser);
+    const {user} = useRealmUser();
 
     const getNameParts = () => {
         const nameParts = user?.displayName.split(' ');
@@ -47,7 +46,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
         <MySafeAreaView edges={['bottom']}>
             <MyKeyboardAwareScrollView>
                 <View style={style.profileImageContainer}>
-                    <MyProfileImage imageUri={user?.photoURL || ''} />
+                    <MyProfileImage imageUri={user?.photoURL} />
                     <View style={style.nameContainer}>
                         <MyText type={'header2Text'}>
                             {user?.displayName}

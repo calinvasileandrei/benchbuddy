@@ -9,13 +9,16 @@ import {Text} from '@rneui/themed';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useApp} from '@realm/react';
 import Realm from 'realm';
-import {UserModel} from 'src/models/user.model';
+import {useAppDispatch} from 'src/store/store';
+import {userSliceActions} from 'src/store/user/user.slice';
+import {userUtils} from 'src/utils/user.utils';
 
 const logger = new Logger('LoginScreen');
 
 const LoginScreen = () => {
     const style = useThemeStyle(loginStyle);
     const app = useApp();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         GoogleSignin.configure({
@@ -36,20 +39,13 @@ const LoginScreen = () => {
                 // https://github.com/realm/realm-js/issues/4995
                 const credentials = Realm.Credentials.jwt(userInfo.idToken);
                 const userMongo = await app.logIn(credentials);
-                const newUser: UserModel = {
-                    id: userMongo.id,
-                    phoneNumber: '',
-                    email: userMongo.profile.email || '',
-                    creationTime: '',
-                    photoURL: userMongo.profile.pictureUrl || '',
-                    displayName: userMongo.profile.name || '',
-                };
-                //return realmUserHook.registerUser(newUser);
+                const user = userUtils.mongoUserToModel(userMongo);
+                dispatch(userSliceActions.saveUser(user));
+                logger.debug('User logged in', user);
             }
         } catch (error) {
-            console.error('Error signing in:', error);
+            logger.error('Error signing in:', error);
         }
-        // show error
     };
 
     return (
@@ -57,7 +53,7 @@ const LoginScreen = () => {
             <View style={style.container}>
                 <Text style={style.logoText}> Gym Tren </Text>
                 <MyButton type={'primary'} onPress={() => signIn()}>
-                    Join GymTren
+                    Join BenchBuddy
                 </MyButton>
             </View>
         </MySafeAreaView>

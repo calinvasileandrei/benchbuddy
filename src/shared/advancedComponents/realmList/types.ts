@@ -7,6 +7,10 @@ export interface useRealmListParams<T, I> {
     keyExtractorKey: keyof I;
     searchTextParam?: string;
     searchField?: keyof I;
+    orderBy?: {
+        field: keyof I;
+        reverse?: boolean;
+    };
     filterBy?: FilterObject[];
     subscriptionName?: string;
 }

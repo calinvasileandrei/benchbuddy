@@ -20,6 +20,7 @@ export const WorkoutInfiniteFlatList: FC<
         schema: WorkoutSchema,
         keyExtractorKey: '_id',
         filterBy: props.filterBy,
+        orderBy: {field: 'createdAt', reverse: true},
     });
 
     const renderWorkout = (workout: WorkoutModel) => {

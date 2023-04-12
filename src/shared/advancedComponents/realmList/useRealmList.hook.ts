@@ -13,6 +13,7 @@ export const useRealmList = <T, I>({
     searchField,
     filterBy,
     subscriptionName,
+    orderBy,
 }: useRealmListParams<T, I>): useRealmListReturn<T, I> => {
     const realm = useRealm();
     const dataNotFiltered = useQuery<Realm.Object<T>>(schema);
@@ -43,7 +44,7 @@ export const useRealmList = <T, I>({
     };
 
     const getFilteredData = () => {
-        let returnData;
+        let returnData = dataNotFiltered;
 
         if (filterBy) {
             filterByUtils.applyFilterObjects(filterBy, 'OR').map(query => {
@@ -57,7 +58,14 @@ export const useRealmList = <T, I>({
             );
         }
 
-        return returnData || dataNotFiltered;
+        if (orderBy) {
+            returnData = returnData.sorted(
+                orderBy.field as string,
+                orderBy.reverse || false,
+            );
+        }
+
+        return returnData;
     };
 
     return {

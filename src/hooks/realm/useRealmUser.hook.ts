@@ -3,12 +3,14 @@ import {WorkoutSchema} from 'src/models/schema/workout.model';
 import {UserModel, UserSchema} from 'src/models/user.model';
 import {Logger} from 'src/utils/logger';
 import {RealmCollections} from 'src/models/schema/realmTypes';
-import {useApp} from '@realm/react';
+import {useApp, useUser} from '@realm/react';
+import {userUtils} from 'src/utils/user.utils';
 
 const logger = new Logger('useRealmUser');
 export const useRealmUser = () => {
     const realm = useRealm();
     const app = useApp();
+    const user = useUser();
     const currentUser = app.currentUser;
 
     const closeRealm = () => {
@@ -51,10 +53,12 @@ export const useRealmUser = () => {
         });
     };
 
-    const getUser = () => {};
+    const getUser = () => {
+        return userUtils.mongoUserToModel(user);
+    };
 
     return {
-        getUser,
+        user: getUser(),
         registerUser,
         deleteItem,
         closeRealm,

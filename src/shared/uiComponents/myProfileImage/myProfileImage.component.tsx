@@ -5,15 +5,17 @@ import {myProfileImageStyle} from 'src/shared/uiComponents/myProfileImage/myProf
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 
 export interface MyProfileImageProps {
-    imageUri: string;
+    imageUri?: string;
 }
+
+const staticImage = require('assets/logo.png');
 
 export const MyProfileImage: FC<MyProfileImageProps> = props => {
     const {imageUri} = props;
     const style = useThemeStyle(myProfileImageStyle);
     return (
         <Image
-            source={{uri: imageUri}}
+            source={imageUri ? {uri: imageUri} : staticImage}
             containerStyle={style.container}
             style={style.image}
             placeholderStyle={style.image}

@@ -23,6 +23,7 @@ export const WorkoutSessionInfiniteFlatList: FC<
         schema: WorkoutSessionSchema,
         keyExtractorKey: '_id',
         filterBy: props.filterBy,
+        orderBy: {field: 'createdAt', reverse: true},
     });
 
     const renderItem = (item: WorkoutSessionModel) => {

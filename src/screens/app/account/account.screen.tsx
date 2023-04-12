@@ -64,7 +64,7 @@ export const AccountScreen: FC<AccountScreenProps> = props => {
                 />
                 <MenuItem
                     onPress={() => -1}
-                    title={'Follow @gym-tren'}
+                    title={'Follow @benchbuddy'}
                     iconName={'share-social-outline'}
                 />
                 <MyText type={'header3Text'} style={style.header}>
