@@ -1,12 +1,12 @@
 import React, {FC} from 'react';
 import {AppProvider, UserProvider} from '@realm/react';
 import {MONGO_APP_ID} from '@dotenv';
-import LoginScreen from 'src/screens/auth/login/login.screen';
 import {RealmProvider} from 'src/services/realm.config';
 import {RealmLogger} from 'src/shared/advancedComponents/realmLogger/realmLogger.component';
 import {RealmSubscriptionProvider} from 'src/shared/providers/realmSubscriptionProvider/realmSubscription.provider';
 import {View} from 'react-native';
 import {MyLoading} from 'src/shared/baseComponents/myLoading/myLoading.component';
+import {AuthenticationStack} from 'src/navigation/stacks/authentication/authentication.stack';
 
 export interface MyRealmProviderProps {
     children: React.ReactNode;
@@ -31,7 +31,7 @@ export const MyRealmProvider: FC<MyRealmProviderProps> = ({children}) => {
 
     return (
         <AppProvider id={MONGO_APP_ID}>
-            <UserProvider fallback={LoginScreen}>
+            <UserProvider fallback={AuthenticationStack}>
                 <RealmProvider
                     fallback={renderFallbackLoading}
                     sync={{

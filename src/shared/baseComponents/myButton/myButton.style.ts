@@ -41,5 +41,21 @@ export const myButtonStyle = (theme: Theme) => {
         disabledButtonText: {
             color: theme.color.placeholder,
         },
+        roundButton: {
+            borderRadius: (theme.spacing.double * 3) / 2,
+            height: theme.spacing.double * 3,
+            width: theme.spacing.double * 3,
+            backgroundColor: theme.color.primary,
+            borderColor: theme.color.primary,
+            justifyContent: 'center',
+            alignItems: 'center',
+            shadowColor: theme.color.border,
+            shadowRadius: 6,
+            shadowOpacity: 0.2,
+        },
+        roundContainer: {
+            width: theme.spacing.double * 2,
+            height: theme.spacing.double * 2,
+        },
     });
 };

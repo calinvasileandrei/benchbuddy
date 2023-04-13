@@ -35,17 +35,17 @@ function App(): JSX.Element {
             <ThemeProvider initial={theme}>
                 <SafeAreaProvider
                     style={{backgroundColor: appTheme.theme.color.background}}>
-                    <MyRealmProvider>
-                        <IsLoadingProvider>
-                            <NavigationContainer>
+                    <NavigationContainer>
+                        <MyRealmProvider>
+                            <IsLoadingProvider>
                                 <MenuProvider>
                                     <MyDialogProvider>
                                         <RootNavigator />
                                     </MyDialogProvider>
                                 </MenuProvider>
-                            </NavigationContainer>
-                        </IsLoadingProvider>
-                    </MyRealmProvider>
+                            </IsLoadingProvider>
+                        </MyRealmProvider>
+                    </NavigationContainer>
                 </SafeAreaProvider>
                 <Toastable />
             </ThemeProvider>

@@ -58,7 +58,7 @@ const LoginScreen = () => {
     return (
         <MySafeAreaView edges={['bottom', 'top']}>
             <View style={style.container}>
-                <Text style={style.logoText}> Gym Tren </Text>
+                <Text style={style.logoText}> BenchBuddy </Text>
                 <MyButton type={'primary'} onPress={() => signIn()}>
                     Join BenchBuddy
                 </MyButton>

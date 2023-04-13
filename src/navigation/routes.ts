@@ -6,6 +6,7 @@ export enum RootRoutes {
 export enum AuthenticationRoutes {
     // SCREENS
     LOGIN_SCREEN = 'LOGIN_SCREEN',
+    LOGIN_INTRO_SCREEN = 'LOGIN_INTRO_SCREEN',
 }
 
 export enum AppRoutes {

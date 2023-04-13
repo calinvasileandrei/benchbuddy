@@ -29,6 +29,12 @@ export const MyIcon: FC<MyIconProps> = props => {
             size={props.size}
             name={props.iconName}
             color={props.color || style.icon.color}
+            style={{
+                height: props.size ? props.size - 1 : undefined,
+                textAlign: 'center',
+                alignSelf: 'center',
+                lineHeight: props.size,
+            }}
         />
     );
 };

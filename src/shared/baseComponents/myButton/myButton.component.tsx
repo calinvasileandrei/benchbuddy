@@ -11,7 +11,7 @@ import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {handleHaptic, HapticType} from 'src/utils/haptics.utils';
 
 export interface MyButtonProps extends TouchableOpacityProps {
-    type?: 'primary' | 'outline' | 'reverse';
+    type?: 'primary' | 'outline' | 'reverse' | 'round';
     withHaptics?: HapticType;
     isLoading?: boolean;
 }
@@ -28,6 +28,8 @@ export const MyButton: FC<MyButtonProps> = props => {
                 return Styles.outlineButton;
             case 'reverse':
                 return Styles.reverseButton;
+            case 'round':
+                return Styles.roundButton;
             default:
                 return Styles.primaryButton;
         }
