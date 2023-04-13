@@ -3,6 +3,7 @@ import {
     ActivityIndicator,
     GestureResponderEvent,
     Text,
+    TextProps,
     TouchableOpacity,
     TouchableOpacityProps,
 } from 'react-native';
@@ -13,6 +14,8 @@ import {handleHaptic, HapticType} from 'src/utils/haptics.utils';
 export interface MyButtonProps extends TouchableOpacityProps {
     type?: 'primary' | 'outline' | 'reverse' | 'round';
     withHaptics?: HapticType;
+    buttonTextStyle?: TextProps['style'];
+    textColor?: 'light' | 'dark' | 'primary';
     isLoading?: boolean;
 }
 
@@ -52,6 +55,19 @@ export const MyButton: FC<MyButtonProps> = props => {
         }
     };
 
+    const getTextColor = () => {
+        switch (props.textColor) {
+            case 'light':
+                return Styles.primaryButtonText;
+            case 'dark':
+                return Styles.darkText;
+            case 'primary':
+                return Styles.outlineButtonText;
+            default:
+                return undefined;
+        }
+    };
+
     const handleOnPress = (e: GestureResponderEvent) => {
         onPress && onPress(e);
         handleHaptic(props.withHaptics);
@@ -68,7 +84,13 @@ export const MyButton: FC<MyButtonProps> = props => {
                     color={getButtonTextStyle().color}
                 />
             ) : (
-                <Text style={[Styles.buttonText, getButtonTextStyle()]}>
+                <Text
+                    style={[
+                        Styles.buttonText,
+                        getButtonTextStyle(),
+                        getTextColor(),
+                        props.buttonTextStyle,
+                    ]}>
                     {props.children}
                 </Text>
             )}

@@ -57,5 +57,8 @@ export const myButtonStyle = (theme: Theme) => {
             width: theme.spacing.double * 2,
             height: theme.spacing.double * 2,
         },
+        darkText: {
+            color: theme.color.surface,
+        },
     });
 };

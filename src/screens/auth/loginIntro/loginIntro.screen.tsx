@@ -71,7 +71,7 @@ export const LoginIntroScreen = () => {
     };
 
     return (
-        <MySafeAreaView edges={['bottom', 'top']}>
+        <MySafeAreaView edges={['bottom']}>
             <AnimatedPagerView
                 initialPage={0}
                 ref={ref}
