@@ -13,6 +13,7 @@ import {
     RootStackParamList,
     RootStackScreenProps,
 } from 'src/navigation/root/types';
+import {AnalysisStackParamList} from 'src/navigation/stacks/analysis/types';
 
 export type AppParamList = {
     [AppRoutes.TABS]: NavigatorScreenParams<TabParamList>;
@@ -20,6 +21,7 @@ export type AppParamList = {
     [AppRoutes.WORKOUTS_STACK]: NavigatorScreenParams<WorkoutStackParamList>;
     [AppRoutes.EXERCISES_STACK]: NavigatorScreenParams<ExercisesStackParamList>;
     [AppRoutes.ACCOUNT_STACK]: NavigatorScreenParams<AccountStackParamList>;
+    [AppRoutes.ANALYSIS_STACK]: NavigatorScreenParams<AnalysisStackParamList>;
 };
 
 export type AppScreenProps<T extends keyof AppParamList> = CompositeScreenProps<

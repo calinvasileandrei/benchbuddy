@@ -29,6 +29,12 @@ export const AccountScreen: FC<AccountScreenProps> = props => {
         });
     };
 
+    const handleNavigationToAnalysis = () => {
+        navigation.navigate(AppRoutes.ANALYSIS_STACK, {
+            screen: AppRoutes.ANALYSIS_SCREEN,
+        });
+    };
+
     const handleLogout = () => {
         app.currentUser?.logOut();
         dispatch(userSliceActions.deleteUser());
@@ -42,12 +48,16 @@ export const AccountScreen: FC<AccountScreenProps> = props => {
                     iconName={'person-circle-outline'}
                     title={'Profile'}
                 />
-                {/*   <MenuItem onPress={exerciseListService.exportExercises} disabled={true}  title={'Load JSON'}/>
-                <MenuItem onPress={typesenseService.populateTypesense} disabled={true}  title={'Populate Typesense'}/>
-                <MenuItem onPress={workoutSessionTypesenseService.fetchCollection} disabled={false}
-                          title={'Fetch Typesense WorkoutSession'}/>
-                <MenuItem onPress={workoutSessionTypesenseService.initSchema} disabled={false}
-                          title={'Init Typesense WorkoutSession'}/>*/}
+                <MenuItem
+                    onPress={handleNavigationToProfile}
+                    iconName={'flash-outline'}
+                    title={'Join BenchBuddy Pro'}
+                />
+                <MenuItem
+                    onPress={handleNavigationToAnalysis}
+                    iconName={'flash-outline'}
+                    title={'Analysis'}
+                />
                 {/*<MenuItem onPress={theme.toggleTheme} title={'Change Theme'} iconName={'contrast-outline'}/>*/}
                 <MyText type={'header3Text'} style={style.header}>
                     Help us

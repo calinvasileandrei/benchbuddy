@@ -7,6 +7,7 @@ import {HomeStack} from 'src/navigation/stacks/home/home.stack';
 import {TabsNavigator} from 'src/navigation/root/tabs/tabs.navigator';
 import {AppParamList} from 'src/navigation/root/app/types';
 import {createStackNavigator} from '@react-navigation/stack';
+import {AnalysisStack} from 'src/navigation/stacks/analysis/analysis.stack';
 
 const Stack = createStackNavigator<AppParamList>();
 
@@ -26,6 +27,10 @@ export const AppStack = () => {
             <Stack.Screen
                 name={AppRoutes.ACCOUNT_STACK}
                 component={AccountStack}
+            />
+            <Stack.Screen
+                name={AppRoutes.ANALYSIS_STACK}
+                component={AnalysisStack}
             />
         </Stack.Navigator>
     );
