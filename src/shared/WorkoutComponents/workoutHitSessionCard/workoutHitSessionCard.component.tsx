@@ -58,24 +58,22 @@ export const WorkoutHitSessionCard: FC<WorkoutHitSessionCardProps> = ({
             onPress={handleOnPress}>
             <Divider />
             <MyCard title={'Exercises'}>
-                {workoutSession.referenceWorkout.exercises.map(
-                    (exercise, index) => {
-                        return (
-                            <View style={style.item} key={exercise._id}>
-                                <View style={style.exerciseRow}>
-                                    <View style={style.roundContainer}>
-                                        <MyText
-                                            type={'captionText'}
-                                            style={style.exerciseNumber}>
-                                            {`${(index + 1).toString()}`}
-                                        </MyText>
-                                    </View>
-                                    <MyText>{exercise.exercise.name}</MyText>
+                {workoutSession.sessionExercises.map((exercise, index) => {
+                    return (
+                        <View style={style.item} key={exercise._id}>
+                            <View style={style.exerciseRow}>
+                                <View style={style.roundContainer}>
+                                    <MyText
+                                        type={'captionText'}
+                                        style={style.exerciseNumber}>
+                                        {`${(index + 1).toString()}`}
+                                    </MyText>
                                 </View>
+                                <MyText>{exercise.exercise.name}</MyText>
                             </View>
-                        );
-                    },
-                )}
+                        </View>
+                    );
+                })}
             </MyCard>
             <View style={style.footer}>
                 <MyText type={'captionText'}>{getSessionDate()}</MyText>
