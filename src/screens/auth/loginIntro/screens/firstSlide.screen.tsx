@@ -1,14 +1,14 @@
-import React, {FC} from 'react';
-import {View} from 'react-native';
-import {MyText} from 'src/shared/baseComponents/myText/myText.component';
-import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
-import {loginIntroStyle} from 'src/screens/auth/loginIntro/loginIntro.style';
-import PersonalTrainerImage from 'assets/personal_trainer.svg';
-import {RightMessageComponent} from 'src/screens/auth/loginIntro/components/rightMessage.component';
-import {LeftMessageComponent} from 'src/screens/auth/loginIntro/components/leftMessage.component';
+import React, {FC} from 'react'
+import {View} from 'react-native'
+import {MyText} from 'src/shared/baseComponents/myText/myText.component'
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
+import {loginIntroStyle} from 'src/screens/auth/loginIntro/loginIntro.style'
+import PersonalTrainerImage from 'assets/personal_trainer.svg'
+import {RightMessageComponent} from 'src/screens/auth/loginIntro/components/rightMessage.component'
+import {LeftMessageComponent} from 'src/screens/auth/loginIntro/components/leftMessage.component'
 
 export const FirstSlideScreen: FC = () => {
-    const style = useThemeStyle(loginIntroStyle);
+    const style = useThemeStyle(loginIntroStyle)
 
     return (
         <View key={'firstSlide'} style={style.container}>
@@ -23,9 +23,7 @@ export const FirstSlideScreen: FC = () => {
             <View style={style.bottomContainer}>
                 <MyText style={style.logoText}>{`Hello Buddy! 👋`}</MyText>
                 <RightMessageComponent
-                    text={
-                        'Every session is a new opportunity to improve yourself'
-                    }
+                    text={'Every session is a new opportunity to improve yourself'}
                 />
                 <LeftMessageComponent
                     text={
@@ -34,5 +32,5 @@ export const FirstSlideScreen: FC = () => {
                 />
             </View>
         </View>
-    );
-};
+    )
+}

@@ -1,5 +1,5 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const exercisesItemStyle = (theme: Theme) =>
     StyleSheet.create({
@@ -10,9 +10,9 @@ export const exercisesItemStyle = (theme: Theme) =>
             backgroundColor: theme.color.surface,
             paddingHorizontal: theme.spacing.base,
             height: 60,
-            marginVertical: theme.spacing.small,
+            marginVertical: theme.spacing.small
         },
         icon: {
-            color: theme.color.border,
-        },
-    });
+            color: theme.color.border
+        }
+    })

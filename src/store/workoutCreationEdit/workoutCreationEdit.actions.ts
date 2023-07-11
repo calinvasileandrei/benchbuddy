@@ -1,5 +1,5 @@
-import {createActionTypesMap} from 'src/utils/redux.utils';
+import {createActionTypesMap} from 'src/utils/redux.utils'
 
-const workoutCreationActionNames = createActionTypesMap('workoutCreation', []);
+const workoutCreationActionNames = createActionTypesMap('workoutCreation', [])
 
-export const workoutCreationEditActions = {};
+export const workoutCreationEditActions = {}

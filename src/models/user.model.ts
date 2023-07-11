@@ -1,35 +1,35 @@
-import Realm from 'realm';
+import Realm from 'realm'
 
 export interface UserModel {
-    _id: string;
-    email: string;
-    displayName: string;
-    photoURL: string;
-    phoneNumber: string;
-    creationTime: string;
+    _id: string
+    email: string
+    displayName: string
+    photoURL: string
+    phoneNumber: string
+    creationTime: string
     // Account data
-    name?: string;
-    surname?: string;
-    birthday?: string;
-    height?: number;
-    weight?: number;
-    unit?: string;
+    name?: string
+    surname?: string
+    birthday?: string
+    height?: number
+    weight?: number
+    unit?: string
 }
 
 export class UserSchema extends Realm.Object<UserModel> {
-    _id!: string;
-    email!: string;
-    displayName?: string;
-    photoURL?: string;
-    phoneNumber?: string;
-    creationTime!: string;
+    _id!: string
+    email!: string
+    displayName?: string
+    photoURL?: string
+    phoneNumber?: string
+    creationTime!: string
     // Account data
-    name?: string;
-    surname?: string;
-    birthday?: string;
-    height?: number;
-    weight?: number;
-    unit?: string;
+    name?: string
+    surname?: string
+    birthday?: string
+    height?: number
+    weight?: number
+    unit?: string
     static schema = {
         name: 'User',
         properties: {
@@ -45,8 +45,8 @@ export class UserSchema extends Realm.Object<UserModel> {
             birthday: 'string?',
             height: 'int?',
             weight: 'int?',
-            unit: 'string?',
+            unit: 'string?'
         },
-        primaryKey: '_id',
-    };
+        primaryKey: '_id'
+    }
 }

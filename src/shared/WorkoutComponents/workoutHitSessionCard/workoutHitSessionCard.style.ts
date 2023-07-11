@@ -1,10 +1,10 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const workoutHitSessionCardStyle = (theme: Theme) =>
     StyleSheet.create({
         item: {
-            marginVertical: theme.spacing.base,
+            marginVertical: theme.spacing.base
         },
         roundContainer: {
             width: 30,
@@ -14,20 +14,20 @@ export const workoutHitSessionCardStyle = (theme: Theme) =>
             alignItems: 'center',
             borderWidth: 1,
             marginRight: theme.spacing.base,
-            borderColor: theme.color.primary,
+            borderColor: theme.color.primary
         },
         exerciseRow: {
             height: 30,
             flexDirection: 'row',
             flex: 1,
             justifyContent: 'flex-start',
-            alignItems: 'center',
+            alignItems: 'center'
         },
         exerciseNumber: {
-            color: theme.color.primary,
+            color: theme.color.primary
         },
         footer: {
             flexDirection: 'row',
-            justifyContent: 'flex-end',
-        },
-    });
+            justifyContent: 'flex-end'
+        }
+    })

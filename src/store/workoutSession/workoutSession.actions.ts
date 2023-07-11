@@ -1,17 +1,17 @@
-import {createActionTypesMap} from 'src/utils/redux.utils';
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {RootState} from 'src/store/store';
+import {createActionTypesMap} from 'src/utils/redux.utils'
+import {createAsyncThunk} from '@reduxjs/toolkit'
+import {RootState} from 'src/store/store'
 
 const workoutSessionActionNames = createActionTypesMap('workoutCreation', [
     'saveSession',
-    'editSession',
-]);
+    'editSession'
+])
 
 export const saveSession = createAsyncThunk(
     workoutSessionActionNames.saveSession,
     async (args, thunkAPI) => {
         try {
-            const state = thunkAPI.getState() as RootState;
+            const state = thunkAPI.getState() as RootState
             /*const user = UserService.getAuthUser();
             if (state.workoutSession.workoutSession && user) {
                 const session: WorkoutSessionModel = {
@@ -32,18 +32,18 @@ export const saveSession = createAsyncThunk(
                 );
                 return;
             }*/
-            throw new Error('workoutSession not found');
+            throw new Error('workoutSession not found')
         } catch (e: any) {
-            throw new Error(`saveSession error', ${(e as any).message}`);
+            throw new Error(`saveSession error', ${(e as any).message}`)
         }
-    },
-);
+    }
+)
 
 export const editSession = createAsyncThunk(
     workoutSessionActionNames.editSession,
     async (args, thunkAPI) => {
         try {
-            const state = thunkAPI.getState() as RootState;
+            const state = thunkAPI.getState() as RootState
             /*const user = UserService.getAuthUser();
             if (state.workoutSession.workoutSession && user) {
                 const session: WorkoutSessionModel = {
@@ -72,14 +72,14 @@ export const editSession = createAsyncThunk(
                 );
                 return;
             }*/
-            throw new Error('workoutSession not found');
+            throw new Error('workoutSession not found')
         } catch (e: any) {
-            throw new Error(`edit error', ${(e as any).message}`);
+            throw new Error(`edit error', ${(e as any).message}`)
         }
-    },
-);
+    }
+)
 
 export const workoutSessionActions = {
     saveSession,
-    editSession,
-};
+    editSession
+}

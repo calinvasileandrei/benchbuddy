@@ -1,12 +1,12 @@
 export enum RootRoutes {
     AUTHENTICATION = 'AUTHENTICATION',
-    APP = 'APP',
+    APP = 'APP'
 }
 
 export enum AuthenticationRoutes {
     // SCREENS
     LOGIN_SCREEN = 'LOGIN_SCREEN',
-    LOGIN_INTRO_SCREEN = 'LOGIN_INTRO_SCREEN',
+    LOGIN_INTRO_SCREEN = 'LOGIN_INTRO_SCREEN'
 }
 
 export enum AppRoutes {
@@ -37,5 +37,5 @@ export enum AppRoutes {
     WORKOUT_EDIT_SCREEN = 'WORKOUT_EDIT_SCREEN',
 
     // Other
-    PROFILE_SCREEN = 'PROFILE_SCREEN',
+    PROFILE_SCREEN = 'PROFILE_SCREEN'
 }

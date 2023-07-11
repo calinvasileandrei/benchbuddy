@@ -7,10 +7,10 @@ export type FilterOperators =
     | 'ENDSWITH'
     | 'LIKE'
     | '='
-    | '==';
+    | '=='
 
 export interface FilterObject {
-    field: string;
-    operator: FilterOperators;
-    value: (string | number)[];
+    field: string
+    operator: FilterOperators
+    value: (string | number)[]
 }

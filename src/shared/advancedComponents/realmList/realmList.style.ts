@@ -1,5 +1,5 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const realmListStyle = (theme: Theme) =>
     StyleSheet.create({
@@ -8,12 +8,12 @@ export const realmListStyle = (theme: Theme) =>
             flexGrow: 0.7,
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'center'
         },
         noDataText: {
-            color: theme.color.onSurface,
+            color: theme.color.onSurface
         },
         pullToRefresh: {
-            color: theme.color.placeholder,
-        },
-    });
+            color: theme.color.placeholder
+        }
+    })

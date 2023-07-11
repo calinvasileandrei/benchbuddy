@@ -1,30 +1,30 @@
-import React, {FC, useEffect} from 'react';
-import {View} from 'react-native';
-import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component';
-import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
-import {workoutDetailStyle} from 'src/screens/app/workout/screens/workoutDetail/workoutDetail.style';
-import {useAppSelector} from 'src/store/store';
-import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component';
-import {MyText} from 'src/shared/baseComponents/myText/myText.component';
-import {Divider} from '@rneui/themed';
-import {MyScrollView} from 'src/shared/baseComponents/myScrollView/myScrollView.component';
-import {workoutSelectors} from 'src/store/workout/workout.selectors';
-import {ExerciseSetRowViewer} from 'src/shared/WorkoutComponents/workoutSessionCard/exerciseSetRowViewer/exerciseSetRowViewer.component';
-import {workoutToChartUtils} from 'src/utils/workoutToChart.utils';
-import {MyPieChart} from 'src/shared/charts/myPieChart/myPieChart.component';
+import React, {FC, useEffect} from 'react'
+import {View} from 'react-native'
+import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component'
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
+import {workoutDetailStyle} from 'src/screens/app/workout/screens/workoutDetail/workoutDetail.style'
+import {useAppSelector} from 'src/store/store'
+import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component'
+import {MyText} from 'src/shared/baseComponents/myText/myText.component'
+import {Divider} from '@rneui/themed'
+import {MyScrollView} from 'src/shared/baseComponents/myScrollView/myScrollView.component'
+import {workoutSelectors} from 'src/store/workout/workout.selectors'
+import {ExerciseSetRowViewer} from 'src/shared/WorkoutComponents/workoutSessionCard/exerciseSetRowViewer/exerciseSetRowViewer.component'
+import {workoutToChartUtils} from 'src/utils/workoutToChart.utils'
+import {MyPieChart} from 'src/shared/charts/myPieChart/myPieChart.component'
 
 export interface WorkoutDetailScreenProps {}
 
 export const WorkoutDetailScreen: FC<WorkoutDetailScreenProps> = props => {
-    const style = useThemeStyle(workoutDetailStyle);
-    const workout = useAppSelector(workoutSelectors.getDetailWorkout);
+    const style = useThemeStyle(workoutDetailStyle)
+    const workout = useAppSelector(workoutSelectors.getDetailWorkout)
 
     useEffect(() => {
-        console.log('WorkoutDetail', workout);
-    }, [workout]);
+        console.log('WorkoutDetail', workout)
+    }, [workout])
 
     if (!workout) {
-        return null;
+        return null
     }
 
     return (
@@ -48,7 +48,7 @@ export const WorkoutDetailScreen: FC<WorkoutDetailScreenProps> = props => {
                                         />
                                     ))}
                                 </View>
-                            );
+                            )
                         })}
                     </View>
                 </MyCard>
@@ -58,10 +58,7 @@ export const WorkoutDetailScreen: FC<WorkoutDetailScreenProps> = props => {
                     </MyCard>
                 )}
                 <MyCard>
-                    <MyText
-                        type={
-                            'bodyText'
-                        }>{`Created at ${workout.createdAt}`}</MyText>
+                    <MyText type={'bodyText'}>{`Created at ${workout.createdAt}`}</MyText>
                 </MyCard>
                 <MyScrollView horizontal={true}>
                     {workoutToChartUtils
@@ -75,10 +72,10 @@ export const WorkoutDetailScreen: FC<WorkoutDetailScreenProps> = props => {
                                     data={item.data}
                                     accessor={'count'}
                                 />
-                            );
+                            )
                         })}
                 </MyScrollView>
             </MyScrollView>
         </MySafeAreaView>
-    );
-};
+    )
+}

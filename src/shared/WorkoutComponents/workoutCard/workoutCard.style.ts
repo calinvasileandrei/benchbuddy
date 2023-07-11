@@ -1,5 +1,5 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const workoutCardStyle = (theme: Theme) =>
     StyleSheet.create({
@@ -7,7 +7,7 @@ export const workoutCardStyle = (theme: Theme) =>
             marginVertical: theme.spacing.base,
             flexDirection: 'row',
             flex: 1,
-            alignItems: 'center',
+            alignItems: 'center'
         },
         roundContainer: {
             width: 25,
@@ -17,16 +17,16 @@ export const workoutCardStyle = (theme: Theme) =>
             alignItems: 'center',
             borderWidth: 1,
             borderColor: theme.color.primary,
-            marginRight: theme.spacing.base,
+            marginRight: theme.spacing.base
         },
         exerciseNumber: {
-            color: theme.color.primary,
+            color: theme.color.primary
         },
         description: {
-            marginBottom: theme.spacing.small,
+            marginBottom: theme.spacing.small
         },
         exercises: {
             marginVertical: theme.spacing.small,
-            marginHorizontal: theme.spacing.base,
-        },
-    });
+            marginHorizontal: theme.spacing.base
+        }
+    })

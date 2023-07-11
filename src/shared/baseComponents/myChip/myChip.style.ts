@@ -1,5 +1,5 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const myChipStyle = (theme: Theme) =>
     StyleSheet.create({
@@ -11,16 +11,16 @@ export const myChipStyle = (theme: Theme) =>
             paddingVertical: theme.spacing.base,
             paddingHorizontal: theme.spacing.double,
             marginVertical: theme.spacing.small,
-            marginHorizontal: theme.spacing.small,
+            marginHorizontal: theme.spacing.small
         },
         chip: {
             backgroundColor: theme.color.background,
             borderColor: theme.color.surface,
-            color: theme.color.onSurface,
+            color: theme.color.onSurface
         },
         chipActive: {
             backgroundColor: theme.color.background,
             borderColor: theme.color.primary,
-            color: theme.color.primary,
-        },
-    });
+            color: theme.color.primary
+        }
+    })

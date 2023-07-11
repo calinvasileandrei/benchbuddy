@@ -1,5 +1,5 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const quickStartStyle = (theme: Theme) =>
     StyleSheet.create({
@@ -8,13 +8,13 @@ export const quickStartStyle = (theme: Theme) =>
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
             margin: 0,
-            padding: 0,
+            padding: 0
         },
         iconContainer: {
             flexDirection: 'row',
             justifyContent: 'flex-end',
             alignItems: 'center',
-            margin: theme.spacing.base,
+            margin: theme.spacing.base
         },
         quickStart: {
             flexDirection: 'row',
@@ -22,7 +22,7 @@ export const quickStartStyle = (theme: Theme) =>
             justifyContent: 'center',
             alignItems: 'center',
             padding: 0,
-            flexGrow: 1,
+            flexGrow: 1
         },
         quickStartFirstElement: {
             flex: 1,
@@ -30,20 +30,20 @@ export const quickStartStyle = (theme: Theme) =>
             flexDirection: 'row',
             borderColor: theme.color.border,
             alignItems: 'center',
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-evenly'
         },
         quickStartSecondElement: {
             flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-evenly'
         },
         quickStartTextContainer: {
             position: 'absolute',
             top: 0,
-            left: 0,
+            left: 0
         },
         icons: {
-            color: theme.color.onSurface,
-        },
-    });
+            color: theme.color.onSurface
+        }
+    })

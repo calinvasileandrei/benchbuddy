@@ -11,7 +11,7 @@ export enum RealmCollections {
     EQUIPMENT = 'Equipment',
     MECHANIC = 'Mechanic',
     CATEGORY = 'Category',
-    USER = 'User',
+    USER = 'User'
 }
 
 export enum RealmSubscriptions {
@@ -19,9 +19,9 @@ export enum RealmSubscriptions {
     WORKOUT = 'workoutSubscription',
     MUSCLES = 'musclesSubscription',
     EXERCISE = 'exerciseSubscription',
-    USER = 'userSubscription',
+    USER = 'userSubscription'
 }
 
 export enum RealmDB {
-    DB_NAME = 'benchbuddy',
+    DB_NAME = 'benchbuddy'
 }

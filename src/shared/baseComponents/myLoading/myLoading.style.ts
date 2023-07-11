@@ -1,5 +1,5 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const myLoadingStyle = (theme: Theme) =>
     StyleSheet.create({
@@ -8,9 +8,9 @@ export const myLoadingStyle = (theme: Theme) =>
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: theme.color.background,
+            backgroundColor: theme.color.background
         },
         caption: {
-            marginVertical: theme.spacing.base,
-        },
-    });
+            marginVertical: theme.spacing.base
+        }
+    })

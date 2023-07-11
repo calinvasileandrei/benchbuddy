@@ -1,13 +1,13 @@
-import React from 'react';
-import {FlatList, View} from 'react-native';
-import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
-import {MyText} from 'src/shared/baseComponents/myText/myText.component';
-import {RealmListProps} from 'src/shared/advancedComponents/realmList/types';
-import {realmListStyle} from 'src/shared/advancedComponents/realmList/realmList.style';
+import React from 'react'
+import {FlatList, View} from 'react-native'
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
+import {MyText} from 'src/shared/baseComponents/myText/myText.component'
+import {RealmListProps} from 'src/shared/advancedComponents/realmList/types'
+import {realmListStyle} from 'src/shared/advancedComponents/realmList/realmList.style'
 
 export const RealmList = <T extends any, I>(props: RealmListProps<T, I>) => {
-    const {realmHookParams, renderItem, emptyList} = props;
-    const style = useThemeStyle(realmListStyle);
+    const {realmHookParams, renderItem, emptyList} = props
+    const style = useThemeStyle(realmListStyle)
 
     if (realmHookParams.data.length === 0 && emptyList) {
         return (
@@ -24,7 +24,7 @@ export const RealmList = <T extends any, I>(props: RealmListProps<T, I>) => {
                     </MyText>
                 )}
             </View>
-        );
+        )
     }
 
     return (
@@ -35,5 +35,5 @@ export const RealmList = <T extends any, I>(props: RealmListProps<T, I>) => {
             indicatorStyle={'default'}
             style={{marginBottom: 50}}
         />
-    );
-};
+    )
+}

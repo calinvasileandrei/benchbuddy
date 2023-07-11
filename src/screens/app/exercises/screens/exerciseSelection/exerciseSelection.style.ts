@@ -1,5 +1,5 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const exerciseSelectionStyle = (theme: Theme) =>
     StyleSheet.create({
@@ -7,6 +7,6 @@ export const exerciseSelectionStyle = (theme: Theme) =>
             flex: 1,
             flexDirection: 'column',
             flexGrow: 1,
-            justifyContent: 'center',
-        },
-    });
+            justifyContent: 'center'
+        }
+    })

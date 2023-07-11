@@ -1,5 +1,5 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const goBackStyle = (theme: Theme) =>
     StyleSheet.create({
@@ -8,9 +8,9 @@ export const goBackStyle = (theme: Theme) =>
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            marginHorizontal: theme.spacing.small,
+            marginHorizontal: theme.spacing.small
         },
         title: {
-            color: theme.color.primary,
-        },
-    });
+            color: theme.color.primary
+        }
+    })

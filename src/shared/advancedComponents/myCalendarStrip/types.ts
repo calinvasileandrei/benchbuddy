@@ -1,7 +1,7 @@
-import {FilterObject} from 'src/models/generalTypes';
+import {FilterObject} from 'src/models/generalTypes'
 
 export interface DateChipItem {
-    id: number;
-    name: string;
-    value: FilterObject;
+    id: number
+    name: string
+    value: FilterObject
 }

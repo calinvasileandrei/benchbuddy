@@ -1,15 +1,15 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const myPieChartStyle = (theme: Theme) =>
     StyleSheet.create({
         chart: {
             marginVertical: 8,
             borderRadius: 16,
-            padding: 10,
+            padding: 10
         },
         chartConfigStyle: {
-            padding: 10,
+            padding: 10
         },
         outerContainer: {
             marginVertical: theme.spacing.base,
@@ -18,9 +18,9 @@ export const myPieChartStyle = (theme: Theme) =>
             borderRadius: theme.borderRadius.double,
             flex: 1,
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'center'
         },
         title: {
-            marginTop: theme.spacing.base,
-        },
-    });
+            marginTop: theme.spacing.base
+        }
+    })

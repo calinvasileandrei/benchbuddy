@@ -1,29 +1,29 @@
-import React, {FC} from 'react';
-import {Row} from 'src/shared/baseComponents/myGrid/row.component';
-import {Col} from 'src/shared/baseComponents/myGrid/col.component';
-import {MyText} from 'src/shared/baseComponents/myText/myText.component';
-import {ExerciseSetModel} from 'src/models/schema/exerciseSet.model';
-import {MyInputNumber} from 'src/shared/baseComponents/myInputNumber/myInputNumber.component';
-import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
-import {exerciseSetCreatorStyle} from 'src/shared/ExercisesComponents/exercieseSetRow/exerciseSetRow.style';
-import {View} from 'react-native';
+import React, {FC} from 'react'
+import {Row} from 'src/shared/baseComponents/myGrid/row.component'
+import {Col} from 'src/shared/baseComponents/myGrid/col.component'
+import {MyText} from 'src/shared/baseComponents/myText/myText.component'
+import {ExerciseSetModel} from 'src/models/schema/exerciseSet.model'
+import {MyInputNumber} from 'src/shared/baseComponents/myInputNumber/myInputNumber.component'
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
+import {exerciseSetCreatorStyle} from 'src/shared/ExercisesComponents/exercieseSetRow/exerciseSetRow.style'
+import {View} from 'react-native'
 
 export interface ExerciseSetRowProps {
-    exerciseSet: ExerciseSetModel;
-    placeHolderSet?: ExerciseSetModel;
-    setNumber: number;
+    exerciseSet: ExerciseSetModel
+    placeHolderSet?: ExerciseSetModel
+    setNumber: number
 }
 
 export const ExerciseSetRowViewer: FC<ExerciseSetRowProps> = props => {
-    const {exerciseSet, setNumber, placeHolderSet} = props;
-    const style = useThemeStyle(exerciseSetCreatorStyle);
+    const {exerciseSet, setNumber, placeHolderSet} = props
+    const style = useThemeStyle(exerciseSetCreatorStyle)
 
     const getValue = (value: number) => {
         if (value !== 0) {
-            return value;
+            return value
         }
-        return undefined;
-    };
+        return undefined
+    }
 
     return (
         <Row style={style.rowContainer}>
@@ -68,5 +68,5 @@ export const ExerciseSetRowViewer: FC<ExerciseSetRowProps> = props => {
                 />
             </Col>
         </Row>
-    );
-};
+    )
+}

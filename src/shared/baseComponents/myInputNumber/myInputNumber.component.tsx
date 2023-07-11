@@ -1,35 +1,35 @@
-import React, {FC} from 'react';
-import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
-import {Input, InputProps} from '@rneui/themed';
-import {myInputNumberStyle} from 'src/shared/baseComponents/myInputNumber/myInputNumber.style';
+import React, {FC} from 'react'
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
+import {Input, InputProps} from '@rneui/themed'
+import {myInputNumberStyle} from 'src/shared/baseComponents/myInputNumber/myInputNumber.style'
 
 export interface MyInputProps {
-    placeholder?: number;
-    value?: number;
-    onChangeNumber: (text: number) => void;
-    style?: InputProps['style'];
-    containerStyle?: InputProps['style'];
-    textAlign?: InputProps['textAlign'];
-    disabled?: boolean;
+    placeholder?: number
+    value?: number
+    onChangeNumber: (text: number) => void
+    style?: InputProps['style']
+    containerStyle?: InputProps['style']
+    textAlign?: InputProps['textAlign']
+    disabled?: boolean
 }
 
 export const MyInputNumber: FC<MyInputProps> = props => {
-    const styles = useThemeStyle(myInputNumberStyle);
+    const styles = useThemeStyle(myInputNumberStyle)
 
     const handleChangeText = (text: string) => {
-        const numberText = Number(text.replace(/[^0-9]/g, ''));
-        props.onChangeNumber(numberText);
-    };
+        const numberText = Number(text.replace(/[^0-9]/g, ''))
+        props.onChangeNumber(numberText)
+    }
 
     const getPlaceholder = () => {
         if (props.placeholder) {
-            return props.placeholder?.toFixed();
+            return props.placeholder?.toFixed()
         }
         if (!props.value) {
-            return '0';
+            return '0'
         }
-        return undefined;
-    };
+        return undefined
+    }
 
     return (
         <Input
@@ -44,5 +44,5 @@ export const MyInputNumber: FC<MyInputProps> = props => {
             keyboardType={'numeric'}
             onChangeText={handleChangeText}
         />
-    );
-};
+    )
+}

@@ -1,38 +1,34 @@
-import React, {FC} from 'react';
-import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
-import {myCalendarStripStyle} from 'src/shared/advancedComponents/myCalendarStrip/myCalendarStrip.style';
-import {ScrollView, View} from 'react-native';
-import {MyChip} from 'src/shared/baseComponents/myChip/myChip.component';
-import {stringUtils} from 'src/utils/string.utils';
-import {MyHeader} from 'src/shared/baseComponents/myHeader/myHeader.component';
-import {myCalendarStripUtils} from 'src/shared/advancedComponents/myCalendarStrip/myCalendarStrip.utils';
-import {DateChipItem} from 'src/shared/advancedComponents/myCalendarStrip/types';
-import moment from 'moment';
-import CalendarStrip from 'react-native-calendar-strip';
-import Animated from 'react-native-reanimated';
-import {useMyCalendarStripAnimations} from 'src/shared/advancedComponents/myCalendarStrip/useMyCalendarStripAnimations';
-import {dateUtils} from 'src/utils/date.utils';
+import React, {FC} from 'react'
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
+import {myCalendarStripStyle} from 'src/shared/advancedComponents/myCalendarStrip/myCalendarStrip.style'
+import {ScrollView, View} from 'react-native'
+import {MyChip} from 'src/shared/baseComponents/myChip/myChip.component'
+import {stringUtils} from 'src/utils/string.utils'
+import {MyHeader} from 'src/shared/baseComponents/myHeader/myHeader.component'
+import {myCalendarStripUtils} from 'src/shared/advancedComponents/myCalendarStrip/myCalendarStrip.utils'
+import {DateChipItem} from 'src/shared/advancedComponents/myCalendarStrip/types'
+import moment from 'moment'
+import CalendarStrip from 'react-native-calendar-strip'
+import Animated from 'react-native-reanimated'
+import {useMyCalendarStripAnimations} from 'src/shared/advancedComponents/myCalendarStrip/useMyCalendarStripAnimations'
+import {dateUtils} from 'src/utils/date.utils'
 
 export interface MyCalendarStripComponentProps {
-    onFilterSelect?: (filter: DateChipItem) => void;
+    onFilterSelect?: (filter: DateChipItem) => void
 }
 
-export const MyCalendarStripComponent: FC<
-    MyCalendarStripComponentProps
-> = props => {
-    const style = useThemeStyle(myCalendarStripStyle);
-    const [activeDate, setActiveDate] = React.useState<string | undefined>(
-        'All',
-    );
-    const [openCalendar, setOpenCalendar] = React.useState<boolean>(false);
+export const MyCalendarStripComponent: FC<MyCalendarStripComponentProps> = props => {
+    const style = useThemeStyle(myCalendarStripStyle)
+    const [activeDate, setActiveDate] = React.useState<string | undefined>('All')
+    const [openCalendar, setOpenCalendar] = React.useState<boolean>(false)
     const {openCalendarStrip, closeCalendarStrip, calendarStripContainerStyle} =
-        useMyCalendarStripAnimations();
+        useMyCalendarStripAnimations()
 
     const options: DateChipItem[] = [
         {
             id: 0,
             name: 'All',
-            value: {field: 'createdAt', operator: 'BETWEEN', value: []},
+            value: {field: 'createdAt', operator: 'BETWEEN', value: []}
         },
         {
             id: 1,
@@ -40,8 +36,8 @@ export const MyCalendarStripComponent: FC<
             value: {
                 field: 'createdAt',
                 operator: 'BETWEEN',
-                value: myCalendarStripUtils.getThisMonthValue(),
-            },
+                value: myCalendarStripUtils.getThisMonthValue()
+            }
         },
         {
             id: 2,
@@ -49,43 +45,41 @@ export const MyCalendarStripComponent: FC<
             value: {
                 field: 'createdAt',
                 operator: 'BETWEEN',
-                value: myCalendarStripUtils.getThisWeekValue(),
-            },
+                value: myCalendarStripUtils.getThisWeekValue()
+            }
         },
         {
             id: 3,
             name: 'Pick a day',
-            value: {field: 'createdAt', operator: '==', value: []},
-        },
-    ];
+            value: {field: 'createdAt', operator: '==', value: []}
+        }
+    ]
 
     const handleDateSelect = (date: moment.Moment) => {
-        const dateObject = new Date(date.year(), date.month(), date.date());
-        options[3].value.value = [
-            dateUtils.dateToUnixTimestamp(dateObject.toDateString()),
-        ];
-        props.onFilterSelect?.(options[3]);
-    };
+        const dateObject = new Date(date.year(), date.month(), date.date())
+        options[3].value.value = [dateUtils.dateToUnixTimestamp(dateObject.toDateString())]
+        props.onFilterSelect?.(options[3])
+    }
 
     const renderChip = (item: DateChipItem) => {
         const handleChipPress = () => {
-            closeCalendarStrip();
-            setActiveDate(item.name);
-            props.onFilterSelect?.(item);
-            setOpenCalendar(false);
-        };
+            closeCalendarStrip()
+            setActiveDate(item.name)
+            props.onFilterSelect?.(item)
+            setOpenCalendar(false)
+        }
         const handleOpenCalendarStrip = () => {
             if (openCalendar) {
-                closeCalendarStrip();
-                setActiveDate('All');
-                setOpenCalendar(false);
-                props.onFilterSelect?.(options[0]);
-                return;
+                closeCalendarStrip()
+                setActiveDate('All')
+                setOpenCalendar(false)
+                props.onFilterSelect?.(options[0])
+                return
             }
-            openCalendarStrip();
-            setActiveDate(item.name);
-            setOpenCalendar(!openCalendar);
-        };
+            openCalendarStrip()
+            setActiveDate(item.name)
+            setOpenCalendar(!openCalendar)
+        }
         if (item.id === 3) {
             return (
                 <MyChip
@@ -95,7 +89,7 @@ export const MyCalendarStripComponent: FC<
                     isActive={activeDate === item.name}
                     onPress={handleOpenCalendarStrip}
                 />
-            );
+            )
         }
         return (
             <MyChip
@@ -105,8 +99,8 @@ export const MyCalendarStripComponent: FC<
                 isActive={activeDate === item.name}
                 onPress={handleChipPress}
             />
-        );
-    };
+        )
+    }
 
     return (
         <View style={[style.container]}>
@@ -121,17 +115,14 @@ export const MyCalendarStripComponent: FC<
                 </ScrollView>
             </View>
             <Animated.View
-                style={[
-                    style.animatedCalendarStripContainer,
-                    calendarStripContainerStyle,
-                ]}>
+                style={[style.animatedCalendarStripContainer, calendarStripContainerStyle]}>
                 {openCalendar && (
                     <CalendarStrip
                         daySelectionAnimation={{
                             type: 'border',
                             duration: 200,
                             borderWidth: 1,
-                            borderHighlightColor: 'transparent',
+                            borderHighlightColor: 'transparent'
                         }}
                         onDateSelected={handleDateSelect}
                         selectedDate={undefined}
@@ -150,5 +141,5 @@ export const MyCalendarStripComponent: FC<
                 )}
             </Animated.View>
         </View>
-    );
-};
+    )
+}

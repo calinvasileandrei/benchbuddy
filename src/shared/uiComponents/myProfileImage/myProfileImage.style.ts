@@ -1,5 +1,5 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const myProfileImageStyle = (theme: Theme) =>
     StyleSheet.create({
@@ -10,7 +10,7 @@ export const myProfileImageStyle = (theme: Theme) =>
             width: 150,
             flex: 1,
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'center'
         },
         image: {
             flex: 1,
@@ -18,6 +18,6 @@ export const myProfileImageStyle = (theme: Theme) =>
             height: 150,
             width: 150,
             justifyContent: 'center',
-            alignItems: 'center',
-        },
-    });
+            alignItems: 'center'
+        }
+    })

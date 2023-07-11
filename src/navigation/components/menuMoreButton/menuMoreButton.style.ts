@@ -1,19 +1,19 @@
-import {Theme} from 'src/theme/types';
-import {StyleSheet} from 'react-native';
+import {Theme} from 'src/theme/types'
+import {StyleSheet} from 'react-native'
 
 export const menuMoreButtonStyle = (theme: Theme) =>
     StyleSheet.create({
         moreIcon: {
-            color: theme.color.onSurface,
+            color: theme.color.onSurface
         },
         containerRow: {
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'space-between'
         },
         menuContainer: {
             borderRadius: theme.borderRadius.double,
-            backgroundColor: theme.color.surface,
+            backgroundColor: theme.color.surface
         },
         optionsContainer: {
             backgroundColor: theme.color.surface,
@@ -22,17 +22,17 @@ export const menuMoreButtonStyle = (theme: Theme) =>
             borderColor: theme.color.background,
             borderWidth: 0.5,
             marginTop: 25,
-            marginRight: 100,
+            marginRight: 100
         },
         optionWrapper: {
             marginVertical: theme.spacing.base,
-            marginHorizontal: theme.spacing.base,
+            marginHorizontal: theme.spacing.base
         },
         menuOptionItem: {
-            marginHorizontal: theme.spacing.base,
+            marginHorizontal: theme.spacing.base
         },
         anchorStyle: {},
         triggerWrapper: {
-            marginHorizontal: theme.spacing.base,
-        },
-    });
+            marginHorizontal: theme.spacing.base
+        }
+    })
