@@ -11,6 +11,7 @@ import {EquipmentSchema} from 'src/models/schema/exerciseRef/equipment.model';
 import {CategorySchema} from 'src/models/schema/exerciseRef/category.model';
 import {MuscleSchema} from 'src/models/schema/exerciseRef/muscle.model';
 import {WorkoutSessionSchema} from 'src/models/schema/workoutSession.model';
+import {UserSchema} from 'src/models/user.model';
 
 const realmConfig: Realm.Configuration = {
     schema: [
@@ -25,6 +26,7 @@ const realmConfig: Realm.Configuration = {
         EquipmentSchema,
         CategorySchema,
         MuscleSchema,
+        UserSchema,
     ],
 };
 

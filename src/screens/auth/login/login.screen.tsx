@@ -15,6 +15,8 @@ import {userUtils} from 'src/utils/user.utils';
 import {showToastable} from 'react-native-toastable';
 import {MyInput} from 'src/shared/baseComponents/myInput/myInput.component';
 import {MyText} from 'src/shared/baseComponents/myText/myText.component';
+import {RealmCollections, RealmDB} from 'src/models/schema/realmTypes';
+import {UserModel} from 'src/models/user.model';
 
 const logger = new Logger('LoginScreen');
 const logoImage = require('assets/logo.png');
@@ -32,6 +34,30 @@ const LoginScreen = () => {
         });
     }, []);
 
+    const initUser = async (userMongo: Realm.User) => {
+        // access mongo client db
+        const mongoClient = userMongo.mongoClient('mongodb-atlas');
+        // access mongo collection
+        const usersCollection = mongoClient
+            ?.db(RealmDB.DB_NAME)
+            .collection(RealmCollections.USER);
+        // find user in collection
+        const userFromMongoAuth = await usersCollection?.findOne({
+            _id: userMongo.id,
+        });
+        logger.debug('User from mongo auth', userFromMongoAuth);
+
+        // if user not found, create new user
+        if (!userFromMongoAuth) {
+            const user = userUtils.mongoUserToModel(userMongo);
+            const newUser = await usersCollection?.insertOne(user);
+            logger.debug('New user created', newUser);
+            return user;
+        }
+
+        return userFromMongoAuth as UserModel;
+    };
+
     const signIn = async () => {
         try {
             // Sign in with Google
@@ -43,7 +69,9 @@ const LoginScreen = () => {
                 // https://github.com/realm/realm-js/issues/4995
                 const credentials = Realm.Credentials.jwt(userInfo.idToken);
                 const userMongo = await app.logIn(credentials);
-                const user = userUtils.mongoUserToModel(userMongo);
+                // init user in mongodb
+                const user = await initUser(userMongo);
+                //save user in redux
                 dispatch(userSliceActions.saveUser(user));
                 logger.debug('User logged in', user);
             }

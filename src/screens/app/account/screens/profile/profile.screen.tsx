@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
 import {profileStyle} from 'src/screens/app/account/screens/profile/profile.style';
 import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component';
@@ -12,14 +12,56 @@ import {MyButton} from 'src/shared/baseComponents/myButton/myButton.component';
 import {MyButtonGroup} from 'src/shared/baseComponents/myButtonGroup/myButtonGroup.component';
 import {MyDatePicker} from 'src/shared/baseComponents/myDatePicker/myDatePicker.component';
 import {useRealmUser} from 'src/hooks/realm/useRealmUser.hook';
+import {UserModel} from 'src/models/user.model';
 
 export interface ProfileScreenProps {}
 
 export const ProfileScreen: FC<ProfileScreenProps> = props => {
     const style = useThemeStyle(profileStyle);
-    const {user} = useRealmUser();
+    const {user, updateUser} = useRealmUser();
+
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [birthday, setBirthday] = useState<Date>(new Date());
+    const [email, setEmail] = useState<string>('');
+    const [phoneNumber, setPhoneNumber] = useState<string>('');
+    const [height, setHeight] = useState<number | undefined>(undefined);
+    const [weight, setWeight] = useState<number | undefined>(undefined);
+    const [unit, setUnit] = useState('Metric');
+
+    // Other
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            const nameParts = getNameParts();
+            setName(nameParts.name);
+            setSurname(nameParts.surname);
+            setEmail(user.email);
+            setPhoneNumber(user.phoneNumber);
+            setWeight(user.weight);
+            setHeight(user.height);
+            if (user.unit) {
+                setUnit(user.unit);
+            }
+            if (user.birthday) {
+                setBirthday(new Date(user.birthday));
+            }
+        }
+    }, []);
+
+    if (!user) {
+        return null; // TODO: Handle Error Page
+    }
 
     const getNameParts = () => {
+        if (user.name && user.surname) {
+            return {
+                name: user.name,
+                surname: user.surname,
+            };
+        }
+        // Compute from display name
         const nameParts = user?.displayName.split(' ');
         return {
             name:
@@ -33,14 +75,34 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
         };
     };
 
-    const [name, setName] = React.useState(getNameParts().name);
-    const [surname, setSurname] = React.useState(getNameParts().surname);
-    const [birthday, setBirthday] = React.useState<Date>(new Date());
-    const [height, setHeight] = React.useState('');
-    const [weight, setWeight] = React.useState('');
-    const [unit, setUnit] = React.useState('Metric');
+    const handleSave = () => {
+        setIsLoading(true);
+        const newUser: UserModel = {
+            ...user,
+            name,
+            surname,
+            birthday: birthday.toDateString(),
+            email,
+            phoneNumber,
+            height,
+            weight,
+            unit,
+        };
+        updateUser(newUser);
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+    };
 
-    const handleSave = () => {};
+    const handleSetNumber = (
+        value: string,
+        setter: (v: number | undefined) => void,
+    ) => {
+        if (value.length > 0 && !isNaN(parseInt(value, 10))) {
+            return setter(parseInt(value, 10));
+        }
+        return setter(undefined);
+    };
 
     return (
         <MySafeAreaView edges={['bottom']}>
@@ -77,15 +139,14 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
                 </MyCard>
                 <MyCard>
                     <MyInput
-                        value={user?.email}
+                        value={email}
                         disabled={true}
-                        onChangeText={setHeight}
+                        onChangeText={setEmail}
                         placeholder={'Email'}
                     />
                     <MyInput
-                        value={user?.phoneNumber}
-                        disabled={true}
-                        onChangeText={setWeight}
+                        value={phoneNumber}
+                        onChangeText={setPhoneNumber}
                         placeholder={'Phone number'}
                     />
                 </MyCard>
@@ -96,15 +157,15 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
                 </MyText>
                 <MyCard>
                     <MyInput
-                        value={height}
+                        value={height?.toString() || ''}
                         keyboardType={'numeric'}
-                        onChangeText={setHeight}
+                        onChangeText={v => handleSetNumber(v, setHeight)}
                         placeholder={'Height'}
                     />
                     <MyInput
-                        value={weight}
+                        value={weight?.toString() || ''}
                         keyboardType={'numeric'}
-                        onChangeText={setWeight}
+                        onChangeText={v => handleSetNumber(v, setWeight)}
                         placeholder={'Weight'}
                     />
                 </MyCard>
@@ -119,7 +180,10 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
                         onChange={value => setUnit(value)}
                     />
                 </MyCard>
-                <MyButton type={'outline'} disabled={true} onPress={handleSave}>
+                <MyButton
+                    type={'outline'}
+                    isLoading={isLoading}
+                    onPress={handleSave}>
                     Save
                 </MyButton>
             </MyKeyboardAwareScrollView>

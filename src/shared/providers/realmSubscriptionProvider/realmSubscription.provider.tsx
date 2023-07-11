@@ -8,6 +8,9 @@ import {Logger} from 'src/utils/logger';
 import {View} from 'react-native';
 import {MyLoading} from 'src/shared/baseComponents/myLoading/myLoading.component';
 import {useRealmWorkoutSession} from 'src/hooks/realm/useRealmWorkoutSession.hook';
+import {useRealmUser} from 'src/hooks/realm/useRealmUser.hook';
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
+import {realmSubscriptionProviderStyles} from 'src/shared/providers/realmSubscriptionProvider/realmSubscriptionProvider.style';
 
 export interface RealmSubscriptionProviderProps {
     children: React.ReactNode;
@@ -17,11 +20,15 @@ const logger = new Logger('RealmSubscriptionProvider');
 export const RealmSubscriptionProvider: FC<
     RealmSubscriptionProviderProps
 > = props => {
+    const style = useThemeStyle(realmSubscriptionProviderStyles);
     const realm = useRealm();
+    // Realms
     const realmMuscles = useRealmMuscles();
     const realmExercises = useRealmExercises();
     const realmWorkouts = useRealmWorkouts();
     const realmWorkoutSessions = useRealmWorkoutSession();
+    const realmUser = useRealmUser();
+
     const dispatch = useAppDispatch();
     const [isSyncing, setIsSyncing] = React.useState(false);
 
@@ -31,6 +38,7 @@ export const RealmSubscriptionProvider: FC<
         realmExercises.subscribe();
         realmWorkouts.subscribe();
         realmWorkoutSessions.subscribe();
+        realmUser.subscribe();
         (async () => {
             await realm.subscriptions.waitForSynchronization();
             setIsSyncing(false);
@@ -40,18 +48,10 @@ export const RealmSubscriptionProvider: FC<
     return (
         <>
             {isSyncing && (
-                <View
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        zIndex: 10000,
-                    }}>
+                <View style={style.container}>
                     <MyLoading
                         caption={'Syncing data'}
-                        style={{backgroundColor: 'rgba(0,0,0,0.7)'}}
+                        style={style.loadingContainer}
                     />
                 </View>
             )}

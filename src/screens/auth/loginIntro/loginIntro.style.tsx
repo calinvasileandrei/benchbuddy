@@ -59,12 +59,14 @@ export const loginIntroStyle = (theme: Theme) =>
         dotContainer: {
             position: 'absolute',
             width: '100%',
-            bottom: 100,
+            bottom: 20,
         },
         dotRow: {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-between',
+            marginHorizontal: theme.spacing.double,
+            marginBottom: theme.spacing.base,
         },
         dots: {
             width: 100,

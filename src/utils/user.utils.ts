@@ -1,13 +1,18 @@
 import {UserModel} from 'src/models/user.model';
 
-const mongoUserToModel = (userMongo: Realm.User<any> | null) => {
+const mongoUserToModel = (userMongo: Realm.User<any>): UserModel => {
     const user: UserModel = {
-        id: userMongo?.id || '',
+        _id: userMongo.id,
+        email: userMongo.profile.email || '',
+        displayName: userMongo.profile.name || '',
+        photoURL: userMongo.profile.pictureUrl || '',
         phoneNumber: '',
-        email: userMongo?.profile.email || '',
-        creationTime: '',
-        photoURL: userMongo?.profile.pictureUrl || '',
-        displayName: userMongo?.profile.name || '',
+        name: userMongo.profile.firstName || '',
+        surname: userMongo.profile.lastName || '',
+        birthday: userMongo.profile.birthday || '',
+        height: 0,
+        weight: 0,
+        creationTime: new Date().toDateString(),
     };
 
     return user;

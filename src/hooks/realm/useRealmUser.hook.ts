@@ -1,10 +1,14 @@
-import {useRealm} from 'src/services/realm.config';
+import {useObject, useRealm} from 'src/services/realm.config';
 import {WorkoutSchema} from 'src/models/schema/workout.model';
 import {UserModel, UserSchema} from 'src/models/user.model';
 import {Logger} from 'src/utils/logger';
-import {RealmCollections} from 'src/models/schema/realmTypes';
+import {
+    RealmCollections,
+    RealmSubscriptions,
+} from 'src/models/schema/realmTypes';
 import {useApp, useUser} from '@realm/react';
 import {userUtils} from 'src/utils/user.utils';
+import Realm from 'realm';
 
 const logger = new Logger('useRealmUser');
 export const useRealmUser = () => {
@@ -12,6 +16,7 @@ export const useRealmUser = () => {
     const app = useApp();
     const user = useUser();
     const currentUser = app.currentUser;
+    const myUser = useObject(UserSchema, currentUser?.id || '');
 
     const closeRealm = () => {
         if (realm) {
@@ -23,27 +28,23 @@ export const useRealmUser = () => {
         await realm.subscriptions.update(subs => {
             subs.add(
                 realm
-                    .objects(RealmCollections.MUSCLE)
-                    .filtered('ownerId = $0', currentUser?.id),
+                    .objects(RealmCollections.USER)
+                    .filtered('_id = $0', currentUser?.id),
                 {
-                    name: 'workoutsSubscription',
+                    name: RealmSubscriptions.USER,
                 },
             );
         });
     };
 
-    const registerUser = (data: UserModel) => {
+    const updateUser = (data: UserModel) => {
         realm.write(() => {
-            new UserSchema(realm, {
-                id: data.id,
-                email: data.email,
-                displayName: data.displayName,
-                photoURL: data.photoURL,
-                phoneNumber: data.phoneNumber,
-                creationTime: data.creationTime,
-            });
+            realm.create(
+                RealmCollections.USER,
+                data,
+                Realm.UpdateMode.Modified,
+            );
         });
-        logger.debug('User registered', data);
     };
 
     const deleteItem = (id: string) => {
@@ -53,14 +54,29 @@ export const useRealmUser = () => {
         });
     };
 
-    const getUser = () => {
+    const getUser = (): UserModel | undefined => {
+        if (myUser) {
+            return {
+                creationTime: '',
+                displayName: '',
+                email: '',
+                _id: '',
+                phoneNumber: '',
+                photoURL: '',
+                ...myUser.toJSON(),
+            };
+        }
+        if (!user) {
+            logger.debug('No user found');
+            return undefined;
+        }
         return userUtils.mongoUserToModel(user);
     };
 
     return {
         user: getUser(),
-        registerUser,
         deleteItem,
+        updateUser,
         closeRealm,
         subscribe,
     };
