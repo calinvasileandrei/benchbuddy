@@ -8,6 +8,7 @@ export interface MyInputProps {
     value?: string
     onChangeText?: (text: string) => void
     style?: InputProps['style']
+    containerStyle?: InputProps['containerStyle']
     keyboardType?: InputProps['keyboardType']
     numberOfLines?: InputProps['numberOfLines']
     multiline?: InputProps['multiline']
@@ -22,6 +23,7 @@ export const MyInput: FC<MyInputProps> = props => {
         <Input
             style={[styles.input, style]}
             placeholderTextColor={styles.placeholder.color}
+            inputContainerStyle={[styles.inputContainer, props.containerStyle]}
             {...rest}
         />
     )

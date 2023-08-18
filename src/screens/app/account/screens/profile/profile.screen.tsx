@@ -13,12 +13,17 @@ import {MyButtonGroup} from 'src/shared/baseComponents/myButtonGroup/myButtonGro
 import {MyDatePicker} from 'src/shared/baseComponents/myDatePicker/myDatePicker.component'
 import {useRealmUser} from 'src/hooks/realm/useRealmUser.hook'
 import {UserModel} from 'src/models/user.model'
+import {UnitModel} from 'src/models/unit.model'
+import {useAppSelector} from '../../../../../store/store'
+import {settingsSelectors} from '../../../../../store/settings/settings.selector'
+import {MyUnitWithInputValue} from '../../../../../shared/advancedComponents/myUnit/components/myUnitWithInputValue/myUnitWithInputValue.component'
 
 export interface ProfileScreenProps {}
 
 export const ProfileScreen: FC<ProfileScreenProps> = props => {
     const style = useThemeStyle(profileStyle)
     const {user, updateUser} = useRealmUser()
+    const storeUnit = useAppSelector(settingsSelectors.getUnit)
 
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
@@ -27,7 +32,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
     const [phoneNumber, setPhoneNumber] = useState<string>('')
     const [height, setHeight] = useState<number | undefined>(undefined)
     const [weight, setWeight] = useState<number | undefined>(undefined)
-    const [unit, setUnit] = useState('Metric')
+    const [unit, setUnit] = useState<UnitModel>(storeUnit)
 
     // Other
     const [isLoading, setIsLoading] = useState(false)
@@ -42,7 +47,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
             setWeight(user.weight)
             setHeight(user.height)
             if (user.unit) {
-                setUnit(user.unit)
+                setUnit(user.unit as UnitModel)
             }
             if (user.birthday) {
                 setBirthday(new Date(user.birthday))
@@ -92,13 +97,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
         }, 1000)
     }
 
-    const handleSetNumber = (value: string, setter: (v: number | undefined) => void) => {
-        if (value.length > 0 && !isNaN(parseInt(value, 10))) {
-            return setter(parseInt(value, 10))
-        }
-        return setter(undefined)
-    }
-
     return (
         <MySafeAreaView edges={['bottom']}>
             <MyKeyboardAwareScrollView>
@@ -141,17 +139,15 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
                     Body{' '}
                 </MyText>
                 <MyCard>
-                    <MyInput
-                        value={height?.toString() || ''}
-                        keyboardType={'numeric'}
-                        onChangeText={v => handleSetNumber(v, setHeight)}
-                        placeholder={'Height'}
-                    />
-                    <MyInput
+                    <MyUnitWithInputValue
+                        type={'weight'}
                         value={weight?.toString() || ''}
-                        keyboardType={'numeric'}
-                        onChangeText={v => handleSetNumber(v, setWeight)}
-                        placeholder={'Weight'}
+                        setValue={setWeight}
+                    />
+                    <MyUnitWithInputValue
+                        type={'height'}
+                        value={height?.toString() || ''}
+                        setValue={setHeight}
                     />
                 </MyCard>
 
@@ -162,7 +158,8 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
                 <MyCard>
                     <MyButtonGroup
                         buttons={['Metric', 'Imperial']}
-                        onChange={value => setUnit(value)}
+                        selectedButton={storeUnit}
+                        onChange={value => setUnit(value as UnitModel)}
                     />
                 </MyCard>
                 <MyButton type={'outline'} isLoading={isLoading} onPress={handleSave}>

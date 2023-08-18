@@ -7,13 +7,16 @@ import {MyButton} from 'src/shared/baseComponents/myButton/myButton.component'
 export interface MyButtonGroupProps {
     buttons: string[]
     onChange: (value: string) => void
+    selectedButton?: string
 }
 
 export const MyButtonGroup: FC<MyButtonGroupProps> = props => {
-    const {buttons, onChange} = props
+    const {buttons, onChange, selectedButton} = props
     const style = useThemeStyle(myButtonGroupStyle)
 
-    const [selectedIndex, setSelectedIndex] = useState(0)
+    const [selectedIndex, setSelectedIndex] = useState(
+        selectedButton ? buttons.indexOf(selectedButton) : 0
+    )
 
     const getSelected = (index: number) => {
         if (index === selectedIndex) {

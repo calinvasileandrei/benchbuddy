@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "devices": "xcrun xctrace list devices"
+    "devices": "xcrun xctrace list devices",
+    "install-ios": "cd ios && bundle install && pod install && cd .."
   },
   "dependencies": {
     "@react-native-google-signin/google-signin": "^9.0.2",

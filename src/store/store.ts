@@ -7,9 +7,11 @@ import {workoutCreationEditReducer} from 'src/store/workoutCreationEdit/workoutC
 import {workoutSessionReducer} from 'src/store/workoutSession/workoutSession.slice'
 import {myDialogReducer} from 'src/store/myDialog/myDialog.slice'
 import {myLoadingReducer} from 'src/store/myLoading/myLoading.slice'
+import {settingsReducer} from './settings/settings.slice'
 
 export const store = configureStore({
     reducer: {
+        settings: settingsReducer,
         user: userReducer,
         workout: workoutReducer,
         workoutCreationEdit: workoutCreationEditReducer,

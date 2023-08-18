@@ -8,6 +8,11 @@ export const myInputStyle = (theme: Theme) =>
             flexGrow: 1,
             color: theme.color.onSurface
         },
+        inputContainer: {
+            borderBottomWidth: 1,
+            borderBottomColor: theme.color.placeholder,
+            paddingHorizontal: theme.spacing.base
+        },
         placeholder: {
             color: theme.color.placeholder
         }

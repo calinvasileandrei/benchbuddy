@@ -7,6 +7,7 @@ import {MyInputNumber} from 'src/shared/baseComponents/myInputNumber/myInputNumb
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
 import {exerciseSetCreatorStyle} from 'src/shared/ExercisesComponents/exercieseSetRow/exerciseSetRow.style'
 import {View} from 'react-native'
+import {MyUnit} from '../../../advancedComponents/myUnit/myUnit.component'
 
 export interface ExerciseSetRowProps {
     exerciseSet: ExerciseSetModel
@@ -35,7 +36,7 @@ export const ExerciseSetRowViewer: FC<ExerciseSetRowProps> = props => {
                 </View>
             </Col>
             <Col numRows={4}>
-                <MyText type={'captionText'}>Kg</MyText>
+                <MyUnit typeOfText={'captionText'} type={'weight'} />
                 <MyInputNumber
                     placeholder={placeHolderSet?.weight}
                     disabled={true}
