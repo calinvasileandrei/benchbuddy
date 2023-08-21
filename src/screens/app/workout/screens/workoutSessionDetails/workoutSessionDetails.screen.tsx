@@ -3,7 +3,7 @@ import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAre
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
 import {WorkoutSessionCard} from 'src/shared/WorkoutComponents/workoutSessionCard/workoutSessionCard.component'
 import {MyScrollView} from 'src/shared/baseComponents/myScrollView/myScrollView.component'
-import {useAppSelector} from 'src/store/store'
+import {useAppDispatch, useAppSelector} from 'src/store/store'
 import {workoutSelectors} from 'src/store/workout/workout.selectors'
 import {MyLineChart} from 'src/shared/charts/myLineChart/myLineChart.component'
 import {workoutToChartUtils} from 'src/utils/workoutToChart.utils'
@@ -13,21 +13,36 @@ import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component'
 import {MyText} from 'src/shared/baseComponents/myText/myText.component'
 import {dateUtils} from 'src/utils/date.utils'
 import {workoutSessionDetailsStyle} from 'src/screens/app/workout/screens/workoutSessionDetails/workoutSessionDetails.style'
+import {workoutSliceActions} from '../../../../../store/workout/workout.slice'
+import {AppRoutes} from '../../../../../navigation/routes'
+import {useNavigation} from '@react-navigation/native'
+import {WorkoutStackNavigationProps} from '../../../../../navigation/stacks/workout/types'
 
 export interface WorkoutSessionDetailsScreenProps {}
 
 export const WorkoutSessionDetailsScreen: FC<WorkoutSessionDetailsScreenProps> = props => {
     const style = useThemeStyle(workoutSessionDetailsStyle)
+    const dispatch = useAppDispatch()
+    const navigation = useNavigation<WorkoutStackNavigationProps<AppRoutes.WORKOUT_DETAIL_SCREEN>>()
     const workoutSession = useAppSelector(workoutSelectors.getWorkoutSessionDetail)
 
     if (!workoutSession) {
         return null
     }
 
+    const handleNavigateToReferenceWorkout = () => {
+        dispatch(
+            workoutSliceActions.setWorkoutProps({detailWorkout: workoutSession.referenceWorkout})
+        )
+        navigation.navigate(AppRoutes.WORKOUTS_STACK, {
+            screen: AppRoutes.WORKOUT_DETAIL_SCREEN
+        })
+    }
+
     return (
         <MySafeAreaView edges={['bottom']}>
             <MyScrollView title={'Your Session'}>
-                <MyCard>
+                <MyCard onPress={handleNavigateToReferenceWorkout}>
                     <MyText type={'bodyText'}>{`${
                         workoutSession.referenceWorkout.hasBeenEdit ? 'Edited ' : ''
                     }Reference workout: ${workoutSession.referenceWorkout.name}`}</MyText>
