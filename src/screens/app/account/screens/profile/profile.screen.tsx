@@ -143,11 +143,13 @@ export const ProfileScreen: FC<ProfileScreenProps> = props => {
                         type={'weight'}
                         value={weight?.toString() || ''}
                         setValue={setWeight}
+                        overrideUnit={unit}
                     />
                     <MyUnitWithInputValue
                         type={'height'}
                         value={height?.toString() || ''}
                         setValue={setHeight}
+                        overrideUnit={unit}
                     />
                 </MyCard>
 

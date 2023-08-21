@@ -12,6 +12,7 @@ import {MyIcon} from 'src/shared/baseComponents/myIcon/myIcon.component'
 import {handleHaptic} from 'src/utils/haptics.utils'
 import {MyAnimatedIcon} from 'src/shared/ExercisesComponents/exercieseSetRow/components/myAnimatedIcon/myAnimatedIcon.component'
 import {Logger} from 'src/utils/logger'
+import {MyUnit} from '../../advancedComponents/myUnit/myUnit.component'
 
 export interface ExerciseSetRowProps {
     exerciseSet: ExerciseSetModel
@@ -97,7 +98,7 @@ export const ExerciseSetRow: FC<ExerciseSetRowProps> = props => {
                     </View>
                 </Col>
                 <Col numRows={numRows}>
-                    <MyText type={'captionText'}>Kg</MyText>
+                    <MyUnit typeOfText={'captionText'} type={'weight'} />
                     <MyInputNumber
                         placeholder={placeHolderSet?.weight}
                         disabled={!setExerciseSet}

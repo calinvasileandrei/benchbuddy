@@ -4,10 +4,12 @@ import {MyUnit, MyUnitProps} from '../../myUnit.component'
 import {useThemeStyle} from '../../../../../theme/useThemeStyle.hook'
 import {myUnitWithInputValueStyle} from './myUnitWithInputValue.style'
 import {MyInput} from '../../../../baseComponents/myInput/myInput.component'
+import {UnitModel} from '../../../../../models/unit.model'
 
 interface MyUnitWithInputValueProps extends MyUnitProps {
     value?: string
     setValue: (value?: number) => void
+    overrideUnit?: UnitModel
 }
 
 export const MyUnitWithInputValue: FC<MyUnitWithInputValueProps> = props => {
@@ -31,7 +33,11 @@ export const MyUnitWithInputValue: FC<MyUnitWithInputValueProps> = props => {
                 placeholder={'Weight'}
             />
             <View style={style.unit}>
-                <MyUnit typeOfText={props.typeOfText} type={props.type} />
+                <MyUnit
+                    typeOfText={props.typeOfText}
+                    type={props.type}
+                    overrideUnit={props.overrideUnit}
+                />
             </View>
         </View>
     )

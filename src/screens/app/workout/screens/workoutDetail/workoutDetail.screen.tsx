@@ -9,7 +9,7 @@ import {MyText} from 'src/shared/baseComponents/myText/myText.component'
 import {Divider} from '@rneui/themed'
 import {MyScrollView} from 'src/shared/baseComponents/myScrollView/myScrollView.component'
 import {workoutSelectors} from 'src/store/workout/workout.selectors'
-import {ExerciseSetRowViewer} from 'src/shared/WorkoutComponents/workoutSessionCard/exerciseSetRowViewer/exerciseSetRowViewer.component'
+import {ExerciseSetRowViewer} from 'src/shared/ExercisesComponents/exerciseSetRowViewer/exerciseSetRowViewer.component'
 import {workoutToChartUtils} from 'src/utils/workoutToChart.utils'
 import {MyPieChart} from 'src/shared/charts/myPieChart/myPieChart.component'
 

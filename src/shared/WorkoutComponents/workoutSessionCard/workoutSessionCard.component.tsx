@@ -5,7 +5,7 @@ import {MyText} from 'src/shared/baseComponents/myText/myText.component'
 import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
 import {workoutSessionCardStyle} from 'src/shared/WorkoutComponents/workoutSessionCard/workoutSessionCard.style'
 import {WorkoutSessionModel} from 'src/models/schema/workoutSession.model'
-import {ExerciseSetRowViewer} from 'src/shared/WorkoutComponents/workoutSessionCard/exerciseSetRowViewer/exerciseSetRowViewer.component'
+import {ExerciseSetRowViewer} from 'src/shared/ExercisesComponents/exerciseSetRowViewer/exerciseSetRowViewer.component'
 
 export interface WorkoutSessionCardProps {
     workoutSession: WorkoutSessionModel
@@ -14,13 +14,6 @@ export interface WorkoutSessionCardProps {
 
 export const WorkoutSessionCard: FC<WorkoutSessionCardProps> = ({workoutSession, onPress}) => {
     const style = useThemeStyle(workoutSessionCardStyle)
-
-    const handleOnPress = () => {
-        if (onPress) {
-            return onPress(workoutSession)
-        }
-        return undefined
-    }
 
     return (
         <MyCard key={workoutSession._id.toHexString()} title={'Exercises'}>
