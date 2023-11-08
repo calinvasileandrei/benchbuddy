@@ -17,11 +17,15 @@ import {workoutSliceActions} from '../../../../../store/workout/workout.slice'
 import {AppRoutes} from '../../../../../navigation/routes'
 import {useNavigation} from '@react-navigation/native'
 import {WorkoutStackNavigationProps} from '../../../../../navigation/stacks/workout/types'
+import {View} from 'react-native'
+import {Icon} from '@rneui/base'
+import {useTheme} from '../../../../../theme/theme.context'
 
 export interface WorkoutSessionDetailsScreenProps {}
 
 export const WorkoutSessionDetailsScreen: FC<WorkoutSessionDetailsScreenProps> = props => {
     const style = useThemeStyle(workoutSessionDetailsStyle)
+    const {theme} = useTheme()
     const dispatch = useAppDispatch()
     const navigation = useNavigation<WorkoutStackNavigationProps<AppRoutes.WORKOUT_DETAIL_SCREEN>>()
     const workoutSession = useAppSelector(workoutSelectors.getWorkoutSessionDetail)
@@ -43,9 +47,18 @@ export const WorkoutSessionDetailsScreen: FC<WorkoutSessionDetailsScreenProps> =
         <MySafeAreaView edges={['bottom']}>
             <MyScrollView title={'Your Session'}>
                 <MyCard onPress={handleNavigateToReferenceWorkout}>
-                    <MyText type={'bodyText'}>{`${
-                        workoutSession.referenceWorkout.hasBeenEdit ? 'Edited ' : ''
-                    }Reference workout: ${workoutSession.referenceWorkout.name}`}</MyText>
+                    <View style={style.referenceRow}>
+                        <Icon
+                            type="ionicon"
+                            name={'open-outline'}
+                            size={theme.iconSize.xxsmall}
+                            color={theme.color.primary}
+                            style={style.icon}
+                        />
+                        <MyText type={'bodyText'}>{`${
+                            workoutSession.referenceWorkout.hasBeenEdit ? 'Edited ' : ''
+                        }Reference workout: ${workoutSession.referenceWorkout.name}`}</MyText>
+                    </View>
                 </MyCard>
                 {workoutSession.notes && (
                     <MyCard title={'Notes:'}>

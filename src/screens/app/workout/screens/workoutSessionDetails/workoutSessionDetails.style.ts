@@ -9,5 +9,12 @@ export const workoutSessionDetailsStyle = (theme: Theme) =>
         editedBadge: {
             flexDirection: 'row',
             justifyContent: 'flex-end'
+        },
+        referenceRow: {
+            flexDirection: 'row',
+            alignItems: 'center'
+        },
+        icon: {
+            marginRight: theme.spacing.base
         }
     })
