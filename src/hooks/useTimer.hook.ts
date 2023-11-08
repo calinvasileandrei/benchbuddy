@@ -1,23 +1,17 @@
-import React from 'react';
+import React from 'react'
 
-export interface UseTimerHookProps {
-}
+export interface UseTimerHookProps {}
 
-export const UseTimerHook = (props:UseTimerHookProps) => {
-    const [timer, setTimer] = React.useState(0);
+export const UseTimerHook = (props: UseTimerHookProps) => {
+    const [timer, setTimer] = React.useState(0)
 
-    const resetTimer = () => {
+    const resetTimer = () => {}
 
-    }
-
-    const startTimer = () => {
-
-    }
-
+    const startTimer = () => {}
 
     return {
         timer,
         resetTimer,
         startTimer
     }
-};
+}

@@ -1,4 +1,4 @@
-import { DependencyList, EffectCallback, useEffect } from 'react';
+import {DependencyList, EffectCallback, useEffect} from 'react'
 
 export const useDebouncedEffect = (
     effect: EffectCallback,
@@ -6,10 +6,10 @@ export const useDebouncedEffect = (
     deps?: DependencyList
 ) => {
     useEffect(() => {
-        const handler = setTimeout(() => effect(), delay);
+        const handler = setTimeout(() => effect(), delay)
 
-        return () => clearTimeout(handler);
+        return () => clearTimeout(handler)
         // using || operator because
         // if its optional then it can be undefined.
-    }, [...(deps || []), delay]);
-};
+    }, [...(deps || []), delay])
+}

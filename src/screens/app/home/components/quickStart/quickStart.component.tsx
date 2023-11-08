@@ -1,40 +1,36 @@
-import React, {FC} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import {quickStartStyle} from 'src/screens/app/home/components/quickStart/quickStart.style';
-import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
-import {MyText} from 'src/shared/baseComponents/myText/myText.component';
-import Animated from 'react-native-reanimated';
-import AddIcon from 'assets/add.svg';
-import {useNavigation} from '@react-navigation/native';
-import {AppRoutes} from 'src/navigation/routes';
-import {useQuickStartAnimations} from 'src/screens/app/home/components/quickStart/useQuickStartAnimations';
-import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component';
-import {MyIcon} from 'src/shared/baseComponents/myIcon/myIcon.component';
+import React, {FC} from 'react'
+import {TouchableOpacity, View} from 'react-native'
+import {quickStartStyle} from 'src/screens/app/home/components/quickStart/quickStart.style'
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
+import {MyText} from 'src/shared/baseComponents/myText/myText.component'
+import Animated from 'react-native-reanimated'
+import AddIcon from 'assets/add.svg'
+import {useNavigation} from '@react-navigation/native'
+import {AppRoutes} from 'src/navigation/routes'
+import {useQuickStartAnimations} from 'src/screens/app/home/components/quickStart/useQuickStartAnimations'
+import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component'
+import {MyIcon} from 'src/shared/baseComponents/myIcon/myIcon.component'
 
 export interface QuickStartProps {}
 
 export const QuickStart: FC<QuickStartProps> = props => {
-    const style = useThemeStyle(quickStartStyle);
-    const navigation = useNavigation<any>();
-    const {
-        quickStartContainerStyle,
-        myAnimatedContainer,
-        iconStyle,
-        handleToggleMenu,
-    } = useQuickStartAnimations();
+    const style = useThemeStyle(quickStartStyle)
+    const navigation = useNavigation<any>()
+    const {quickStartContainerStyle, myAnimatedContainer, iconStyle, handleToggleMenu} =
+        useQuickStartAnimations()
 
     const handleLogWorkoutSession = () => {
-        console.log('handleCreateWorkoutSession');
-        handleToggleMenu();
+        console.log('handleCreateWorkoutSession')
+        handleToggleMenu()
         navigation.navigate(AppRoutes.WORKOUTS_STACK, {
-            screen: AppRoutes.WORKOUT_SESSION_CREATION_SCREEN,
-        });
-    };
+            screen: AppRoutes.WORKOUT_SESSION_CREATION_SCREEN
+        })
+    }
 
     const handleStartWorkoutSession = () => {
-        console.log('handleStartWorkoutSession');
-        handleToggleMenu();
-    };
+        console.log('handleStartWorkoutSession')
+        handleToggleMenu()
+    }
 
     return (
         <MyCard>
@@ -65,7 +61,7 @@ export const QuickStart: FC<QuickStartProps> = props => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    margin: 8,
+                    margin: 8
                 }}>
                 <MyText>Add workout session</MyText>
                 <MyIcon
@@ -76,5 +72,5 @@ export const QuickStart: FC<QuickStartProps> = props => {
                 />
             </View>
         </MyCard>
-    );
-};
+    )
+}

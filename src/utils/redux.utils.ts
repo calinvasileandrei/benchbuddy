@@ -1,5 +1,5 @@
 // Action name utils
-type ActionTypeMap<T extends string> = { [key in T]: string };
+type ActionTypeMap<T extends string> = {[key in T]: string}
 export const createActionTypesMap = <T extends string>(
     prefix: string,
     types: T[]
@@ -7,7 +7,7 @@ export const createActionTypesMap = <T extends string>(
     types.reduce(
         (obj, key) => ({
             ...obj,
-            [key]: `${prefix}${key}`,
+            [key]: `${prefix}${key}`
         }),
         {} as ActionTypeMap<T>
-    );
+    )

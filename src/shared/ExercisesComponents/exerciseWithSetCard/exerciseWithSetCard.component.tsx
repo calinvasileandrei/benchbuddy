@@ -1,27 +1,29 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react'
 import {View} from 'react-native'
-import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component';
-import {ExerciseSetRow} from 'src/shared/ExercisesComponents/exercieseSetRow/ exerciseSetRow.component';
-import {MyIcon} from 'src/shared/baseComponents/myIcon/myIcon.component';
-import {MyText} from 'src/shared/baseComponents/myText/myText.component';
-import {ExerciseWorkoutModel} from 'src/models/schema/exerciseWorkout.model';
-import {MenuMoreButton} from 'src/navigation/components/menuMoreButton/menuMoreButton.component';
-import {exerciseWithSetCardStyle} from 'src/shared/ExercisesComponents/exerciseWithSetCard/exerciseWithSetCard.style';
-import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
-import {ExerciseSetModel} from 'src/models/schema/exerciseSet.model';
+import {MyCard} from 'src/shared/baseComponents/myCard/myCard.component'
+import {ExerciseSetRow} from 'src/shared/ExercisesComponents/exercieseSetRow/ exerciseSetRow.component'
+import {MyIcon} from 'src/shared/baseComponents/myIcon/myIcon.component'
+import {MyText} from 'src/shared/baseComponents/myText/myText.component'
+import {ExerciseWorkoutModel} from 'src/models/schema/exerciseWorkout.model'
+import {MenuMoreButton} from 'src/navigation/components/menuMoreButton/menuMoreButton.component'
+import {exerciseWithSetCardStyle} from 'src/shared/ExercisesComponents/exerciseWithSetCard/exerciseWithSetCard.style'
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
+import {ExerciseSetModel} from 'src/models/schema/exerciseSet.model'
+import {Logger} from 'src/utils/logger'
 
 export interface ExerciseWithSetCardProps {
-    exerciseWithSet?: ExerciseWorkoutModel;
-    templateExerciseSets?: ExerciseWorkoutModel;
-    onChange: (exercises: ExerciseSetModel[]) => void;
-    deleteExercise?: () => void;
-    withFastSet?: boolean;
+    exerciseWithSet?: ExerciseWorkoutModel
+    templateExerciseSets?: ExerciseWorkoutModel
+    onChange: (exercises: ExerciseSetModel[]) => void
+    deleteExercise?: () => void
+    withFastSet?: boolean
 }
 
-export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = (props) => {
-    const {exerciseWithSet, templateExerciseSets} = props;
-    const style = useThemeStyle(exerciseWithSetCardStyle)
+const logger = new Logger('ExerciseWithSetCard')
 
+export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = props => {
+    const {exerciseWithSet, templateExerciseSets} = props
+    const style = useThemeStyle(exerciseWithSetCardStyle)
 
     const [init, setInit] = useState<boolean>(false)
     const [sets, setSets] = useState<ExerciseSetModel[]>([])
@@ -42,12 +44,14 @@ export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = (props) => {
                     setSets(exerciseWithSet.exerciseSets)
                 }
             } else if (templateExerciseSets?.exerciseSets) {
-                setSets(templateExerciseSets.exerciseSets.map((s) => ({
-                    ...s,
-                    rest: 0,
-                    weight: 0,
-                    reps: 0,
-                })))
+                setSets(
+                    templateExerciseSets.exerciseSets.map(s => ({
+                        ...s,
+                        rest: 0,
+                        weight: 0,
+                        reps: 0
+                    }))
+                )
             }
             setInit(true)
         }
@@ -55,15 +59,19 @@ export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = (props) => {
     }, [sets])
 
     const getCardMenu = () => {
-        if (!props.deleteExercise) return null
+        if (!props.deleteExercise) {
+            return null
+        }
         return (
-            <MenuMoreButton options={[
-                {
-                    title: 'Delete',
-                    iconName: 'trash-outline',
-                    onPress: () => props.deleteExercise && props.deleteExercise()
-                },
-            ]}/>
+            <MenuMoreButton
+                options={[
+                    {
+                        title: 'Delete',
+                        iconName: 'trash-outline',
+                        onPress: () => props.deleteExercise && props.deleteExercise()
+                    }
+                ]}
+            />
         )
     }
 
@@ -76,8 +84,8 @@ export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = (props) => {
     }
 
     const setExerciseSet = (set: ExerciseSetModel, index: number) => {
-        const newObjects = [...sets];
-        newObjects[index] = set;
+        const newObjects = [...sets]
+        newObjects[index] = set
         handleChangesOnSets(newObjects)
     }
 
@@ -85,8 +93,8 @@ export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = (props) => {
         if (index === 0 || !sets[index] || sets.length === 1) {
             return
         }
-        const newObjects = [...sets];
-        newObjects.splice(index, 1);
+        const newObjects = [...sets]
+        newObjects.splice(index, 1)
         handleChangesOnSets(newObjects)
     }
 
@@ -103,11 +111,12 @@ export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = (props) => {
     }
 
     const getName = () => {
+        logger.debug('ExerciseWithSetCard', exerciseWithSet?.exercise)
         if (exerciseWithSet) {
-            return exerciseWithSet.exercise.name
+            return exerciseWithSet?.exercise?.name
         }
         if (templateExerciseSets) {
-            return templateExerciseSets.exercise.name
+            return templateExerciseSets?.exercise?.name
         }
         return 'Exercise'
     }
@@ -116,24 +125,23 @@ export const ExerciseWithSetCard: FC<ExerciseWithSetCardProps> = (props) => {
         <MyCard title={`${getName()}`} rightElement={getCardMenu()}>
             <View style={style.container}>
                 <View style={style.exerciseSetCreatorContainer}>
-                    {
-                        sets.map((set, i) => (
-                            <ExerciseSetRow key={i}
-                                            placeHolderSet={getPlaceHolderSet(i)}
-                                            exerciseSet={set}
-                                            setExerciseSet={setExerciseSet}
-                                            removeExerciseSet={handleRemoveSet}
-                                            setNumber={i}
-                                            withFastSet={props.withFastSet}
-                            />
-                        ))
-                    }
+                    {sets.map((set, i) => (
+                        <ExerciseSetRow
+                            key={i}
+                            placeHolderSet={getPlaceHolderSet(i)}
+                            exerciseSet={set}
+                            setExerciseSet={setExerciseSet}
+                            removeExerciseSet={handleRemoveSet}
+                            setNumber={i}
+                            withFastSet={props.withFastSet}
+                        />
+                    ))}
                 </View>
                 <View style={style.footer}>
-                    <MyIcon size={30} onPress={handleAddSet} iconName="add-circle"/>
+                    <MyIcon size={30} onPress={handleAddSet} iconName="add-circle" />
                     <MyText type={'labelText'}>Add next set</MyText>
                 </View>
             </View>
         </MyCard>
-    );
-};
+    )
+}

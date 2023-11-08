@@ -1,4 +1,3 @@
-
 export enum TypesenseCollections {
     EXERCISES = 'exercises',
     WORKOUT_SESSIONS = 'workoutSessions'
@@ -9,6 +8,5 @@ export const ExerciseCollectionFields = {
     NAME: 'name',
     CATEGORY: 'category',
     PRIMARY_MUSCLES: 'primaryMuscles',
-    SECONDARY_MUSCLES: 'secondaryMuscles',
+    SECONDARY_MUSCLES: 'secondaryMuscles'
 }
-

@@ -1,41 +1,58 @@
-import React, {FC} from 'react';
-import {ExerciseHitModel} from 'src/models/schema/exercise.model';
-import {ExerciseItem} from 'src/screens/app/exercises/components/exerciseItem/exerciseItem.component';
-import {
-    TypesenseInfiniteList
-} from 'src/shared/advancedComponents/typesenseInfiniteList/typesenseInfiniteList.component';
-import {
-    useTypesenseInfiniteList
-} from 'src/shared/advancedComponents/typesenseInfiniteList/hook/useTypesenseInfiniteList.hook';
-import {TypesenseCollections} from 'src/models/extra/typesense.model';
-import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
+import React, {FC} from 'react'
+import {ExerciseModel, ExerciseSchema} from 'src/models/schema/exercise.model'
+import {ExerciseItem} from 'src/screens/app/exercises/components/exerciseItem/exerciseItem.component'
+import {RealmList} from 'src/shared/advancedComponents/realmList/realmList.component'
+import ImageNoData from 'assets/no_data.svg'
+import {useRealmList} from 'src/shared/advancedComponents/realmList/useRealmList.hook'
+import {Logger} from 'src/utils/logger'
+import {ExerciseHeader} from 'src/screens/app/exercises/components/exerciseHeader/exerciseHeader.component'
+import {FilterObject} from 'src/models/generalTypes'
 
 export interface ExerciseInfiniteFlatListProps {
-    onItemPress: (exercise: ExerciseHitModel) => void;
-    searchTextParam?: string;
-    filterBy?: FilterObject[]
+    onItemPress: (exercise: ExerciseModel) => void
 }
 
-export const ExerciseInfiniteFlatList: FC<ExerciseInfiniteFlatListProps> = (props) => {
-    const typesenseExerciseList = useTypesenseInfiniteList<ExerciseHitModel>({
-        col: TypesenseCollections.EXERCISES,
-        orderValue: 'name',
-        keyExtractorKey: 'id',
-        pageSize: 50,
-        searchTextParam: props.searchTextParam,
-        filterBy: props.filterBy
+const logger = new Logger('ExerciseInfiniteFlatList')
+export const ExerciseInfiniteFlatList: FC<ExerciseInfiniteFlatListProps> = props => {
+    const [searchTextParam, setSearchTextParam] = React.useState<string | undefined>(undefined)
+
+    const [filterByMuscle, setFilterByMuscle] = React.useState<FilterObject>({
+        field: `primaryMuscles.name`,
+        operator: 'CONTAINS[c]',
+        value: []
     })
 
-    const renderItem = (item: ExerciseHitModel) => {
-        return (
-            <ExerciseItem key={item.id} exercise={item} onPress={props.onItemPress}/>
-        )
+    const realmHookParams = useRealmList<ExerciseSchema, ExerciseModel>({
+        schema: ExerciseSchema,
+        keyExtractorKey: '_id',
+        searchTextParam: searchTextParam,
+        searchField: 'name',
+        filterBy: [filterByMuscle]
+    })
+
+    const renderItem = (item: ExerciseModel) => {
+        return <ExerciseItem key={item._id} exercise={item} onPress={props.onItemPress} />
     }
 
     return (
-        <TypesenseInfiniteList
-            typesenseHookParams={typesenseExerciseList}
-            renderItem={renderItem}
-        />
-    );
-};
+        <>
+            <ExerciseHeader
+                setSearchTextParam={setSearchTextParam}
+                filterByMuscle={filterByMuscle}
+                setFilterByMuscle={setFilterByMuscle}
+            />
+            <RealmList
+                realmHookParams={realmHookParams}
+                renderItem={renderItem}
+                emptyList={{
+                    image: ImageNoData,
+                    imageStyle: {
+                        width: 120,
+                        height: 120
+                    },
+                    message: "I can't find any exercise"
+                }}
+            />
+        </>
+    )
+}

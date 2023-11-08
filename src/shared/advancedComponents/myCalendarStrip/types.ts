@@ -1,7 +1,7 @@
-import {FilterObject} from 'src/shared/advancedComponents/typesenseInfiniteList/types';
+import {FilterObject} from 'src/models/generalTypes'
 
 export interface DateChipItem {
-    id: number,
+    id: number
     name: string
     value: FilterObject
 }

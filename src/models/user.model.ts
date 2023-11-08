@@ -1,34 +1,52 @@
-import {User} from 'firebase/auth';
-import {WorkoutModel} from 'src/models/schema/workout.model';
+import Realm from 'realm'
 
 export interface UserModel {
-    uid: string;
-    email: string;
-    displayName: string;
-    photoURL: string;
-    phoneNumber: string;
-    emailVerified: boolean;
-    isAnonymous: boolean;
-    creationTime: string;
-    providerId: string;
-    workouts: WorkoutModel[];
-    workoutsSessions: string[]
+    _id: string
+    email: string
+    displayName: string
+    photoURL: string
+    phoneNumber: string
+    creationTime: string
+    // Account data
+    name?: string
+    surname?: string
+    birthday?: string
+    height?: number
+    weight?: number
+    unit?: string
 }
 
-
-export const getUserModelFromFirebaseUser = (user: User): UserModel => {
-    const userModel: UserModel = {
-        uid: user.uid,
-        email: user?.email || '',
-        displayName: user?.displayName || '',
-        photoURL: user?.photoURL || '',
-        phoneNumber: user?.phoneNumber || '',
-        emailVerified: user.emailVerified,
-        isAnonymous: user.isAnonymous,
-        creationTime: user.metadata.creationTime || '',
-        providerId: user.providerId,
-        workouts: [],
-        workoutsSessions: []
+export class UserSchema extends Realm.Object<UserModel> {
+    _id!: string
+    email!: string
+    displayName?: string
+    photoURL?: string
+    phoneNumber?: string
+    creationTime!: string
+    // Account data
+    name?: string
+    surname?: string
+    birthday?: string
+    height?: number
+    weight?: number
+    unit?: string
+    static schema = {
+        name: 'User',
+        properties: {
+            _id: 'string',
+            email: 'string',
+            displayName: 'string?',
+            photoURL: 'string',
+            phoneNumber: 'string?',
+            creationTime: 'string',
+            // Account data
+            name: 'string?',
+            surname: 'string?',
+            birthday: 'string?',
+            height: 'int?',
+            weight: 'int?',
+            unit: 'string?'
+        },
+        primaryKey: '_id'
     }
-    return userModel;
 }

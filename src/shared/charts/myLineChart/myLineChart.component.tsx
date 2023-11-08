@@ -1,10 +1,10 @@
-import React, {FC} from 'react';
+import React, {FC} from 'react'
 import {View} from 'react-native'
-import {LineChart} from 'react-native-chart-kit';
-import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
-import {myLineChartStyle} from 'src/shared/charts/myLineChart/myLineChart.style';
-import {MyText} from 'src/shared/baseComponents/myText/myText.component';
-import {LineChartData} from 'react-native-chart-kit/dist/line-chart/LineChart';
+import {LineChart} from 'react-native-chart-kit'
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
+import {myLineChartStyle} from 'src/shared/charts/myLineChart/myLineChart.style'
+import {MyText} from 'src/shared/baseComponents/myText/myText.component'
+import {LineChartData} from 'react-native-chart-kit/dist/line-chart/LineChart'
 
 export interface MyLineChartProps {
     data: LineChartData
@@ -13,10 +13,9 @@ export interface MyLineChartProps {
     width?: number
 }
 
-export const MyLineChart: FC<MyLineChartProps> = (props) => {
+export const MyLineChart: FC<MyLineChartProps> = props => {
     const {data, yAxisSuffix, title} = props
     const style = useThemeStyle(myLineChartStyle)
-
 
     return (
         <View style={style.outerContainer}>
@@ -32,13 +31,12 @@ export const MyLineChart: FC<MyLineChartProps> = (props) => {
                     backgroundGradientTo: style.gradientTo.color,
                     decimalPlaces: 2, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`
                 }}
                 bezier
                 yLabelsOffset={5}
                 style={style.chart}
             />
-
         </View>
-    );
-};
+    )
+}

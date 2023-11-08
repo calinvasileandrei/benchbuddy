@@ -1,56 +1,54 @@
-import firebase from 'firebase/compat';
-import {firestoreUtils} from 'src/utils/firestore.utils';
-import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
-import {ForceModel} from 'src/models/schema/exerciseRef/force.model';
-import {LevelModel} from 'src/models/schema/exerciseRef/level.model';
-import {MechanicModel} from 'src/models/schema/exerciseRef/mechanic.model';
-import {EquipmentModel} from 'src/models/schema/exerciseRef/equipment.model';
-import {CategoryModel} from 'src/models/schema/exerciseRef/category.model';
-import {MuscleModel} from 'src/models/schema/exerciseRef/muscle.model';
+import {ForceModel, ForceSchema} from 'src/models/schema/exerciseRef/force.model'
+import {LevelModel, LevelSchema} from 'src/models/schema/exerciseRef/level.model'
+import {MechanicModel, MechanicSchema} from 'src/models/schema/exerciseRef/mechanic.model'
+import {EquipmentModel, EquipmentSchema} from 'src/models/schema/exerciseRef/equipment.model'
+import {CategoryModel, CategorySchema} from 'src/models/schema/exerciseRef/category.model'
+import {MuscleModel, MuscleSchema} from 'src/models/schema/exerciseRef/muscle.model'
+import Realm from 'realm'
+import {RealmCollections} from 'src/models/schema/realmTypes'
 
 export interface ExerciseModel {
-    id: string;
-    name: string;
-    force: ForceModel;
-    level: LevelModel;
-    mechanic: MechanicModel;
-    equipment: EquipmentModel;
-    instructions: string;
-    category: CategoryModel;
-    primaryMuscles: MuscleModel[];
-    secondaryMuscles: MuscleModel[];
+    _id: string
+    name: string
+    force: ForceModel
+    mechanic: MechanicModel
+    level: LevelModel
+    equipment: EquipmentModel
+    instructions: string[]
+    category: CategoryModel
+    primaryMuscles: MuscleModel[]
+    secondaryMuscles: MuscleModel[]
+    owner: string
 }
 
-export interface ExerciseHitModel {
-    id: string;
-    name: string;
-    category: string;
-}
+export class ExerciseSchema extends Realm.Object<ExerciseModel> {
+    _id!: string
+    name!: string
+    force!: ForceSchema
+    mechanic!: MechanicSchema
+    level!: LevelSchema
+    equipment!: EquipmentSchema
+    instructions!: string[]
+    category!: CategorySchema
+    primaryMuscles!: Realm.List<MuscleSchema>
+    secondaryMuscles!: Realm.List<MuscleSchema>
+    owner!: string
 
-
-export const exerciseModelConverter: FirestoreDataConverter<ExerciseModel> = {
-    toFirestore(exercise) {
-        return {...exercise}
-    },
-
-    fromFirestore(snapshot,options) {
-        const data = snapshot.data(options)!;
-        return data as ExerciseModel;
-    },
-};
-
-export const getExerciseFromExerciseList = (data: any): ExerciseModel => {
-    const exercise: ExerciseModel = {
-        id: firestoreUtils.autoId(),
-        name: data.name,
-        force: data.force,
-        level: data.level,
-        mechanic: data.mechanic,
-        equipment: data.equipment,
-        primaryMuscles: data.primaryMuscles,
-        secondaryMuscles: data.secondaryMuscles,
-        instructions: data.description,
-        category: data.category,
+    static schema = {
+        name: RealmCollections.EXERCISE,
+        properties: {
+            _id: 'string',
+            name: 'string',
+            force: 'Force',
+            mechanic: 'Mechanic',
+            level: 'Level',
+            equipment: 'Equipment',
+            instructions: 'string[]',
+            category: 'Category',
+            primaryMuscles: 'Muscle[]',
+            secondaryMuscles: 'Muscle[]',
+            owner: 'string'
+        },
+        primaryKey: '_id'
     }
-    return exercise;
 }

@@ -1,55 +1,53 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect} from 'react'
 import {View} from 'react-native'
-import {useThemeStyle} from 'src/theme/useThemeStyle.hook';
-import {
-    workoutSessionCreationStyle
-} from 'src/screens/app/workout/screens/workoutSessionCreation/workoutSessionCreation.style';
-import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component';
-import {MyInput} from 'src/shared/baseComponents/myInput/myInput.component';
-import {ExerciseSetModel} from 'src/models/schema/exerciseSet.model';
-import {MyButton} from 'src/shared/baseComponents/myButton/myButton.component';
-import {AppRoutes} from 'src/navigation/routes';
-import {useNavigation} from '@react-navigation/native';
-import {WorkoutModel} from 'src/models/schema/workout.model';
-import {Logger} from 'src/utils/logger';
-import {useAppDispatch, useAppSelector} from 'src/store/store';
-import {workoutSessionSliceActions} from 'src/store/workoutSession/workoutSession.slice';
-import {workoutSessionSelectors} from 'src/store/workoutSession/workoutSession.selectors';
-import {workoutSessionActions} from 'src/store/workoutSession/workoutSession.actions';
-import {ExerciseWithSetCard} from 'src/shared/ExercisesComponents/exerciseWithSetCard/exerciseWithSetCard.component';
-import {
-    MyKeyboardAwareScrollView
-} from 'src/shared/baseComponents/myKeyboardAwareScrollView/myKeyboardAwareScrollView.component';
-import {usePreventBackHook} from 'src/hooks/usePreventBack.hook';
-import {MyDatePicker} from 'src/shared/baseComponents/myDatePicker/myDatePicker.component';
-import {ExerciseModel} from 'src/models/schema/exercise.model';
+import {useThemeStyle} from 'src/theme/useThemeStyle.hook'
+import {workoutSessionCreationStyle} from 'src/screens/app/workout/screens/workoutSessionCreation/workoutSessionCreation.style'
+import {MySafeAreaView} from 'src/shared/baseComponents/mySafeAreaView/mySafeAreaView.component'
+import {MyInput} from 'src/shared/baseComponents/myInput/myInput.component'
+import {ExerciseSetModel} from 'src/models/schema/exerciseSet.model'
+import {MyButton} from 'src/shared/baseComponents/myButton/myButton.component'
+import {AppRoutes} from 'src/navigation/routes'
+import {useNavigation} from '@react-navigation/native'
+import {WorkoutModel} from 'src/models/schema/workout.model'
+import {Logger} from 'src/utils/logger'
+import {useAppDispatch, useAppSelector} from 'src/store/store'
+import {workoutSessionSliceActions} from 'src/store/workoutSession/workoutSession.slice'
+import {workoutSessionSelectors} from 'src/store/workoutSession/workoutSession.selectors'
+import {ExerciseWithSetCard} from 'src/shared/ExercisesComponents/exerciseWithSetCard/exerciseWithSetCard.component'
+import {MyKeyboardAwareScrollView} from 'src/shared/baseComponents/myKeyboardAwareScrollView/myKeyboardAwareScrollView.component'
+import {usePreventBackHook} from 'src/hooks/usePreventBack.hook'
+import {MyDatePicker} from 'src/shared/baseComponents/myDatePicker/myDatePicker.component'
+import {ExerciseModel} from 'src/models/schema/exercise.model'
+import {useRealmWorkoutSession} from 'src/hooks/realm/useRealmWorkoutSession.hook'
+import {WorkoutSessionModel} from 'src/models/schema/workoutSession.model'
+import {dateUtils} from 'src/utils/date.utils'
 
-export interface WorkoutSessionCreationScreenProps {
-}
+export interface WorkoutSessionCreationScreenProps {}
 
 const logger = new Logger('WorkoutSessionScreen')
-export const WorkoutSessionCreationScreen: FC<WorkoutSessionCreationScreenProps> = (props) => {
+export const WorkoutSessionCreationScreen: FC<WorkoutSessionCreationScreenProps> = props => {
     const style = useThemeStyle(workoutSessionCreationStyle)
     const navigation = useNavigation<any>()
     const dispatch = useAppDispatch()
     const {workoutSession, notes} = useAppSelector(workoutSessionSelectors.getStore)
     const date = useAppSelector(workoutSessionSelectors.getCreatedAt)
+    const realmWorkoutSession = useRealmWorkoutSession()
     const templateWorkout = workoutSession?.referenceWorkout
     const [isLoading, setIsLoading] = React.useState(false)
 
     usePreventBackHook({
         isDirty: !!workoutSession,
         isActive: !isLoading,
-        dependencies: [templateWorkout, isLoading],
+        dependencies: [templateWorkout, isLoading, workoutSession],
         dialogProps: {
-            actionFirst: (eventAction) => ({
+            actionFirst: eventAction => ({
                 label: 'Discard',
                 style: 'destructive',
                 onPress: () => {
                     dispatch(workoutSessionSliceActions.clearSession())
                     eventAction()
                 }
-            }),
+            })
         }
     })
 
@@ -71,22 +69,33 @@ export const WorkoutSessionCreationScreen: FC<WorkoutSessionCreationScreenProps>
         })
     }
 
-
-    const handleSaveNotes = (notes: string) => {
-        dispatch(workoutSessionSliceActions.setNotes(notes))
+    const handleSaveNotes = (notesToSave: string) => {
+        dispatch(workoutSessionSliceActions.setNotes(notesToSave))
     }
 
     const handleSaveExerciseSet = (exerciseWithSetId: string, exerciseSets: ExerciseSetModel[]) => {
         console.log('exerciseId: ', exerciseWithSetId)
         console.log('exerciseSets: ', exerciseSets)
-        dispatch(workoutSessionSliceActions.saveExerciseSet({sessionExerciseId: exerciseWithSetId, exerciseSets}))
+        dispatch(
+            workoutSessionSliceActions.saveExerciseSet({
+                sessionExerciseId: exerciseWithSetId,
+                exerciseSets
+            })
+        )
     }
 
     const handleSaveSession = async () => {
         setIsLoading(true)
-        await dispatch(workoutSessionActions.saveSession())
-        navigation.goBack()
-        dispatch(workoutSessionSliceActions.clearSession())
+        if (workoutSession) {
+            const session: WorkoutSessionModel = {
+                ...workoutSession,
+                notes: notes || '',
+                createdAt: dateUtils.dateToUnixTimestamp(date.toDateString())
+            }
+            realmWorkoutSession.addItem(session)
+            await dispatch(workoutSessionSliceActions.clearSession())
+            navigation.goBack()
+        }
         setIsLoading(false)
     }
 
@@ -103,30 +112,49 @@ export const WorkoutSessionCreationScreen: FC<WorkoutSessionCreationScreenProps>
     return (
         <MySafeAreaView edges={['bottom']}>
             <MyKeyboardAwareScrollView title={templateWorkout?.name || 'Workout name'}>
-                <MyDatePicker date={date} mode={'datetime'}
-                              setDate={(newDate) => dispatch(workoutSessionSliceActions.saveDate(newDate))}/>
+                <MyDatePicker
+                    date={date}
+                    mode={'datetime'}
+                    setDate={newDate => dispatch(workoutSessionSliceActions.saveDate(newDate))}
+                />
                 <View style={{marginTop: 10}}>
-                    <MyInput value={notes}
-                             numberOfLines={4}
-                             multiline={true}
-                             onChangeText={handleSaveNotes}
-                             placeholder={'Add your notes'}/>
+                    <MyInput
+                        value={notes}
+                        numberOfLines={4}
+                        multiline={true}
+                        onChangeText={handleSaveNotes}
+                        placeholder={'Add your notes'}
+                    />
                 </View>
 
-                {
-                    templateWorkout?.exercises.map((exerciseWithSet, index) => {
-                        return <ExerciseWithSetCard key={exerciseWithSet.id}
-                                                    templateExerciseSets={exerciseWithSet}
-                                                    withFastSet={true}
-                                                    onChange={(exercises) => handleSaveExerciseSet(exerciseWithSet.id, exercises)}
+                {templateWorkout?.exercises.map((exerciseWithSet, index) => {
+                    return (
+                        <ExerciseWithSetCard
+                            key={exerciseWithSet._id}
+                            templateExerciseSets={exerciseWithSet}
+                            withFastSet={true}
+                            onChange={exercises =>
+                                handleSaveExerciseSet(exerciseWithSet._id, exercises)
+                            }
                         />
-                    })
-                }
-                <MyButton type={'outline'} disabled={!workoutSession} onPress={searchExercise} withHaptics={'impactMedium'}>Add extra exercise</MyButton>
-                <MyButton isLoading={isLoading} type={'primary'} disabled={!workoutSession} withHaptics={'success'}
-                          onPress={handleSaveSession}>Save
-                    session</MyButton>
+                    )
+                })}
+                <MyButton
+                    type={'outline'}
+                    disabled={!workoutSession}
+                    onPress={searchExercise}
+                    withHaptics={'impactMedium'}>
+                    Add extra exercise
+                </MyButton>
+                <MyButton
+                    isLoading={isLoading}
+                    type={'primary'}
+                    disabled={!workoutSession}
+                    withHaptics={'success'}
+                    onPress={handleSaveSession}>
+                    Save session
+                </MyButton>
             </MyKeyboardAwareScrollView>
         </MySafeAreaView>
-    );
-};
+    )
+}
